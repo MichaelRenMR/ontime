@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from collections.abc import Iterable
 from dataclasses import asdict
 
@@ -9,6 +10,8 @@ from sqlalchemy.orm import Session
 
 from ontime.ingest.base import Movement
 from ontime.models import Movement as MovementRow
+
+log = logging.getLogger(__name__)
 
 # Columns a later response may refresh, but only with a non-null value: a sparse response
 # must never erase a terminal, gate or actual time we already know.
@@ -21,10 +24,14 @@ _CHUNK = 1000  # 17 columns x 1000 rows stays well under Postgres' 65535 bind-pa
 
 def upsert_movements(session: Session, movements: Iterable[Movement]) -> int:
     """Idempotent upsert keyed on the movement identity. Returns the number of distinct rows sent."""
+    movements = list(movements)
     unique = {
         (m.source, m.airport_iata, m.side, m.airline_iata, m.flight_number, m.sched_date_local): asdict(m)
         for m in movements  # later duplicates in one batch win; ON CONFLICT can't touch a row twice
     }
+    if len(unique) < len(movements):
+        # Seen live: the same flight number departing twice in one day. Rare enough not to widen the key.
+        log.warning("movements collapsed by identity", extra={"collapsed": len(movements) - len(unique)})
     rows = list(unique.values())
     for i in range(0, len(rows), _CHUNK):
         stmt = insert(MovementRow).values(rows[i : i + _CHUNK])

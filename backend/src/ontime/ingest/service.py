@@ -54,16 +54,25 @@ def poll_airport(
 
     with session_scope() as s:
         tz = get_airport_tz(s, iata)
-        requests = max(1, ceil((end_utc - start_utc) / provider.max_window))
-        cost = requests * provider.cost_units("board") + (0 if tz else provider.cost_units("airport"))
-        if not budget.can_afford(s, provider.name, cost, get_settings().provider_daily_unit_cap):
+        board_requests = max(1, ceil((end_utc - start_utc) / provider.max_window))
+        requests = board_requests + (0 if tz else 1)  # an unknown timezone costs one extra lookup request
+        cost = board_requests * provider.cost_units("board") + (0 if tz else provider.cost_units("airport"))
+        if not budget.can_afford(s, provider.name, units=cost, requests=requests,
+                                 caps=budget.Caps.from_settings(get_settings())):
             ops.add_ingest_log(s, status="skipped_budget", **base)
             return PollResult("skipped_budget")
 
     try:
         payloads = provider.fetch_board_payloads(iata, start_utc, end_utc, tz)
     except httpx.HTTPError as exc:
+        # Assumption: a request the provider answered with 429/5xx may still count against the quota, so
+        # charge one board request for it (conservative: a hard monthly cap should err toward stopping early).
+        # Auth errors and transport failures never reach the metered path and are not charged.
+        billed = isinstance(exc, httpx.HTTPStatusError) and (
+            exc.response.status_code == 429 or exc.response.status_code >= 500)
         with session_scope() as s:
+            if billed:
+                ops.charge_usage(s, provider.name, provider.cost_units("board"), calls=1)
             ops.add_ingest_log(s, status="http_error", error=str(exc)[:500], **base)
             ops.record_poll_result(s, iata, "http_error", failed=True)
         raise

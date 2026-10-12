@@ -9,6 +9,7 @@ import pytest
 
 TEST_DB_URL = os.environ.get("TEST_DATABASE_URL", "postgresql+psycopg://ontime:ontime@localhost:5432/ontime_test")
 os.environ["DATABASE_URL"] = TEST_DB_URL  # must be set before ontime.config is first used
+os.environ["ADB_API_KEY"] = ""  # tests must never see (or spend units on) a real provider key from .env
 
 from alembic import command  # noqa: E402
 from alembic.config import Config  # noqa: E402

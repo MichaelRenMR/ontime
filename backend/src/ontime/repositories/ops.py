@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from datetime import UTC, date, datetime
 
-from sqlalchemy import select, update
+from sqlalchemy import func, select, text, update
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.orm import Session
 
@@ -34,6 +34,16 @@ def usage_today(session: Session, provider: str, day: date | None = None) -> int
     return session.scalar(select(ApiUsage.units).where(ApiUsage.provider == provider, ApiUsage.day == day)) or 0
 
 
+def usage_month(session: Session, provider: str, day: date | None = None) -> tuple[int, int]:
+    """(units, requests) recorded so far in the calendar month (UTC) containing `day`."""
+    day = day or datetime.now(UTC).date()
+    units, calls = session.execute(
+        select(func.coalesce(func.sum(ApiUsage.units), 0), func.coalesce(func.sum(ApiUsage.calls), 0))
+        .where(ApiUsage.provider == provider, ApiUsage.day >= day.replace(day=1), ApiUsage.day <= day)
+    ).one()
+    return int(units), int(calls)
+
+
 def charge_usage(session: Session, provider: str, units: int, calls: int = 1, day: date | None = None) -> None:
     day = day or datetime.now(UTC).date()
     stmt = pg_insert(ApiUsage).values(provider=provider, day=day, calls=calls, units=units)
@@ -54,6 +64,50 @@ def record_poll_result(session: Session, airport_iata: str, status: str, *, fail
             consecutive_failures=AirportPoll.consecutive_failures + 1 if failed else 0,
         )
     )
+
+
+def all_enabled_airports(session: Session) -> list[str]:
+    return list(session.scalars(
+        select(AirportPoll.airport_iata).where(AirportPoll.enabled.is_(True)).order_by(AirportPoll.airport_iata)
+    ))
+
+
+def pause_failing_airports(session: Session, threshold: int) -> tuple[list[str], bool]:
+    """Disable airports whose consecutive failures reached `threshold`.
+
+    If more than half of the enabled airports are failing, that is almost certainly a provider
+    outage or a bad key rather than many broken airports, so nothing is paused. Returns
+    (paused airports, suspected_outage).
+    """
+    enabled = len(all_enabled_airports(session))
+    failing = list(session.scalars(
+        select(AirportPoll.airport_iata)
+        .where(AirportPoll.enabled.is_(True), AirportPoll.consecutive_failures >= threshold)
+        .order_by(AirportPoll.airport_iata)
+    ))
+    if not failing:
+        return [], False
+    if len(failing) * 2 > enabled:
+        return [], True
+    session.execute(update(AirportPoll).where(AirportPoll.airport_iata.in_(failing)).values(enabled=False))
+    return failing, False
+
+
+def unmatched_codes(session: Session, limit: int = 50) -> dict[str, list[str]]:
+    """Codes seen in movement data that the reference tables don't know (for a periodic report)."""
+    airports = session.execute(text("""
+        SELECT code FROM (
+            SELECT airport_iata AS code FROM movement UNION SELECT other_iata FROM movement
+        ) c
+        WHERE code IS NOT NULL AND code NOT IN (SELECT iata FROM airport WHERE iata IS NOT NULL)
+        ORDER BY code LIMIT :n
+    """), {"n": limit}).scalars().all()
+    airlines = session.execute(text("""
+        SELECT DISTINCT airline_iata FROM movement
+        WHERE airline_iata NOT IN (SELECT iata FROM airline WHERE iata IS NOT NULL)
+        ORDER BY airline_iata LIMIT :n
+    """), {"n": limit}).scalars().all()
+    return {"airports": list(airports), "airlines": list(airlines)}
 
 
 def enabled_airports_in_tier(session: Session, tier: int) -> list[str]:

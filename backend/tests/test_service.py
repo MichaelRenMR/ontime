@@ -1,45 +1,16 @@
-from datetime import UTC, date, datetime, timedelta
+from datetime import timedelta
 
 import httpx
 import pytest
 from sqlalchemy import func, select
 
+from ontime.config import Settings
 from ontime.ingest import rawstore, service
-from ontime.ingest.base import Movement
+from fakes import END, START, FakeProvider
 from ontime.models import ApiUsage, AirportPoll, IngestLog
 from ontime.models import Movement as MovementRow
 from ontime.repositories import ops
 from ontime.repositories.reference import upsert_airports
-
-START = datetime(2026, 10, 1, 12, 0, tzinfo=UTC)
-END = START + timedelta(hours=6)
-MOVE = Movement(source="fake", airport_iata="JFK", side="dep", airline_iata="UA", flight_number="888",
-                sched_date_local=date(2026, 10, 1), sched_utc=START + timedelta(hours=1), terminal="7")
-
-
-class FakeProvider:
-    name = "fake"
-    max_window = timedelta(hours=11)
-
-    def __init__(self, board=None, fail=None, parse_error=False):
-        self.board = board if board is not None else {"flights": [1]}
-        self.fail, self.parse_error, self.fetches, self.seen_tz = fail, parse_error, 0, []
-
-    def cost_units(self, kind):
-        return {"board": 2, "airport": 1}[kind]
-
-    def fetch_board_payloads(self, airport_iata, start_utc, end_utc, tz):
-        self.fetches += 1
-        self.seen_tz.append(tz)
-        if self.fail:
-            raise self.fail
-        return [self.board]
-
-    def parse_board(self, airport_iata, payload):
-        if self.parse_error:
-            raise ValueError("bad shape")
-        return [MOVE]
-
 
 @pytest.fixture
 def store(tmp_path):
@@ -89,7 +60,7 @@ def test_changed_payload_is_processed(session, jfk, store):
 
 
 def test_budget_exhausted_skips_without_calling_provider(session, jfk, store, monkeypatch):
-    monkeypatch.setattr(service, "get_settings", lambda: type("S", (), {"provider_daily_unit_cap": 3})())
+    monkeypatch.setattr(service, "get_settings", lambda: Settings(provider_daily_unit_cap=3))
     ops.charge_usage(session, "fake", 2)
     session.commit()
     p = FakeProvider()
@@ -101,7 +72,8 @@ def test_unknown_airport_charges_for_the_timezone_lookup(session, store):
     p = FakeProvider()
     service.poll_airport(p, "XXX", START, END, store=store)
     assert p.seen_tz == [None]
-    assert session.scalar(select(ApiUsage.units)) == 3  # board 2 + airport 1
+    usage = session.scalars(select(ApiUsage)).one()
+    assert (usage.units, usage.calls) == (3, 2)  # board 2 units + airport lookup 1 unit; 2 requests
 
 
 def test_http_error_is_logged_counted_and_raised(session, jfk, store):
@@ -139,3 +111,20 @@ def test_poll_tier_continues_past_a_failing_airport(session, jfk, store):
     summary = service.poll_tier(Flaky(), 1, store=store)
     assert summary == {"error": 1, "ok": 1}
 
+
+
+def status_error(code):
+    return httpx.HTTPStatusError("x", request=httpx.Request("GET", "http://x"), response=httpx.Response(code))
+
+
+@pytest.mark.parametrize("error, charged", [
+    (status_error(503), True),
+    (status_error(429), True),
+    (status_error(401), False),
+    (httpx.ConnectError("boom"), False),
+])
+def test_only_calls_the_provider_answered_with_429_or_5xx_are_charged_on_failure(session, jfk, store, error, charged):
+    with pytest.raises(httpx.HTTPError):
+        service.poll_airport(FakeProvider(fail=error), "JFK", START, END, store=store)
+    usage = session.scalars(select(ApiUsage)).all()
+    assert [(u.calls, u.units) for u in usage] == ([(1, 2)] if charged else [])

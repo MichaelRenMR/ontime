@@ -8,16 +8,28 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 @dataclass(frozen=True)
 class Tier:
-    interval_min: int   # how often the tier is polled (the Prefect schedule reads this)
-    back_h: int         # window start, hours before now
-    ahead_h: int        # window end, hours after now
+    hours: tuple[int, ...]  # UTC hours of the day at which the tier is polled
+    minute: int             # minute within each hour; tiers are staggered to avoid request bursts
+    back_h: int             # window start, hours before the poll
+    ahead_h: int            # window end, hours after the poll
+
+    @property
+    def cron(self) -> str:
+        return f"{self.minute} {','.join(str(h) for h in self.hours)} * * *"
+
+    @property
+    def polls_per_day(self) -> int:
+        return len(self.hours)
 
 
 # Cadence lives in code (reviewed in git); which airports are in which tier lives in the DB.
+# Cost is per REQUEST, not per hour of window, and a provider request covers up to its max_window
+# (11h for AeroDataBox), so every window here is exactly one request. test_quota_plan.py enforces that
+# and that the projected monthly units fit the plan.
 TIERS: dict[int, Tier] = {
-    1: Tier(interval_min=15, back_h=3, ahead_h=6),
-    2: Tier(interval_min=60, back_h=3, ahead_h=12),
-    3: Tier(interval_min=360, back_h=0, ahead_h=24),
+    1: Tier(hours=(6, 18), minute=0, back_h=5, ahead_h=6),
+    2: Tier(hours=(6, 18), minute=10, back_h=5, ahead_h=6),
+    3: Tier(hours=(7, 19), minute=0, back_h=0, ahead_h=11),  # schedule only
 }
 
 
@@ -31,14 +43,25 @@ class Settings(BaseSettings):
     cors_origins: str = "http://localhost:3000"
     log_level: str = "INFO"
 
-    # AeroDataBox. Defaults target RapidAPI; override for API.Market or a direct plan.
+    # AeroDataBox direct API (https://aerodatabox.com). Only the key is normally needed. To use a marketplace
+    # instead (RapidAPI, API.Market), override the URL and header settings, e.g. for RapidAPI:
+    #   ADB_BASE_URL=https://aerodatabox.p.rapidapi.com  ADB_KEY_HEADER=X-RapidAPI-Key
+    #   ADB_HOST_HEADER=X-RapidAPI-Host  ADB_HOST_VALUE=aerodatabox.p.rapidapi.com
     adb_api_key: str = ""
-    adb_base_url: str = "https://aerodatabox.p.rapidapi.com"
-    adb_key_header: str = "X-RapidAPI-Key"
-    adb_host_header: str = "X-RapidAPI-Host"
-    adb_host_value: str = "aerodatabox.p.rapidapi.com"
+    adb_base_url: str = "https://api.aerodatabox.com"
+    adb_key_header: str = "X-Api-Key"
+    adb_host_header: str = ""  # marketplaces only
+    adb_host_value: str = ""
 
-    provider_daily_unit_cap: int = 5000
+    # Budget caps, checked before every provider call. Sized for AeroDataBox direct Starter (40,000
+    # units/month) with a 10% margin. The request cap is off (0) because Starter is unit-metered; set it
+    # for plans with a request limit (e.g. Basic: 400 units and 1600 requests per month).
+    provider_daily_unit_cap: int = 1000
+    provider_monthly_unit_cap: int = 36000
+    provider_monthly_request_cap: int = 0
+    # Failed polls (each Prefect retry counts) before maintenance pauses an airport.
+    airport_pause_after: int = 20
+    flow_run_retention_days: int = 14
     provider_max_concurrency: int = 2
 
 
