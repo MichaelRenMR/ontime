@@ -27,6 +27,7 @@ class Settings(BaseSettings):
 
     database_url: str = "postgresql+psycopg://ontime:ontime@localhost:5432/ontime"
     raw_store_url: str = "file://./data/raw"  # or s3://bucket/prefix
+    poll_tiers_path: str = "data/poll_tiers.csv"  # relative to backend/ (and to /app in the image)
     cors_origins: str = "http://localhost:3000"
     log_level: str = "INFO"
 

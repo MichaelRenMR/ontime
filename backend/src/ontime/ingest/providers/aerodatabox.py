@@ -18,7 +18,9 @@ from ontime.ingest.base import Movement, normalize_flight_number
 
 log = logging.getLogger(__name__)
 
-MAX_WINDOW = timedelta(hours=12)  # AeroDataBox caps the FIDS window per request
+# AeroDataBox caps the FIDS window at 12h of LOCAL time. We window in UTC, and on a spring-forward
+# day 12h of UTC is 13h of wall clock, so use 11h: the local span is then never more than 12h.
+MAX_WINDOW = timedelta(hours=11)
 
 # Billing units per request. PLACEHOLDERS: verify against your plan's pricing page.
 COST = {"board": 2, "airport": 1}
@@ -37,6 +39,7 @@ def _local_date(ts: dict) -> date | None:
 
 class AeroDataBox:
     name = "aerodatabox"
+    max_window = MAX_WINDOW
 
     def __init__(self) -> None:
         s = get_settings()

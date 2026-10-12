@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from typing import Literal, Protocol
 
 Side = Literal["dep", "arr"]
@@ -52,6 +52,7 @@ class Movement:
 
 class Provider(Protocol):
     name: str
+    max_window: timedelta  # longest span one board request may cover; longer windows are split
 
     def cost_units(self, kind: str) -> int:
         """Billing units one request of this kind consumes (for the daily budget)."""
