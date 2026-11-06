@@ -72,9 +72,9 @@ docker/initdb/            creates the prefect and ontime_test databases
 | `ingest_log` | One row per provider fetch: status (`ok`, `unchanged`, `parse_error`, `http_error`, `skipped_budget`), window, payload hash, pointer to the raw object |
 | `airport_poll` | Which airports are polled, their tier, enabled flag and failure count |
 | `api_usage` | Per-provider daily calls and units, used for the quota caps |
-| `airport`, `runway`, `airline` | Reference data. Airport timezones are derived from coordinates (OurAirports has no timezone column) |
+| `airport`, `runway`, `airline` | Reference data, upserted on each source's stable ID (OurAirports airport and runway IDs, OpenFlights airline ID), so row IDs and `created_at` survive re-seeds; rows the source drops are deleted. Airport timezones are derived from coordinates (OurAirports has no timezone column) |
 
-All timestamps are `timestamptz` in UTC. The airport's IANA timezone name is stored, never an offset, so daylight saving is handled at conversion time.
+Every table has `created_at` and `updated_at`, maintained by Postgres itself: a `now()` default, and a trigger that sets `updated_at` only when a row's values actually change (so a poll that re-sends identical data doesn't touch it), whoever writes the row. All timestamps are `timestamptz` in UTC. The airport's IANA timezone name is stored, never an offset, so daylight saving is handled at conversion time.
 
 ## Schedule and quota
 

@@ -3,10 +3,10 @@ from __future__ import annotations
 from sqlalchemy import BigInteger, Boolean, Float, ForeignKey, Integer
 from sqlalchemy.orm import Mapped, mapped_column
 
-from ontime.models.base import Base
+from ontime.models.base import Base, TimestampMixin
 
 
-class Airport(Base):
+class Airport(TimestampMixin, Base):
     __tablename__ = "airport"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -21,10 +21,11 @@ class Airport(Base):
     ourairports_id: Mapped[int | None] = mapped_column(BigInteger, unique=True)
 
 
-class Runway(Base):
+class Runway(TimestampMixin, Base):
     __tablename__ = "runway"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    ourairports_id: Mapped[int | None] = mapped_column(BigInteger, unique=True)  # source's stable runway id
     airport_id: Mapped[int] = mapped_column(ForeignKey("airport.id", ondelete="CASCADE"), index=True)
     le_ident: Mapped[str | None]
     he_ident: Mapped[str | None]
@@ -35,10 +36,11 @@ class Runway(Base):
     closed: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false")
 
 
-class Airline(Base):
+class Airline(TimestampMixin, Base):
     __tablename__ = "airline"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    openflights_id: Mapped[int | None] = mapped_column(Integer, unique=True)  # source's stable airline id
     iata: Mapped[str | None] = mapped_column(index=True)  # not unique: IATA codes get reused
     icao: Mapped[str | None] = mapped_column(index=True)
     name: Mapped[str]

@@ -19,13 +19,13 @@ def seed_airports(session: Session, tz_lookup: ourairports.TzLookup | None = Non
     airports = ourairports.parse_airports(ourairports.fetch_csv(ourairports.AIRPORTS_URL), tz_lookup)
     n_airports = repo.upsert_airports(session, airports)
     runways = ourairports.parse_runways(ourairports.fetch_csv(ourairports.RUNWAYS_URL))
-    n_runways = repo.replace_runways(session, runways)
+    n_runways = repo.upsert_runways(session, runways)
     return {"airports": n_airports, "runways": n_runways}
 
 
 def seed_airlines(session: Session) -> dict[str, int]:
     airlines = openflights.parse_airlines(openflights.fetch_text())
-    return {"airlines": repo.replace_airlines(session, airlines)}
+    return {"airlines": repo.upsert_airlines(session, airlines)}
 
 
 def read_poll_tiers(path: Path) -> list[tuple[str, int]]:

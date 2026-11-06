@@ -9,3 +9,6 @@ __pycache__/
 backend/data/raw/
 backend/tests/fixtures/
 *.json.gz
+
+# Local database dumps
+backups/

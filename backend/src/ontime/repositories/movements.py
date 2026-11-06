@@ -37,6 +37,7 @@ def upsert_movements(session: Session, movements: Iterable[Movement]) -> int:
         stmt = insert(MovementRow).values(rows[i : i + _CHUNK])
         ex = stmt.excluded
         update = {c: func.coalesce(getattr(ex, c), getattr(MovementRow, c)) for c in _KEEP_IF_NULL}
-        update.update(sched_utc=ex.sched_utc, is_codeshare=ex.is_codeshare, updated_at=func.now())
+        # updated_at is left to the database trigger, which only bumps it when a value really changes.
+        update.update(sched_utc=ex.sched_utc, is_codeshare=ex.is_codeshare)
         session.execute(stmt.on_conflict_do_update(constraint="uq_movement_identity", set_=update))
     return len(rows)

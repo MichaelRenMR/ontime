@@ -35,6 +35,7 @@ def parse_airlines(text: str) -> list[dict]:
             continue
         country = r[6].strip()
         out.append({
+            "openflights_id": int(r[0]),
             "iata": iata,
             "icao": icao,
             "name": name,

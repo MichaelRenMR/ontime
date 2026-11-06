@@ -94,15 +94,17 @@ def parse_airports(rows: Iterable[dict[str, str]], tz_lookup: TzLookup) -> list[
 
 
 def parse_runways(rows: Iterable[dict[str, str]]) -> list[dict]:
-    """Runway rows keyed by `ourairports_id` of their airport; the repository maps that to airport.id."""
+    """Runway rows with their own stable `ourairports_id` and their airport's (`airport_ourairports_id`,
+    which the repository maps to airport.id)."""
     out = []
     for r in rows:
         try:
-            airport_ref = int(r["airport_ref"])
+            runway_id, airport_ref = int(r["id"]), int(r["airport_ref"])
         except (KeyError, ValueError):
             continue
         out.append({
-            "ourairports_id": airport_ref,
+            "ourairports_id": runway_id,
+            "airport_ourairports_id": airport_ref,
             "le_ident": _clean(r.get("le_ident")),
             "he_ident": _clean(r.get("he_ident")),
             "le_heading": _float(r.get("le_heading_degT")),

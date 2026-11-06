@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 
-from sqlalchemy import delete, func, insert, select
+from sqlalchemy import delete, func, or_, select
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.orm import Session
 
@@ -25,26 +25,39 @@ def upsert_airports(session: Session, rows: list[dict]) -> int:
     return len(rows)
 
 
-def replace_runways(session: Session, rows: list[dict]) -> int:
-    """Reload all runways. Nothing references runway ids yet, so replace-all is the simplest idempotent load."""
+def _sync(session: Session, model, key: str, rows: list[dict]) -> int:
+    """Make `model` match the source: upsert on the source's stable id, then delete rows the source no
+    longer has (and legacy rows from before source ids were stored). Unchanged rows keep their id and
+    created_at, and the updated_at trigger only fires for rows whose values changed.
+
+    An empty source (e.g. a broken download) leaves the table untouched rather than emptying it.
+    """
+    rows = list({r[key]: r for r in rows}.values())  # ON CONFLICT can't touch the same row twice
+    if not rows:
+        return 0
+    for chunk in _chunks(rows):
+        stmt = pg_insert(model).values(chunk)
+        update = {c: getattr(stmt.excluded, c) for c in chunk[0] if c != key}
+        session.execute(stmt.on_conflict_do_update(index_elements=[key], set_=update))
+    col = getattr(model, key)
+    session.execute(delete(model).where(or_(col.is_(None), col.not_in([r[key] for r in rows]))))
+    return len(rows)
+
+
+def upsert_runways(session: Session, rows: list[dict]) -> int:
+    """Runways keyed on OurAirports' runway id. Runways of airports we don't keep are skipped."""
     ids = dict(session.execute(select(Airport.ourairports_id, Airport.id)).all())
     mapped = [
-        {**{k: v for k, v in r.items() if k != "ourairports_id"}, "airport_id": ids[r["ourairports_id"]]}
+        {**{k: v for k, v in r.items() if k != "airport_ourairports_id"}, "airport_id": ids[r["airport_ourairports_id"]]}
         for r in rows
-        if r["ourairports_id"] in ids
+        if r["airport_ourairports_id"] in ids
     ]
-    session.execute(delete(Runway))
-    for chunk in _chunks(mapped):
-        session.execute(insert(Runway), chunk)
-    return len(mapped)
+    return _sync(session, Runway, "ourairports_id", mapped)
 
 
-def replace_airlines(session: Session, rows: list[dict]) -> int:
-    """Reload all airlines. OpenFlights rows have no stable key and nothing references them yet."""
-    session.execute(delete(Airline))
-    for chunk in _chunks(rows):
-        session.execute(insert(Airline), chunk)
-    return len(rows)
+def upsert_airlines(session: Session, rows: list[dict]) -> int:
+    """Airlines keyed on OpenFlights' airline id."""
+    return _sync(session, Airline, "openflights_id", rows)
 
 
 def get_airport_tz(session: Session, iata: str) -> str | None:

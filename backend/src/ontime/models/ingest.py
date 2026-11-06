@@ -5,10 +5,10 @@ from datetime import date, datetime
 from sqlalchemy import BigInteger, CheckConstraint, Date, Index, Integer, UniqueConstraint, func, text
 from sqlalchemy.orm import Mapped, mapped_column
 
-from ontime.models.base import Base
+from ontime.models.base import Base, TimestampMixin
 
 
-class Movement(Base):
+class Movement(TimestampMixin, Base):
     """One departure or arrival event at an airport, as reported by one source.
 
     Codes are plain text (no FKs) so ingestion never drops rows over missing reference data.
@@ -46,11 +46,9 @@ class Movement(Base):
     status: Mapped[str | None]
     aircraft_type: Mapped[str | None]
     is_codeshare: Mapped[bool] = mapped_column(default=False, server_default="false")
-    first_seen_at: Mapped[datetime] = mapped_column(server_default=func.now())
-    updated_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
 
-class IngestLog(Base):
+class IngestLog(TimestampMixin, Base):
     """One row per provider fetch. The raw payload itself lives in object storage (raw_key)."""
 
     __tablename__ = "ingest_log"

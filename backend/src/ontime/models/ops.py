@@ -5,10 +5,10 @@ from datetime import date, datetime
 from sqlalchemy import BigInteger, Boolean, Date, Integer, SmallInteger
 from sqlalchemy.orm import Mapped, mapped_column
 
-from ontime.models.base import Base
+from ontime.models.base import Base, TimestampMixin
 
 
-class AirportPoll(Base):
+class AirportPoll(TimestampMixin, Base):
     """Which airports are polled and in which tier. Cadence per tier lives in config.TIERS."""
 
     __tablename__ = "airport_poll"
@@ -21,7 +21,7 @@ class AirportPoll(Base):
     consecutive_failures: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
 
 
-class ApiUsage(Base):
+class ApiUsage(TimestampMixin, Base):
     """Per-provider daily ledger used for the budget cap."""
 
     __tablename__ = "api_usage"

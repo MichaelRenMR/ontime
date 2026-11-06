@@ -50,12 +50,12 @@ def test_duplicate_icao_is_nulled_not_dropped():
 
 def test_runways():
     rows = parse_runways([
-        {"airport_ref": "1", "le_ident": "04L", "he_ident": "22R", "le_heading_degT": "31.5",
+        {"id": "555", "airport_ref": "1", "le_ident": "04L", "he_ident": "22R", "le_heading_degT": "31.5",
          "he_heading_degT": "211.5", "length_ft": "12079", "surface": "ASP", "closed": "0"},
         {"airport_ref": "", "le_ident": "X"},
     ])
     assert rows == [{
-        "ourairports_id": 1, "le_ident": "04L", "he_ident": "22R", "le_heading": 31.5,
+        "ourairports_id": 555, "airport_ourairports_id": 1, "le_ident": "04L", "he_ident": "22R", "le_heading": 31.5,
         "he_heading": 211.5, "length_ft": 12079, "surface": "ASP", "closed": False,
     }]
 
@@ -69,6 +69,7 @@ def test_airlines():
         '4,"Icao Only",\\N,"","ICA","","\\N","Y"',
     ])
     assert parse_airlines(text) == [
-        {"iata": "UA", "icao": "UAL", "name": "United Airlines", "country": "United States", "active": True},
-        {"iata": None, "icao": "ICA", "name": "Icao Only", "country": None, "active": True},
+        {"openflights_id": 1, "iata": "UA", "icao": "UAL", "name": "United Airlines", "country": "United States",
+         "active": True},
+        {"openflights_id": 4, "iata": None, "icao": "ICA", "name": "Icao Only", "country": None, "active": True},
     ]

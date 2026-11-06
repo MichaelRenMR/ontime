@@ -21,21 +21,47 @@ def test_airport_upsert_is_idempotent_and_updates_in_place(session):
     assert repo.get_airport_tz(session, "ZZZ") is None
 
 
-def test_runways_map_to_airports_and_reload_cleanly(session):
+RW = {"ourairports_id": 555, "airport_ourairports_id": 3797, "le_ident": "04L", "he_ident": "22R",
+      "le_heading": 31.0, "he_heading": 211.0, "length_ft": 12079, "surface": "ASP", "closed": False}
+AL = {"openflights_id": 1, "iata": "UA", "icao": "UAL", "name": "United", "country": "US", "active": True}
+
+
+def test_runway_reseed_keeps_ids_and_created_at_updates_changes_and_drops_removed(session):
     repo.upsert_airports(session, [JFK])
-    rw = {"ourairports_id": 3797, "le_ident": "04L", "he_ident": "22R", "le_heading": 31.0,
-          "he_heading": 211.0, "length_ft": 12079, "surface": "ASP", "closed": False}
-    orphan = {**rw, "ourairports_id": 999999}
-    assert repo.replace_runways(session, [rw, orphan]) == 1
-    assert repo.replace_runways(session, [rw]) == 1
-    assert n(session, Runway) == 1
+    other = {**RW, "ourairports_id": 556, "le_ident": "13L"}
+    unknown_airport = {**RW, "ourairports_id": 557, "airport_ourairports_id": 999999}
+    assert repo.upsert_runways(session, [RW, other, unknown_airport]) == 2
+    session.commit()
+    rid, created = session.execute(select(Runway.id, Runway.created_at).where(Runway.ourairports_id == 555)).one()
+
+    repo.upsert_runways(session, [{**RW, "length_ft": 12000}])  # 556 is gone from the source
+    session.commit()
+    assert session.execute(select(Runway.ourairports_id, Runway.id, Runway.created_at, Runway.length_ft)).all() == [
+        (555, rid, created, 12000)]
 
 
-def test_airlines_reload(session):
-    row = {"iata": "UA", "icao": "UAL", "name": "United", "country": "US", "active": True}
-    repo.replace_airlines(session, [row])
-    repo.replace_airlines(session, [row])
+def test_legacy_rows_without_a_source_id_are_replaced(session):
+    repo.upsert_airports(session, [JFK])
+    airport_id = session.scalar(select(Airport.id))
+    session.add(Runway(airport_id=airport_id, le_ident="OLD"))
+    session.add(Airline(name="Old", iata="UA"))
+    session.flush()
+    repo.upsert_runways(session, [RW])
+    repo.upsert_airlines(session, [AL])
+    assert session.scalars(select(Runway.le_ident)).all() == ["04L"]
+    assert session.scalars(select(Airline.name)).all() == ["United"]
+
+
+def test_empty_source_leaves_tables_untouched(session):
+    repo.upsert_airlines(session, [AL])
+    assert repo.upsert_airlines(session, []) == 0
     assert n(session, Airline) == 1
+
+
+def test_airline_reseed_is_idempotent(session):
+    repo.upsert_airlines(session, [AL])
+    repo.upsert_airlines(session, [{**AL, "name": "United Airlines"}])
+    assert session.execute(select(Airline.openflights_id, Airline.name)).all() == [(1, "United Airlines")]
 
 
 def test_poll_tiers_reseed_keeps_enabled_and_reports_unknown(session):
