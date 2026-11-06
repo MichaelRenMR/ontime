@@ -17,7 +17,7 @@ log = logging.getLogger(__name__)
 # must never erase a terminal, gate or actual time we already know.
 _KEEP_IF_NULL = (
     "other_iata", "flight_number_raw", "estimated_utc", "actual_utc", "terminal", "gate",
-    "runway", "status", "aircraft_type",
+    "runway", "status", "aircraft_type", "aircraft_reg", "aircraft_icao24",
 )
 _CHUNK = 1000  # 17 columns x 1000 rows stays well under Postgres' 65535 bind-parameter limit
 

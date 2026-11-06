@@ -26,6 +26,8 @@ class Movement(TimestampMixin, Base):
         Index("ix_movement_board", "airport_iata", "side", "sched_utc"),
         Index("ix_movement_flight", "flight_number", "sched_date_local"),
         Index("ix_movement_open", "sched_utc", postgresql_where=text("actual_utc IS NULL")),
+        Index("ix_movement_aircraft_reg", "aircraft_reg"),
+        Index("ix_movement_aircraft_icao24", "aircraft_icao24"),
     )
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
@@ -44,7 +46,9 @@ class Movement(TimestampMixin, Base):
     gate: Mapped[str | None]
     runway: Mapped[str | None]
     status: Mapped[str | None]
-    aircraft_type: Mapped[str | None]
+    aircraft_type: Mapped[str | None]    # provider's free text; normalized via aircraft_type_alias
+    aircraft_reg: Mapped[str | None]     # tail registration
+    aircraft_icao24: Mapped[str | None]  # ICAO 24-bit address (lowercase hex)
     is_codeshare: Mapped[bool] = mapped_column(default=False, server_default="false")
 
 

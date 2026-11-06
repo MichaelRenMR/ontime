@@ -46,7 +46,9 @@ class Movement:
     gate: str | None = None
     runway: str | None = None
     status: str | None = None
-    aircraft_type: str | None = None
+    aircraft_type: str | None = None    # provider's free-text type name, kept verbatim
+    aircraft_reg: str | None = None     # tail registration, uppercase (e.g. 'N302SA')
+    aircraft_icao24: str | None = None  # ICAO 24-bit transponder address, lowercase hex (e.g. 'a32851')
     is_codeshare: bool = False
 
 

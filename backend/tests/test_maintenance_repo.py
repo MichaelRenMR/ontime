@@ -40,7 +40,7 @@ def test_unmatched_codes(session):
     upsert_movements(session, [MOVE])  # JFK dep, UA, no destination
     session.add(Airport(iata="JFK", name="JFK", tz="America/New_York"))
     session.flush()
-    assert ops.unmatched_codes(session) == {"airports": [], "airlines": ["UA"]}
+    assert ops.unmatched_codes(session) == {"airports": [], "airlines": ["UA"], "aircraft_types": []}
     session.add(Airline(iata="UA", name="United"))
     session.flush()
-    assert ops.unmatched_codes(session) == {"airports": [], "airlines": []}
+    assert ops.unmatched_codes(session) == {"airports": [], "airlines": [], "aircraft_types": []}

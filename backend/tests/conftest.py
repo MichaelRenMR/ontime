@@ -40,4 +40,4 @@ def session(migrated_engine):
     with session_scope() as s:
         yield s
     with migrated_engine.begin() as conn:
-        conn.execute(text("TRUNCATE movement, ingest_log, airport_poll, api_usage, airport, runway, airline RESTART IDENTITY CASCADE"))
+        conn.execute(text("TRUNCATE movement, ingest_log, airport_poll, api_usage, airport, runway, airline, aircraft_type_alias, aircraft_type, aircraft RESTART IDENTITY CASCADE"))

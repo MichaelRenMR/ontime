@@ -1,0 +1,183 @@
+designator,manufacturer,name,family,category
+A318,Airbus,A318,A320,narrowbody
+A319,Airbus,A319,A320,narrowbody
+A320,Airbus,A320,A320,narrowbody
+A321,Airbus,A321,A320,narrowbody
+A19N,Airbus,A319neo,A320,narrowbody
+A20N,Airbus,A320neo,A320,narrowbody
+A21N,Airbus,A321neo,A320,narrowbody
+BCS1,Airbus,A220-100,A220,narrowbody
+BCS3,Airbus,A220-300,A220,narrowbody
+A306,Airbus,A300-600,A300,widebody
+A310,Airbus,A310,A310,widebody
+A332,Airbus,A330-200,A330,widebody
+A333,Airbus,A330-300,A330,widebody
+A338,Airbus,A330-800neo,A330,widebody
+A339,Airbus,A330-900neo,A330,widebody
+A342,Airbus,A340-200,A340,widebody
+A343,Airbus,A340-300,A340,widebody
+A346,Airbus,A340-600,A340,widebody
+A359,Airbus,A350-900,A350,widebody
+A35K,Airbus,A350-1000,A350,widebody
+A388,Airbus,A380-800,A380,widebody
+B703,Boeing,707-300,707,narrowbody
+B712,Boeing,717-200,717,narrowbody
+B721,Boeing,727-100,727,narrowbody
+B722,Boeing,727-200,727,narrowbody
+B732,Boeing,737-200,737,narrowbody
+B733,Boeing,737-300,737,narrowbody
+B734,Boeing,737-400,737,narrowbody
+B735,Boeing,737-500,737,narrowbody
+B736,Boeing,737-600,737,narrowbody
+B737,Boeing,737-700,737,narrowbody
+B738,Boeing,737-800,737,narrowbody
+B739,Boeing,737-900 / 900ER,737,narrowbody
+B38M,Boeing,737 MAX 8,737,narrowbody
+B39M,Boeing,737 MAX 9,737,narrowbody
+B741,Boeing,747-100,747,widebody
+B742,Boeing,747-200,747,widebody
+B743,Boeing,747-300,747,widebody
+B744,Boeing,747-400,747,widebody
+B748,Boeing,747-8,747,widebody
+B752,Boeing,757-200,757,narrowbody
+B753,Boeing,757-300,757,narrowbody
+B762,Boeing,767-200,767,widebody
+B763,Boeing,767-300,767,widebody
+B764,Boeing,767-400,767,widebody
+B772,Boeing,777-200 / 200ER,777,widebody
+B77L,Boeing,777-200LR / 777F,777,widebody
+B773,Boeing,777-300,777,widebody
+B77W,Boeing,777-300ER,777,widebody
+B788,Boeing,787-8,787,widebody
+B789,Boeing,787-9,787,widebody
+B78X,Boeing,787-10,787,widebody
+MD83,McDonnell Douglas,MD-83,MD-80,narrowbody
+DC93,McDonnell Douglas,DC-9-30,DC-9,narrowbody
+DC87,McDonnell Douglas,DC-8-70,DC-8,narrowbody
+C919,COMAC,C919,C919,narrowbody
+IL62,Ilyushin,Il-62,Il-62,narrowbody
+T204,Tupolev,Tu-204,Tu-204,narrowbody
+CRJ1,Bombardier,CRJ100,CRJ,regional_jet
+CRJ2,Bombardier,CRJ200,CRJ,regional_jet
+CRJ7,Bombardier,CRJ700,CRJ,regional_jet
+CRJ9,Bombardier,CRJ900,CRJ,regional_jet
+CRJX,Bombardier,CRJ1000,CRJ,regional_jet
+E135,Embraer,ERJ 135 / 140,ERJ,regional_jet
+E145,Embraer,ERJ 145,ERJ,regional_jet
+E170,Embraer,E170,E-Jet,regional_jet
+E75L,Embraer,E175 (long wing),E-Jet,regional_jet
+E190,Embraer,E190,E-Jet,regional_jet
+E195,Embraer,E195,E-Jet,regional_jet
+E290,Embraer,E190-E2,E-Jet E2,regional_jet
+E295,Embraer,E195-E2,E-Jet E2,regional_jet
+F28,Fokker,F28 Fellowship,F28,regional_jet
+SU95,Sukhoi,Superjet 100,Superjet,regional_jet
+AJ27,COMAC,ARJ21-700,ARJ21,regional_jet
+A148,Antonov,An-148,An-148,regional_jet
+J328,Dornier,328JET,328,regional_jet
+DH8A,De Havilland Canada,Dash 8-100,Dash 8,turboprop
+DH8B,De Havilland Canada,Dash 8-200,Dash 8,turboprop
+DH8C,De Havilland Canada,Dash 8-300,Dash 8,turboprop
+DH8D,De Havilland Canada,Dash 8-400,Dash 8,turboprop
+DHC3,De Havilland Canada,DHC-3 Otter,DHC-3,turboprop
+AT43,ATR,42-300,ATR 42,turboprop
+AT44,ATR,42-400,ATR 42,turboprop
+AT45,ATR,42-500,ATR 42,turboprop
+AT46,ATR,42-600,ATR 42,turboprop
+AT75,ATR,72-500,ATR 72,turboprop
+AT76,ATR,72-600,ATR 72,turboprop
+D328,Dornier,328,328,turboprop
+E120,Embraer,EMB 120 Brasilia,EMB 120,turboprop
+F50,Fokker,50,F50,turboprop
+SF34,Saab,340,Saab 340,turboprop
+SB20,Saab,2000,Saab 2000,turboprop
+JS32,BAE Systems,Jetstream 32,Jetstream,turboprop
+SW4,Fairchild Swearingen,Metro (SA227),Metro,turboprop
+AN12,Antonov,An-12,An-12,turboprop
+CVLT,Convair,CV-580,Convair,turboprop
+B190,Beechcraft,1900,Beech 1900,turboprop
+BE20,Beechcraft,King Air 200,King Air,turboprop
+BE30,Beechcraft,King Air 300,King Air,turboprop
+B350,Beechcraft,King Air 350,King Air,turboprop
+BE9L,Beechcraft,King Air 90,King Air,turboprop
+BE99,Beechcraft,Model 99,Beech 99,turboprop
+C208,Cessna,208 Caravan,Caravan,turboprop
+PC12,Pilatus,PC-12,PC-12,turboprop
+MU2,Mitsubishi,MU-2,MU-2,turboprop
+P46T,Piper,M500 / M600,PA-46,turboprop
+AT8T,Air Tractor,AT-802,Air Tractor,turboprop
+C25A,Cessna,Citation CJ2,Citation,business_jet
+C25B,Cessna,Citation CJ3,Citation,business_jet
+C25C,Cessna,Citation CJ4,Citation,business_jet
+C500,Cessna,Citation I,Citation,business_jet
+C510,Cessna,Citation Mustang,Citation,business_jet
+C525,Cessna,CitationJet,Citation,business_jet
+C550,Cessna,Citation II / Bravo,Citation,business_jet
+C560,Cessna,Citation V,Citation,business_jet
+C56X,Cessna,Citation Excel,Citation,business_jet
+C650,Cessna,Citation III / VI / VII,Citation,business_jet
+C680,Cessna,Citation Sovereign,Citation,business_jet
+C68A,Cessna,Citation Latitude,Citation,business_jet
+C700,Cessna,Citation Longitude,Citation,business_jet
+C750,Cessna,Citation X,Citation,business_jet
+CL30,Bombardier,Challenger 300,Challenger,business_jet
+CL35,Bombardier,Challenger 350,Challenger,business_jet
+CL60,Bombardier,Challenger 600 series,Challenger,business_jet
+GLEX,Bombardier,Global Express,Global,business_jet
+GL5T,Bombardier,Global 5000,Global,business_jet
+GL7T,Bombardier,Global 7500,Global,business_jet
+GL8T,Bombardier,Global 8000,Global,business_jet
+LJ31,Bombardier,Learjet 31,Learjet,business_jet
+LJ35,Bombardier,Learjet 35,Learjet,business_jet
+LJ40,Bombardier,Learjet 40,Learjet,business_jet
+LJ45,Bombardier,Learjet 45,Learjet,business_jet
+LJ60,Bombardier,Learjet 60,Learjet,business_jet
+LJ70,Bombardier,Learjet 70,Learjet,business_jet
+LJ75,Bombardier,Learjet 75,Learjet,business_jet
+E50P,Embraer,Phenom 100,Phenom,business_jet
+E55P,Embraer,Phenom 300,Phenom,business_jet
+E545,Embraer,Legacy 450 / Praetor 500,Praetor,business_jet
+E550,Embraer,Legacy 500 / Praetor 600,Praetor,business_jet
+E35L,Embraer,Legacy 600 / 650,Legacy,business_jet
+GALX,IAI,Galaxy / Gulfstream G200,Gulfstream,business_jet
+G150,Gulfstream,G150,Gulfstream,business_jet
+G280,Gulfstream,G280,Gulfstream,business_jet
+GLF4,Gulfstream,IV / G450,Gulfstream,business_jet
+GLF5,Gulfstream,V / G550,Gulfstream,business_jet
+GLF6,Gulfstream,G650,Gulfstream,business_jet
+GA5C,Gulfstream,G500 (GVII),Gulfstream,business_jet
+GA6C,Gulfstream,G600,Gulfstream,business_jet
+GA7C,Gulfstream,G700,Gulfstream,business_jet
+F2TH,Dassault,Falcon 2000,Falcon,business_jet
+F900,Dassault,Falcon 900,Falcon,business_jet
+FA7X,Dassault,Falcon 7X,Falcon,business_jet
+FA8X,Dassault,Falcon 8X,Falcon,business_jet
+H25B,Hawker Beechcraft,Hawker 800,Hawker,business_jet
+HA4T,Hawker Beechcraft,Hawker 4000,Hawker,business_jet
+BE40,Beechcraft,Beechjet 400 / Hawker 400XP,Hawker,business_jet
+PRM1,Beechcraft,Premier I,Premier,business_jet
+PC24,Pilatus,PC-24,PC-24,business_jet
+HDJT,Honda,HondaJet,HondaJet,business_jet
+ASTR,IAI,Astra,Astra,business_jet
+WW24,IAI,1124 Westwind,Westwind,business_jet
+EC30,Airbus Helicopters,H130 / EC130,EC130,helicopter
+EC35,Airbus Helicopters,H135 / EC135,EC135,helicopter
+EC45,Airbus Helicopters,H145 / EC145,EC145,helicopter
+A139,Leonardo,AW139,AW139,helicopter
+B06,Bell,206 JetRanger,Bell 206,helicopter
+BE35,Beechcraft,Bonanza 35,Bonanza,piston
+BE36,Beechcraft,Bonanza 36,Bonanza,piston
+BE65,Beechcraft,Queen Air 65,Queen Air,piston
+C172,Cessna,172 Skyhawk,Cessna single,piston
+C180,Cessna,180 Skywagon,Cessna single,piston
+C182,Cessna,182 Skylane,Cessna single,piston
+C402,Cessna,402,Cessna twin,piston
+DA42,Diamond,DA42 Twin Star,DA42,piston
+DA62,Diamond,DA62,DA62,piston
+M20P,Mooney,M20,M20,piston
+P28A,Piper,PA-28 Cherokee / Archer,PA-28,piston
+PA31,Piper,PA-31 Navajo,PA-31,piston
+PA32,Piper,PA-32 Cherokee Six / Saratoga,PA-32,piston
+PA46,Piper,PA-46 Malibu,PA-46,piston
+P68,Vulcanair,P.68,P.68,piston
+P68T,Vulcanair,P.68 (turbocharged),P.68,piston

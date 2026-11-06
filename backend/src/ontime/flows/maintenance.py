@@ -28,7 +28,7 @@ def pause_failing_airports_task() -> dict:
 def report_unmatched_codes_task() -> dict[str, list[str]]:
     with session_scope() as s:
         codes = ops.unmatched_codes(s)
-    if codes["airports"] or codes["airlines"]:
+    if any(codes.values()):
         get_run_logger().warning("codes missing from reference data: %s", codes)
     return codes
 

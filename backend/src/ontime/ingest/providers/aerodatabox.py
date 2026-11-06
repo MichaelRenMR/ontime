@@ -103,6 +103,7 @@ class AeroDataBox:
                     log.warning("skipping unparseable flight number", extra={"raw": raw_number})
                     continue
                 status = f.get("status")
+                aircraft = f.get("aircraft") or {}
                 out.append(Movement(
                     source=self.name,
                     airport_iata=airport_iata,
@@ -119,7 +120,9 @@ class AeroDataBox:
                     gate=m.get("gate"),
                     runway=m.get("runway"),
                     status=status,
-                    aircraft_type=(f.get("aircraft") or {}).get("model"),
+                    aircraft_type=aircraft.get("model"),
+                    aircraft_reg=(aircraft.get("reg") or "").strip().upper() or None,
+                    aircraft_icao24=(aircraft.get("modeS") or "").strip().lower() or None,
                     is_codeshare=(f.get("codeshareStatus") == "IsCodeshared"),
                 ))
         return out

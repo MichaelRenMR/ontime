@@ -1,6 +1,6 @@
 """Local entry point for ingestion jobs; no Prefect server needed.
 
-  ontime-ingest seed [all|airports|airlines|tiers]
+  ontime-ingest seed [all|airports|airlines|tiers|aircraft-types|aircraft]
   ontime-ingest board --airport JFK LHR [--provider aerodatabox] [--hours-back 3] [--hours-ahead 6]
   ontime-ingest poll --tier 1 [--provider aerodatabox]
   ontime-ingest replay [--airport JFK] [--days 7] [--provider aerodatabox]
@@ -25,6 +25,8 @@ def cmd_seed(args: argparse.Namespace) -> None:
         "airports": seed.seed_airports,
         "airlines": seed.seed_airlines,
         "tiers": seed.seed_poll_tiers,
+        "aircraft-types": seed.seed_aircraft_types,
+        "aircraft": seed.seed_aircraft,
     }
     targets = list(steps) if args.target == "all" else [args.target]
     for name in targets:
@@ -61,7 +63,7 @@ def main() -> None:
     sub = p.add_subparsers(required=True)
 
     s = sub.add_parser("seed", help="load reference data and poll tiers")
-    s.add_argument("target", nargs="?", default="all", choices=["all", "airports", "airlines", "tiers"])
+    s.add_argument("target", nargs="?", default="all", choices=["all", "airports", "airlines", "tiers", "aircraft-types", "aircraft"])
     s.set_defaults(fn=cmd_seed)
 
     b = sub.add_parser("board", help="poll specific airports now")

@@ -107,7 +107,13 @@ def unmatched_codes(session: Session, limit: int = 50) -> dict[str, list[str]]:
         WHERE airline_iata NOT IN (SELECT iata FROM airline WHERE iata IS NOT NULL)
         ORDER BY airline_iata LIMIT :n
     """), {"n": limit}).scalars().all()
-    return {"airports": list(airports), "airlines": list(airlines)}
+    aircraft_types = session.execute(text("""
+        SELECT m.aircraft_type FROM movement m
+        WHERE m.aircraft_type IS NOT NULL AND NOT EXISTS (
+            SELECT 1 FROM aircraft_type_alias a WHERE a.source = m.source AND a.alias_key = normalize_alias(m.aircraft_type))
+        GROUP BY 1 ORDER BY count(*) DESC LIMIT :n
+    """), {"n": limit}).scalars().all()
+    return {"airports": list(airports), "airlines": list(airlines), "aircraft_types": list(aircraft_types)}
 
 
 def enabled_airports_in_tier(session: Session, tier: int) -> list[str]:

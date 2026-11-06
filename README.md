@@ -68,10 +68,14 @@ docker/initdb/            creates the prefect and ontime_test databases
 
 | Table | Purpose |
 |---|---|
-| `movement` | One departure or arrival event at an airport, per source: scheduled, estimated and actual times, terminal, gate, runway, status, aircraft type, codeshare flag. Identity is the flight on a local calendar day, so an airline retime updates the row instead of duplicating it. Codes are plain text with no foreign keys, so ingestion never drops a row over missing reference data |
+| `movement` | One departure or arrival event at an airport, per source: scheduled, estimated and actual times, terminal, gate, runway, status, the provider's aircraft type string, tail registration and ICAO 24-bit address, codeshare flag. Identity is the flight on a local calendar day, so an airline retime updates the row instead of duplicating it. Codes are plain text with no foreign keys, so ingestion never drops a row over missing reference data |
 | `ingest_log` | One row per provider fetch: status (`ok`, `unchanged`, `parse_error`, `http_error`, `skipped_budget`), window, payload hash, pointer to the raw object |
 | `airport_poll` | Which airports are polled, their tier, enabled flag and failure count |
 | `api_usage` | Per-provider daily calls and units, used for the quota caps |
+| `aircraft_type` | One row per ICAO type designator (`A21N` = every A321neo), with family and category, curated in `data/aircraft_types.csv` |
+| `aircraft_type_alias` | Each provider spelling (`Airbus A321 NEO`, `32X`, …) → a designator, a family only, or deliberately unmapped; matched case- and whitespace-insensitively. Curated in `data/aircraft_type_aliases.csv` |
+| `aircraft` | One row per airframe from the [OpenSky aircraft database](https://opensky-network.org/data/aircraft): registration, ICAO designator, model code (`A321-271NX`), operator, build date |
+| `movement_aircraft` (view) | Each flight's aircraft, resolved at query time: by tail (ICAO address, then registration), else by the provider's type string. `resolution` says which (`tail`, `type_string`, `family`) |
 | `airport`, `runway`, `airline` | Reference data, upserted on each source's stable ID (OurAirports airport and runway IDs, OpenFlights airline ID), so row IDs and `created_at` survive re-seeds; rows the source drops are deleted. Airport timezones are derived from coordinates (OurAirports has no timezone column) |
 
 Every table has `created_at` and `updated_at`, maintained by Postgres itself: a `now()` default, and a trigger that sets `updated_at` only when a row's values actually change (so a poll that re-sends identical data doesn't touch it), whoever writes the row. All timestamps are `timestamptz` in UTC. The airport's IANA timezone name is stored, never an offset, so daylight saving is handled at conversion time.
@@ -117,7 +121,7 @@ Polling stays paused while `ADB_API_KEY` is empty; with a key set it starts on t
 | `make migrate` / `make revision m="..."` | apply / autogenerate Alembic migrations |
 | `make test` | run the test suite (needs the db container up for the Postgres tests) |
 | `make lint` | ruff and pyright (not yet run on this codebase) |
-| `make seed` | load reference data and poll tiers |
+| `make seed` | load reference data, poll tiers, aircraft types and the OpenSky airframe snapshot (~100 MB download) |
 | `make poll tier=1` | poll a tier now (spends provider units) |
 | `make psql` | open a psql shell |
 | `ontime-ingest board --airport JFK` | poll specific airports now |
@@ -141,7 +145,7 @@ The AeroDataBox base URL and header names also have settings (`ADB_BASE_URL`, `A
 
 ## Tests
 
-77 tests: parsing against real provider entries (a local, gitignored fixture; those 8 tests skip without it), the upsert's idempotency and retime handling, budget caps, DST windows, the polling service with a fake provider, and the Prefect flows against a temporary Prefect server. Database tests use a real Postgres (`ontime_test`, migrated with Alembic) and are skipped if it isn't reachable. Tests blank the API key so they can never spend real units.
+97 tests: parsing against real provider entries (a local, gitignored fixture; those 8 tests skip without it), the upsert's idempotency and retime handling, budget caps, DST windows, the polling service with a fake provider, and the Prefect flows against a temporary Prefect server. Database tests use a real Postgres (`ontime_test`, migrated with Alembic) and are skipped if it isn't reachable. Tests blank the API key so they can never spend real units.
 
 ## Known limitations
 
@@ -153,4 +157,4 @@ The AeroDataBox base URL and header names also have settings (`ADB_BASE_URL`, `A
 
 ## Data sources and licensing
 
-Airports and runways come from [OurAirports](https://ourairports.com/data/) (public domain); airlines from [OpenFlights](https://openflights.org/data) (community data, now dated). Flight movements come from [AeroDataBox](https://aerodatabox.com); check its terms before storing or redistributing that data. Provider response data (stored raw payloads and the test fixture) is gitignored and never committed.
+Airports and runways come from [OurAirports](https://ourairports.com/data/) (public domain); airlines from [OpenFlights](https://openflights.org/data) (community data, now dated); airframes from the [OpenSky aircraft database](https://opensky-network.org/data/aircraft), which OpenSky describes as unlicensed and not kept current (the newest snapshot is August 2025), so confirm its terms before commercial use. Flight movements come from [AeroDataBox](https://aerodatabox.com); check its terms before storing or redistributing that data. Provider response data (stored raw payloads and the test fixture) is gitignored and never committed.
