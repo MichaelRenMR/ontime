@@ -35,6 +35,16 @@ before that.
 
 **Have.** Schedules and cancellations as observed, airlines, aircraft types, tails.
 
+### Mockups so far
+
+Design mockups of the single-flight reliability screen (illustrative scores; sources in `.design/itinerary-risk/`).
+
+![Home page](screenshots/home.png)
+
+![Result page, desktop](screenshots/result-desktop.png)
+
+<img src="screenshots/result-phone.png" alt="Result page, phone" width="300">
+
 ## 2. Multi-flight itineraries and connections
 
 **Idea.** Extend (1) from single flights to itineraries with connections. Delays and cancellations of earlier
