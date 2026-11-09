@@ -2,6 +2,18 @@
 
 A backend for global commercial flight and airport information: departure and arrival boards, terminals, runways, and actual-vs-scheduled times, collected from a flight-data provider and stored in Postgres. A web front end and AI question-answering layer are planned but **not built yet**.
 
+## Planned UX
+
+The front end is not built yet; these are design mockups of the single-flight reliability screen, with illustrative scores. Sources are in `.design/itinerary-risk/` and product ideas in `docs/product-ideas.md`.
+
+Enter a flight number and date, then see a 0-10 outlook with a breakdown, history, rebooking options and text alerts.
+
+![Home page](docs/screenshots/home.png)
+
+![Result page, desktop](docs/screenshots/result-desktop.png)
+
+<img src="docs/screenshots/result-phone.png" alt="Result page, phone" width="300">
+
 ## Status
 
 | Area | State |
