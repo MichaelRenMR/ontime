@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>How’s BA 305 looking?</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&amp;family=Instrument+Sans:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;family=DM+Sans:wght@400;500;600;700;800&amp;family=B612+Mono:wght@400;700&amp;family=Space+Mono:wght@400;700&amp;family=IBM+Plex+Mono:wght@500;700&amp;family=Barlow+Condensed:wght@600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#282C34}a:hover{color:#C9561D}
+button{font:inherit}
+a:focus-visible,button:focus-visible{outline:2px solid #DD672C;outline-offset:2px}
+.nav-link{transition:color .12s}
+.nav-link:hover{color:#E5C07B !important}
+.text-btn{transition:color .12s}
+.text-btn:hover{color:#282C34 !important; text-decoration:underline}
+.field-light{transition:border-color .12s}
+.field-light:hover{border-color:#9AA1AD !important}
+.back-btn{transition:background-color .12s; border-radius:50%}
+.back-btn:hover{background:rgba(255,255,255,.12)}
+.alert-btn{transition:background-color .12s}
+.alert-btn:hover{background:#8F3A10 !important}
+.outlook-row{transition:background-color .12s}
+.expand-btn{width:36px;height:36px;margin:-4px -6px -4px 0;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto;transition:background-color .12s}
+.outlook-row:hover .expand-btn{background:rgba(255,255,255,.12)}
+.outlook-row .history-chev{transition:stroke .12s}
+.outlook-row:hover .history-chev{stroke:#FFFFFF}
+.day-chip{margin-left:3px;font-size:11px;font-weight:700;line-height:0;color:#B5531F}
+.day-chip-dark{margin-left:3px;font-size:12px;font-weight:700;line-height:0;color:#E5C07B}
+.flight-link{color:inherit;text-decoration:none;cursor:pointer;transition:color .12s}
+.flight-link:hover{color:#C9561D;text-decoration:underline;text-underline-offset:3px}
+.flight-link-dark:hover{color:#E5C07B}
+.factor-row{transition:background-color .12s}
+.factor-row:hover{background:#F5F5F7 !important}
+.factor-row[aria-expanded="true"]{background:#FAFAFB !important}
+@keyframes live-pulse{0%,100%{box-shadow:0 0 3px 0 rgba(229,192,123,.55)}50%{box-shadow:0 0 10px 4px rgba(229,192,123,.9)}}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#E5C07B;box-shadow:0 0 6px 2px rgba(229,192,123,.7);animation:live-pulse 2.2s ease-in-out infinite;flex:0 0 auto;transition:background-color .12s}
+.live-status{cursor:default}
+.live-status:hover .live-dot{background:#F6DA9B}
+@media (prefers-reduced-motion:reduce){.live-dot{animation:none}}
+</style>
+</helmet>
+<div style="min-height: 1000px; background: #FFFFFF; color: #282C34; font-family: {{font}}; font-size: 17px; line-height: 1.5; font-variant-numeric: tabular-nums">
+  <div style="background: #282C34; color: #FFFFFF">
+  <header style="padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px">
+    <div style="display: flex; align-items: center; gap: 4px; margin-left: -10px">
+      <a href="Main.dc.html" class="back-btn" aria-label="Back to search" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #FFFFFF"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+      <h1 style="margin: 0; font-family: {{display}}; font-weight: 700; font-size: 20px; letter-spacing: -0.01em; color: #FFFFFF">BA 305</h1>
+      <span style="margin-left: 8px; font-size: 15px; color: #C9CCD3">Sat 21 Nov</span>
+    </div>
+    <a class="nav-link" href="#" style="text-decoration: none; font-size: 15px; color: #C9CCD3; min-height: 44px; display: flex; align-items: center">Sign in</a>
+  </header>
+  <div style="background: #343A46; color: #FFFFFF">
+    <div style="max-width: 808px; margin: 0 auto; box-sizing: border-box; padding: 10px 48px; display: flex; flex-direction: column; gap: 2px">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 13px">
+          <span style="font-size: 18px; font-weight: 700; color: #FFFFFF">Flight outlook</span>
+          <span class="live-status" title="{{live.title}}" style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #9AA1AD"><span class="live-dot" aria-hidden="true" style="{{live.dotStyle}}"></span><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">{{live.sr}}</span>{{live.text}}</span>
+        </div>
+        <button type="button" class="outlook-row" onClick="{{outlook.toggle}}" aria-expanded="{{outlook.expanded}}" aria-label="Flight outlook: Fair, 4.6 out of 10, down from 7.6 since 31 October. Show history and industry comparison." style="width: 100%; padding: 4px 8px; margin: 0 -8px; box-sizing: content-box; border: 0; background: none; color: #FFFFFF; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 14px">
+          <span style="flex: 0 0 auto; display: flex; align-items: center; gap: 12px"><span style="font-family: {{display}}; font-size: 28px; font-weight: 700; letter-spacing: -0.01em; line-height: 1; color: #E5C07B">Fair</span><span style="font-size: 28px; font-weight: 600">4.6<span style="font-size: 18px; color: #9AA1AD">/10</span></span></span>
+          <span title="Down from 7.6 since 31 Oct" aria-label="Down from 7.6 since 31 Oct" role="img" style="flex: 0 0 auto; display: flex; color: #E06C75"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 4l7 7 7-7"></path><path d="M5 13l7 7 7-7"></path></svg></span>
+          <span style="flex: 1 1 auto"></span>
+          <span class="expand-btn"><svg class="history-chev" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C9CCD3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{{outlook.chevStyle}}"><path d="M6 9l6 6 6-6"></path></svg></span>
+        </button>
+        <sc-if value="{{outlook.open}}" hint-placeholder-val="{{false}}">
+          <div style="display: flex; flex-direction: column; gap: 20px; padding: 8px 0 6px">
+            <div style="min-width: 0">
+              <h3 style="margin: 0 0 6px; font-size: 14px; font-weight: 600; color: #C9CCD3">Over time</h3>
+              <div style="position: relative">
+              <svg viewBox="0 0 {{chart.W}} {{chart.H}}" role="img" aria-label="Flight outlook over time: Good until 30 October, then Fair after cancellations on 31 October and 7 November. It keeps updating until your flight on 21 November." style="width: 100%; height: auto; display: block; font-family: inherit">
+                <sc-for list="{{chart.bands}}" as="b" hint-placeholder-count="3">
+                  <rect x="{{chart.bandX}}" y="{{b.y}}" width="{{chart.bandW}}" height="{{b.h}}" fill="{{b.fill}}"></rect>
+                  <text x="{{chart.bandLabelX}}" y="{{b.ly}}" text-anchor="start" font-size="12" fill="#9AA1AD" fill-opacity="0.85" font-family="inherit">{{b.label}}</text>
+                </sc-for>
+                <path d="{{chart.shade}}" fill="#FFFFFF" fill-opacity="0.1"></path>
+                <line x1="{{chart.todayX}}" x2="{{chart.todayX}}" y1="{{chart.top}}" y2="{{chart.bottom}}" stroke="#9AA1AD" stroke-width="1"></line>
+                <line x1="{{chart.flightX}}" x2="{{chart.flightX}}" y1="{{chart.top}}" y2="{{chart.bottom}}" stroke="#E5C07B" stroke-width="2"></line>
+                <path d="{{chart.future}}" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="4 5" stroke-opacity="0.7"></path>
+                <path d="{{chart.line}}" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"></path>
+                <sc-for list="{{chart.cancels}}" as="c" hint-placeholder-count="2">
+                  <circle cx="{{c.cx}}" cy="{{c.cy}}" r="5" fill="#E06C75" stroke="#343A46" stroke-width="2"></circle>
+                </sc-for>
+                <circle cx="{{chart.todayX}}" cy="{{chart.todayY}}" r="4" fill="#FFFFFF"></circle>
+                <sc-if value="{{chart.hoverOn}}" hint-placeholder-val="{{false}}">
+                  <line x1="{{chart.hoverX}}" x2="{{chart.hoverX}}" y1="{{chart.top}}" y2="{{chart.bottom}}" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1"></line>
+                  <circle cx="{{chart.hoverX}}" cy="{{chart.hoverY}}" r="6" fill="#FFFFFF" stroke="#343A46" stroke-width="2"></circle>
+                </sc-if>
+                <text x="{{chart.todayX}}" y="{{chart.top}}" dy="-6" text-anchor="middle" font-size="12" font-weight="600" fill="#C9CCD3" font-family="inherit">Today</text>
+                <text x="{{chart.flightX}}" y="{{chart.top}}" dy="-6" text-anchor="end" font-size="12" font-weight="600" fill="#E5C07B" font-family="inherit">Your flight</text>
+              <sc-for list="{{chart.zones}}" as="z" hint-placeholder-count="16">
+                  <rect x="{{z.hx}}" y="{{chart.top}}" width="{{z.hw}}" height="{{chart.plotH}}" fill="transparent" style="cursor: crosshair" onMouseEnter="{{z.enter}}" onMouseLeave="{{z.leave}}"></rect>
+                </sc-for>
+              </svg>
+              <sc-if value="{{chart.hoverOn}}" hint-placeholder-val="{{false}}">
+                <div style="{{chart.tipStyle}}"><div style="font-weight: 600">{{chart.tipDate}}</div><div>{{chart.tipBand}}, {{chart.tipScore}}/10</div><div style="color: #C9CCD3">{{chart.tipText}}</div></div>
+              </sc-if>
+            </div>
+              <div style="margin-top: 6px; display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; color: #9AA1AD">
+                <span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 8px; background: rgba(255, 255, 255, 0.18)"></span>How sure we are</span>
+                <span style="display: flex; align-items: center; gap: 6px"><span style="width: 8px; height: 8px; border-radius: 50%; background: #E06C75"></span>Cancellation</span>
+              </div>
+            </div>
+            <div style="min-width: 0">
+              <h3 style="margin: 0 0 6px; font-size: 14px; font-weight: 600; color: #C9CCD3">When you'll arrive</h3>
+              <div style="position: relative">
+                <svg viewBox="0 0 {{dist.W}} {{dist.H}}" role="img" aria-label="Chance of arriving at each time, in ten minute steps from 60 minutes early to 150 minutes late, plus the chance of cancellation. The most likely arrival is 10 to 20 minutes early." style="width: 100%; height: auto; display: block; font-family: inherit">
+                  <line x1="{{dist.left}}" x2="{{dist.right}}" y1="{{dist.bottom}}" y2="{{dist.bottom}}" stroke="#FFFFFF" stroke-opacity="0.25" stroke-width="1"></line>
+                  <sc-for list="{{dist.bars}}" as="b" hint-placeholder-count="22">
+                    <rect x="{{b.x}}" y="{{b.y}}" width="{{b.w}}" height="{{b.h}}" fill="{{b.fill}}" fill-opacity="{{b.op}}" stroke="{{b.stroke}}" stroke-width="1.5"></rect>
+                  </sc-for>
+                  <line x1="{{dist.markX}}" x2="{{dist.markX}}" y1="{{dist.top}}" y2="{{dist.bottom}}" stroke="#FFFFFF" stroke-opacity="0.6" stroke-width="1.5" stroke-dasharray="3 4"></line>
+                  <sc-for list="{{dist.zones}}" as="z" hint-placeholder-count="22">
+                    <rect x="{{z.x}}" y="{{dist.top}}" width="{{z.w}}" height="{{dist.bottom}}" fill="transparent" style="cursor: crosshair" onMouseEnter="{{z.enter}}" onMouseLeave="{{z.leave}}"></rect>
+                  </sc-for>
+                </svg>
+                <sc-if value="{{dist.hoverOn}}" hint-placeholder-val="{{false}}">
+                  <div style="{{dist.tipStyle}}"><div style="font-weight: 600">{{dist.tipLabel}}</div><div>{{dist.tipPct}}</div></div>
+                </sc-if>
+              </div>
+              <div style="margin-top: 6px; display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; color: #9AA1AD">
+                <span style="display: flex; align-items: center; gap: 6px"><span style="width: 10px; height: 10px; background: #56B6C2"></span>On time or early {{dist.early}}</span>
+                <span style="display: flex; align-items: center; gap: 6px"><span style="width: 10px; height: 10px; background: #E5C07B"></span>10+ min late {{dist.late}}</span>
+                <span style="display: flex; align-items: center; gap: 6px"><span style="width: 10px; height: 10px; background: #E06C75"></span>Cancelled {{dist.cancel}}</span>
+              </div>
+            </div>
+            <div style="width: 100%; max-width: 380px; min-width: 0; margin: 0 auto">
+              <h3 style="margin: 0 0 6px; font-size: 14px; font-weight: 600; color: #C9CCD3">Compared with the industry</h3>
+              <div style="position: relative">
+                <svg viewBox="0 0 {{radar.W}} {{radar.H}}" role="img" aria-label="Radar chart of each category's rating against the British Airways and industry averages. Past flights 3.2 against 7.1, your plane 3.6 against 7.0, airline operations 5.4 against 7.2, airport operations 8.8 against 7.6, travel notices 8.0 against 7.4. Dotted line: British Airways average." style="width: 100%; height: auto; display: block; font-family: inherit">
+                  <sc-for list="{{radar.rings}}" as="r" hint-placeholder-count="4">
+                    <polygon points="{{r.points}}" fill="none" stroke="#FFFFFF" stroke-opacity="0.16" stroke-width="1"></polygon>
+                  </sc-for>
+                  <sc-for list="{{radar.spokes}}" as="s" hint-placeholder-count="5">
+                    <line x1="{{radar.cx}}" y1="{{radar.cy}}" x2="{{s.x2}}" y2="{{s.y2}}" stroke="#FFFFFF" stroke-opacity="0.16" stroke-width="1"></line>
+                  </sc-for>
+                  <polygon points="{{radar.avg}}" fill="none" stroke="#FFFFFF" stroke-opacity="0.75" stroke-width="1.75" stroke-dasharray="4 4"></polygon>
+                  <polygon points="{{radar.ba}}" fill="none" stroke="#56B6C2" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.1 5"></polygon>
+                  <polygon points="{{radar.me}}" fill="#E5C07B" fill-opacity="0.28" stroke="#E5C07B" stroke-width="2.25" stroke-linejoin="round"></polygon>
+                  <sc-for list="{{radar.dots}}" as="d" hint-placeholder-count="5">
+                    <circle cx="{{d.cx}}" cy="{{d.cy}}" r="{{d.r}}" fill="#E5C07B" stroke="#343A46" stroke-width="1.5"></circle>
+                  </sc-for>
+                  <sc-for list="{{radar.zones}}" as="z" hint-placeholder-count="5">
+                    <circle cx="{{z.cx}}" cy="{{z.cy}}" r="32" fill="transparent" style="cursor: crosshair" onMouseEnter="{{z.enter}}" onMouseLeave="{{z.leave}}"></circle>
+                  </sc-for>
+                </svg>
+                <sc-if value="{{radar.hoverOn}}" hint-placeholder-val="{{false}}">
+                  <div style="{{radar.tipStyle}}"><div style="font-weight: 600">{{radar.tipName}}</div><div>This flight {{radar.tipMe}}</div><div>British Airways {{radar.tipBa}}</div><div>Industry {{radar.tipAvg}}</div><div style="color: {{radar.tipColor}}; font-weight: 600">{{radar.tipDiff}}</div></div>
+                </sc-if>
+              </div>
+              <div style="margin-top: 6px; display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; color: #9AA1AD">
+                <span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 8px; background: rgba(229, 192, 123, 0.5); border: 1px solid #E5C07B"></span>This flight</span>
+                <span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 0; border-top: 2px dashed rgba(255, 255, 255, 0.75)"></span>Industry average</span>
+                <span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 0; border-top: 3px dotted #56B6C2"></span>British Airways average</span>
+                <span>Scores out of 10</span>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+  </div>
+    <div style="max-width: 808px; margin: 0 auto; box-sizing: border-box; padding: 8px 24px 32px">
+    <article style="margin: 0; color: #FFFFFF; display: flex; flex-wrap: wrap">
+      <div style="flex: 1 1 100%; min-width: 0; padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 18px">
+        <div style="display: grid; grid-template-columns: auto 1fr auto; align-items: end; gap: 18px">
+          <div>
+            <div style="font-family: {{display}}; font-size: 32px; font-weight: 600; letter-spacing: -0.04em; line-height: 1">11:40</div>
+            <div style="margin-top: 6px; color: #C9CCD3">Paris CDG <span style="color: #9AA1AD">T2C</span></div>
+          </div>
+          <div style="margin-bottom: 8px; display: flex; flex-direction: column; align-items: center; gap: 4px"><svg viewBox="0 0 200 12" preserveAspectRatio="none" fill="none" stroke="#E5C07B" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="width: 100%; height: 12px; display: block"><path d="M2 6h194M190 1l6 5-6 5"></path></svg><span style="font-size: 14px; color: #C9CCD3; white-space: nowrap">1 h 20 min</span></div>
+          <div style="text-align: right">
+            <div style="font-family: {{display}}; font-size: 32px; font-weight: 600; letter-spacing: -0.04em; line-height: 1">12:00<sc-if value="{{trip.arrHas}}" hint-placeholder-val="{{false}}"><sup class="day-chip-dark" title="{{trip.arrTitle}}">{{trip.arrDay}}</sup></sc-if></div>
+            <div style="margin-top: 6px; color: #C9CCD3">London Heathrow <span style="color: #9AA1AD">T5</span></div>
+          </div>
+        </div>
+        <dl style="margin: 0; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, 0.14); display: grid; grid-auto-flow: dense; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 20px"><div><dt style="font-size: 13px; color: #9AA1AD">Aircraft</dt><dd style="margin: 0; font-weight: 600">Airbus A320-200</dd></div><div><dt style="font-size: 13px; color: #9AA1AD">Tail number</dt><dd style="margin: 0; font-weight: 600; color: #E5C07B; display: flex; align-items: center; gap: 6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Pending</dd></div><div><dt style="font-size: 13px; color: #9AA1AD">Aircraft age</dt><dd style="margin: 0; font-weight: 600; color: #E5C07B; display: flex; align-items: center; gap: 6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Pending</dd></div><div style="grid-column: span 2"><dt style="font-size: 13px; color: #9AA1AD">Incoming flight</dt><dd style="margin: 0; font-weight: 600"><a class="flight-link flight-link-dark" href="#">BA 304</a> LHR <span style="color: #E5C07B">&#8594;</span> CDG <span style="font-weight: 400; color: #C9CCD3">&middot; lands 10:35<sc-if value="{{trip.incHas}}" hint-placeholder-val="{{false}}"><sup class="day-chip-dark" title="{{trip.incTitle}}">{{trip.incDay}}</sup></sc-if></span></dd></div><div><dt style="font-size: 13px; color: #9AA1AD">Time on the ground</dt><dd style="margin: 0; font-weight: 600">65 min</dd></div></dl>
+      </div>
+    </article>
+
+
+    </div>
+  </div>
+
+
+  <main style="max-width: 760px; margin: 0 auto; padding: 0 24px 72px; display: flex; flex-direction: column">
+
+    <section style="margin-top: 20px; padding: 10px 14px; background: #FDF7EA; border: 1px solid #F0DDB0; border-left: 3px solid #DD672C; font-size: 15px">
+      <sc-if value="{{alerts.idle}}" hint-placeholder-val="{{true}}">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px">
+          <span style="display: flex; align-items: center; gap: 8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B5531F" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg><span><span style="font-weight: 600">Get text alerts for BA 305</span> <span style="color: #4B5260">if the rating, times or plane change</span></span></span>
+          <button type="button" class="alert-btn" onClick="{{alerts.open}}" style="min-height: 40px; padding: 0 14px; border: 0; background: #B04A17; color: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Text me updates</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{alerts.form}}" hint-placeholder-val="{{false}}">
+        <form onSubmit="{{alerts.submit}}" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px">
+          <label style="flex: 1 1 240px; display: flex"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Mobile number</span>
+            <input class="field-light" type="tel" inputmode="tel" autocomplete="tel" placeholder="Mobile number" value="{{alerts.phone}}" onChange="{{alerts.onPhone}}" style="width: 100%; height: 40px; box-sizing: border-box; padding: 0 12px; border: 1px solid #C9CCD3; font: inherit; color: #282C34; background: #FFFFFF"></label>
+          <button type="submit" class="alert-btn" style="min-height: 40px; padding: 0 14px; border: 0; background: #B04A17; color: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer">Start alerts</button>
+          <button class="text-btn" type="button" onClick="{{alerts.cancel}}" style="min-height: 40px; padding: 0 8px; border: 0; background: none; color: #4B5260; font-size: 14px; cursor: pointer">Cancel</button>
+          <span style="flex: 1 1 100%; font-size: 13px; color: #646B78">No account needed. Reply STOP to end.</span>
+        </form>
+      </sc-if>
+      <sc-if value="{{alerts.done}}" hint-placeholder-val="{{false}}">
+        <div role="status" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px">
+          <span style="display: flex; align-items: center; gap: 8px; font-weight: 600"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1F5F67" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Alerts on for {{alerts.shown}}</span>
+          <button class="text-btn" type="button" onClick="{{alerts.open}}" style="min-height: 40px; padding: 0 4px; border: 0; background: none; color: #4B5260; font-size: 14px; text-decoration: underline; cursor: pointer">Change number</button>
+        </div>
+      </sc-if>
+    </section>
+
+    <section style="padding-top: 24px; display: flex; flex-direction: column; gap: 12px">
+      <h2 style="margin: 0; font-size: 22px; letter-spacing: -0.02em; font-weight: 700">Rating breakdown</h2>
+      <ul style="margin: 0; padding: 0; list-style: none; border-top: 1px solid #E3E4E8">
+        <sc-for list="{{factors}}" as="f" hint-placeholder-count="6">
+          <li style="border-bottom: 1px solid #E3E4E8">
+            <button type="button" class="factor-row" onClick="{{f.toggle}}" aria-expanded="{{f.expanded}}" style="width: 100%; min-height: 46px; padding: 7px 8px; margin: 0 -8px; box-sizing: content-box; border: 0; background: none; color: inherit; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 12px">
+              <span style="flex: 0 0 18px; display: flex"><sc-if value="{{f.isDown}}" hint-placeholder-val="{{false}}"><span title="{{f.trendText}}" aria-label="{{f.trendText}}" role="img" style="display: flex; color: #A8323E"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 4l7 7 7-7"></path><path d="M5 13l7 7 7-7"></path></svg></span></sc-if><sc-if value="{{f.isUp}}" hint-placeholder-val="{{false}}"><span title="{{f.trendText}}" aria-label="{{f.trendText}}" role="img" style="display: flex; color: #1F5F67"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 20l7-7 7 7"></path><path d="M5 11l7-7 7 7"></path></svg></span></sc-if><sc-if value="{{f.isFlat}}" hint-placeholder-val="{{false}}"><span title="{{f.trendText}}" aria-label="{{f.trendText}}" role="img" style="display: flex; color: #646B78"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M4 5l7 7-7 7"></path><path d="M13 5l7 7-7 7"></path></svg></span></sc-if></span>
+                  <span style="flex: 0 0 72px"><span style="{{f.chipStyle}}">{{f.verdict}}</span></span>
+              <span style="flex: 1 1 auto; min-width: 0; font-weight: 600">{{f.name}}</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#646B78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{{f.chevStyle}}"><path d="M6 9l6 6 6-6"></path></svg>
+            </button>
+            <sc-if value="{{f.open}}" hint-placeholder-val="{{false}}">
+              <div style="display: grid; grid-template-columns: 114px minmax(0, 1fr); padding: 0 0 20px; font-size: 15px; color: #4B5260">
+                <div style="padding: 2px 12px 0 0; text-align: center" aria-label="{{f.scoreLabel}}">
+                  <div style="font-family: {{display}}; font-size: 30px; font-weight: 700; letter-spacing: -0.03em; line-height: 1; color: {{f.scoreColor}}">{{f.score}}</div>
+                  <div style="margin-top: 4px; font-size: 12px; color: #646B78">out of 10</div>
+                </div>
+                <div style="min-width: 0">
+                  <p style="margin: 0 0 12px; font-size: 16px; color: #282C34">{{f.finding}}</p>
+                    <sc-if value="{{f.isCancel}}" hint-placeholder-val="{{false}}">
+                      <h4 style="margin: 0 0 8px; font-size: 14px; font-weight: 600; color: #282C34">Cancellations</h4>
+              <ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 3px">
+                <sc-for list="{{f.days}}" as="d" hint-placeholder-count="16">
+                  <li style="display: flex; flex-direction: column; gap: 3px; text-align: center">
+                    <span style="{{d.cellStyle}}" title="{{d.title}}">{{d.mark}}</span>
+                    <span style="font-size: 11px; color: #646B78">{{d.dow}}</span>
+                  </li>
+                </sc-for>
+              </ol>
+              <div style="margin-top: 14px; display: flex; gap: 28px">
+                <span><span style="font-size: 20px; font-weight: 700; color: #A8323E">12.5%</span> BA 305</span>
+                <span><span style="font-size: 20px; font-weight: 700; color: #282C34">1.5%</span> Route</span>
+                <span><span style="font-size: 20px; font-weight: 700; color: #282C34">1.8%</span> All BA</span>
+              </div>
+                    </sc-if>
+                    <sc-if value="{{f.isInbound}}" hint-placeholder-val="{{false}}">
+                      <h4 style="margin: 0 0 8px; font-size: 14px; font-weight: 600; color: #282C34">Incoming flight</h4>
+              <table style="border-collapse: collapse; font-size: 14px">
+                <thead><tr style="text-align: left; color: #646B78; font-size: 13px"><th scope="col" style="padding: 4px 28px 4px 0; font-weight: 500">Day</th><th scope="col" style="padding: 4px 28px 4px 0; font-weight: 500"><a class="flight-link" href="#">BA 304</a> in</th><th scope="col" style="padding: 4px 0; font-weight: 500">BA 305 out</th></tr></thead>
+                <tbody>
+                  <sc-for list="{{f.rotations}}" as="r" hint-placeholder-count="11">
+                    <tr style="border-top: 1px solid #E3E4E8; color: #282C34"><td style="padding: 6px 28px 6px 0">{{r.date}}</td><td style="padding: 6px 28px 6px 0"><span style="{{r.inStyle}}">{{r.inbound}}</span></td><td style="padding: 6px 0"><span style="{{r.outStyle}}">{{r.outbound}}</span></td></tr>
+                  </sc-for>
+                </tbody>
+              </table>
+                    </sc-if>
+                    <sc-if value="{{f.isSpare}}" hint-placeholder-val="{{false}}">
+                      <h4 style="margin: 18px 0 8px; font-size: 14px; font-weight: 600; color: #282C34">Spare planes</h4>
+              <div style="display: grid; grid-template-columns: 120px 1fr 48px; gap: 10px 12px; align-items: center; max-width: 520px">
+                <span>Heathrow</span><span style="height: 8px; background: #F1F1F4"><span style="display: block; width: 100%; height: 8px; background: #56B6C2"></span></span><span style="text-align: right; font-weight: 600; color: #282C34">~250</span>
+                <span>Paris CDG</span><span style="height: 8px; background: #F1F1F4"><span style="display: block; width: 2%; height: 8px; background: #E06C75"></span></span><span style="text-align: right; font-weight: 600; color: #282C34">~5</span>
+              </div>
+              <div style="margin-top: 8px; font-size: 13px; color: #646B78">BA departures a day</div>
+                    </sc-if>
+                    <sc-if value="{{f.isDelay}}" hint-placeholder-val="{{false}}">
+                      <h4 style="margin: 18px 0 8px; font-size: 14px; font-weight: 600; color: #282C34">Arrival time</h4>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px">
+                <sc-for list="{{f.lates}}" as="l" hint-placeholder-count="5">
+                  <span style="padding: 3px 8px; background: #FBF1DC; color: #6E4E0E"><span style="font-weight: 700">{{l.mins}}</span> {{l.date}}</span>
+                </sc-for>
+              </div>
+              <div style="margin-top: 14px; display: flex; gap: 28px">
+                <span><span style="font-size: 20px; font-weight: 700; color: #7A5510">36%</span> BA 305 late</span>
+                <span><span style="font-size: 20px; font-weight: 700; color: #282C34">23%</span> Route</span>
+              </div>
+                    </sc-if>
+                    <sc-if value="{{f.isAirport}}" hint-placeholder-val="{{false}}">
+                      <h4 style="margin: 0 0 8px; font-size: 14px; font-weight: 600; color: #282C34">Live checks</h4>
+              <ul style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: auto auto; gap: 0; max-width: 560px">
+                <sc-for list="{{f.checks}}" as="c" hint-placeholder-count="5">
+                  <li style="display: contents">
+                    <span style="padding: 6px 16px 6px 0; border-top: 1px solid #E3E4E8; color: #282C34">{{c.what}}</span>
+                    <span style="padding: 6px 0; border-top: 1px solid #E3E4E8; display: flex; align-items: center; gap: 6px; color: {{c.color}}"><span style="{{c.dot}}"></span>{{c.state}}</span>
+                  </li>
+                </sc-for>
+              </ul>
+                    </sc-if>
+                    <sc-if value="{{f.isHours}}" hint-placeholder-val="{{false}}">
+                      <h4 style="margin: 18px 0 8px; font-size: 14px; font-weight: 600; color: #282C34">Airport hours</h4>
+              <div style="max-width: 520px">
+                <div role="img" aria-label="Heathrow night restrictions 23:30 to 06:00; BA 305 lands at 12:00" style="position: relative; height: 22px; background: #F1F1F4">
+                  <span style="position: absolute; left: 0; top: 0; bottom: 0; width: 25%; background: #C9CCD3"></span>
+                  <span style="position: absolute; right: 0; top: 0; bottom: 0; width: 2.1%; background: #C9CCD3"></span>
+                  <span style="position: absolute; left: 50%; top: -4px; bottom: -4px; width: 3px; margin-left: -1px; background: #282C34"></span>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 4px; font-size: 12px; color: #646B78"><span>00:00</span><span>06:00</span><span>12:00 lands</span><span>18:00</span></div>
+              </div>
+                    </sc-if>
+                    <sc-if value="{{f.isWeather}}" hint-placeholder-val="{{false}}">
+              <span>Fog, wind, storms and snow at both airports, from Fri 20 Nov.</span>
+                    </sc-if>
+                    <sc-if value="{{f.isAirline}}" hint-placeholder-val="{{false}}">
+                      <h4 style="margin: 0 0 8px; font-size: 14px; font-weight: 600; color: #282C34">British Airways cancellations yesterday</h4>
+                      <ul style="margin: 0; padding: 0; list-style: none; max-width: 560px">
+                        <sc-for list="{{f.recent}}" as="r" hint-placeholder-count="6">
+                          <li style="display: flex; gap: 14px; padding: 6px 0; border-top: 1px solid #E3E4E8; color: #282C34"><span style="font-weight: 600; min-width: 64px"><a class="flight-link" href="{{r.href}}">{{r.flight}}</a></span><span style="flex: 1 1 auto">{{r.from}} <span style="color: #C2414D">&#8594;</span> {{r.to}}</span><span style="color: #646B78">{{r.when}}</span></li>
+                        </sc-for>
+                      </ul>
+                      <p style="margin: 12px 0 0">Over the last month, BA cancelled 1.8% of its flights at the airports we track.</p>
+                    </sc-if>
+                    <sc-if value="{{f.isNotices}}" hint-placeholder-val="{{false}}">
+                      <ul style="margin: 0; padding: 0; list-style: none; max-width: 560px; display: grid; grid-template-columns: auto auto">
+                        <sc-for list="{{f.notices}}" as="c" hint-placeholder-count="3">
+                          <li style="display: contents">
+                            <span style="padding: 6px 16px 6px 0; border-top: 1px solid #E3E4E8; color: #282C34">{{c.what}}</span>
+                            <span style="padding: 6px 0; border-top: 1px solid #E3E4E8; display: flex; align-items: center; gap: 6px; color: {{c.color}}"><span style="{{c.dot}}"></span>{{c.state}}</span>
+                          </li>
+                        </sc-for>
+                      </ul>
+                    </sc-if>
+                </div>
+              </div>
+            </sc-if>
+          </li>
+        </sc-for>
+      </ul>
+    </section>
+    <section style="padding-top: 32px; display: flex; flex-direction: column; gap: 12px">
+      <h2 style="margin: 0; font-size: 22px; letter-spacing: -0.02em; font-weight: 700">Cancellation options</h2>
+      <ul style="margin: 0; padding: 0; list-style: none; border-top: 1px solid #E3E4E8">
+        <sc-for list="{{optGroups}}" as="grp" hint-placeholder-count="2">
+          <li style="border-bottom: 1px solid #E3E4E8">
+            <button type="button" class="factor-row" onClick="{{grp.toggle}}" aria-expanded="{{grp.expanded}}" style="width: 100%; min-height: 46px; padding: 7px 8px; margin: 0 -8px; box-sizing: content-box; border: 0; background: none; color: inherit; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 12px">
+              <span style="flex: 1 1 auto; min-width: 0; font-weight: 600">{{grp.title}} <span style="font-weight: 400; color: #646B78">{{grp.sub}}</span></span>
+              <span style="flex: 0 0 auto; font-size: 14px; color: #646B78">{{grp.count}}</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#646B78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{{grp.chevStyle}}"><path d="M6 9l6 6 6-6"></path></svg>
+            </button>
+            <sc-if value="{{grp.open}}" hint-placeholder-val="{{false}}">
+              <ul style="margin: 0; padding: 0 0 8px; list-style: none">
+                <sc-for list="{{grp.rows}}" as="r" hint-placeholder-count="5">
+                  <li style="border-bottom: 1px solid #E3E4E8">
+            <div class="option-row" style="display: flex; align-items: center; flex-wrap: wrap; gap: 4px 16px; min-height: 46px; padding: 7px 8px; margin: 0 -8px; color: #282C34">
+              <span style="flex: 0 0 150px; display: flex; flex-direction: column; gap: 4px"><sc-for list="{{r.legs}}" as="g" hint-placeholder-count="1"><span style="display: flex; align-items: center; gap: 8px"><a class="flight-link" style="font-weight: 700" href="{{g.href}}">{{g.flight}}</a></span></sc-for><sc-if value="{{r.hasVia}}" hint-placeholder-val="{{false}}"><span style="font-size: 13px; color: #646B78">via {{r.via}}</span></sc-if></span>
+              <span style="flex: 0 0 176px">{{r.depart}}<sc-if value="{{r.hasDepDay}}" hint-placeholder-val="{{false}}"><sup class="day-chip" title="{{r.depTitle}}">{{r.depDay}}</sup></sc-if> <span style="color: #9AA1AD">&#8594;</span> {{r.arrive}}<sc-if value="{{r.hasArrDay}}" hint-placeholder-val="{{false}}"><sup class="day-chip" title="{{r.arrTitle}}">{{r.arrDay}}</sup></sc-if></span>
+              <span style="flex: 1 1 90px; color: #4B5260">{{r.later}}<sc-if value="{{r.hasArrDay}}" hint-placeholder-val="{{false}}"><sup class="day-chip" title="{{r.arrTitle}}">{{r.arrDay}}</sup></sc-if></span>
+              <sc-if value="{{r.isAuto}}" hint-placeholder-val="{{true}}"><span style="flex: 0 0 150px; display: flex; align-items: center; gap: 10px"><span style="flex: 1 1 auto; height: 8px; background: #F1F1F4"><span style="{{r.barStyle}}"></span></span><span style="flex: 0 0 38px; font-weight: 700; text-align: right">{{r.pct}}</span></span></sc-if><sc-if value="{{r.isOther}}" hint-placeholder-val="{{false}}"><span style="flex: 0 0 150px; display: flex; justify-content: flex-end"><span style="padding: 2px 8px; background: #F1F1F4; color: #4B5260; font-size: 13px; font-weight: 600">New ticket</span></span></sc-if>
+            </div>
+          </li>
+                </sc-for>
+              </ul>
+            </sc-if>
+          </li>
+        </sc-for>
+      </ul>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"serviceLive":{"editor":"boolean","default":true},"displayFont":{"editor":"enum","options":["Geist","Space Mono","B612 Mono","IBM Plex Mono","Barlow Condensed"],"default":"Geist"},"typeface":{"editor":"enum","options":["Geist","Instrument Sans","Manrope","DM Sans","Space Mono"],"default":"Geist"},"$preview":{"width":1280,"height":1000}}'>
+
+const mkChart = (W, H, L, R, T, B, self) => {
+  const days = 40, px = (W - L - R) / days;
+  const x = (d) => L + d * px;
+  const y = (s) => T + (100 - s) * (H - T - B) / 100;
+  const raw = [
+    [0, 74, 'Mon 12 Oct', 'Landed early.'], [3, 72, 'Thu 15 Oct', 'Landed 33 min late.'], [4, 75, 'Fri 16 Oct', 'Landed early.'],
+    [5, 77, 'Sat 17 Oct', 'Landed early.'], [6, 79, 'Sun 18 Oct', 'Landed early.'], [10, 80, 'Thu 22 Oct', 'On time.'],
+    [12, 81, 'Sat 24 Oct', 'Landed early.'], [13, 82, 'Sun 25 Oct', 'Landed early.'], [14, 79, 'Mon 26 Oct', 'Landed 23 min late.'],
+    [18, 76, 'Fri 30 Oct', 'Landed 40 min late.'], [19, 58, 'Sat 31 Oct', 'Cancelled.', true], [20, 55, 'Sun 1 Nov', 'Landed 17 min late.'],
+    [24, 57, 'Thu 5 Nov', 'Landed early.'], [25, 59, 'Fri 6 Nov', 'Landed early.'], [26, 49, 'Sat 7 Nov', 'Cancelled.', true],
+    [27, 46, 'Sun 8 Nov', 'Landed 2 h 4 min late.']
+  ];
+  const band = (v) => v >= 70 ? 'Good' : v >= 40 ? 'Fair' : 'Poor';
+  const hv = self && self.state ? self.state.chartHover : null;
+  const tip = hv === null || hv === undefined ? null : raw[hv];
+  const unc = (n) => 4 + 18 / Math.sqrt(n);
+  let line = ''; const up = [], lo = [];
+  raw.forEach(([d, s], i) => {
+    const nx = i + 1 < raw.length ? raw[i + 1][0] : 27.5, u = unc(i + 1);
+    line += i === 0 ? 'M' + x(d) + ',' + y(s) : ' H' + x(d) + ' V' + y(s);
+    up.push([x(d), y(Math.min(100, s + u))], [x(nx), y(Math.min(100, s + u))]);
+    lo.push([x(d), y(Math.max(0, s - u))], [x(nx), y(Math.max(0, s - u))]);
+  });
+  const last = raw[raw.length - 1], fu = unc(raw.length) + 6;
+  up.push([x(days), y(Math.min(100, last[1] + fu))]); lo.push([x(days), y(Math.max(0, last[1] - fu))]);
+  return {
+    W, H, line,
+    shade: 'M' + up.map((p) => p.join(',')).join(' L') + ' L' + lo.reverse().map((p) => p.join(',')).join(' L') + ' Z',
+    future: 'M' + x(27) + ',' + y(last[1]) + ' H' + x(days),
+    cancels: raw.filter((r) => r[4]).map(([d, s]) => ({ cx: x(d), cy: y(s) })),
+    plotH: H - T - B,
+    zones: raw.map(([d], i) => ({ hx: x(d) - px / 2, hw: Math.max(px, 8),
+      enter: () => self.setState({ chartHover: i }), leave: () => self.setState({ chartHover: null }) })),
+    hoverOn: !!tip, hoverX: tip ? x(tip[0]) : 0, hoverY: tip ? y(tip[1]) : 0,
+    tipDate: tip ? tip[2] : '', tipBand: tip ? band(tip[1]) : '', tipScore: tip ? (tip[1] / 10).toFixed(1) : '', tipText: tip ? tip[3] : '',
+    tipStyle: tip ? 'position: absolute; top: 4px; left: ' + Math.max(16, Math.min(84, 100 * x(tip[0]) / W)) + '%; transform: translateX(-50%); background: #21252B; border: 1px solid rgba(255, 255, 255, 0.2); padding: 8px 10px; font-size: 13px; line-height: 1.4; white-space: nowrap; pointer-events: none; z-index: 3; color: #FFFFFF;' : '',
+    todayX: x(27), todayY: y(last[1]), flightX: x(days), top: T, bottom: H - B, axisY: H - B + 16,
+    bands: [
+      { y: y(100), h: y(70) - y(100), fill: 'rgba(86, 182, 194, 0.14)', label: 'Good', ly: y(85) + 4 },
+      { y: y(70), h: y(40) - y(70), fill: 'rgba(229, 192, 123, 0.14)', label: 'Fair', ly: y(55) + 4 },
+      { y: y(40), h: y(0) - y(40), fill: 'rgba(224, 108, 117, 0.14)', label: 'Poor', ly: y(20) + 4 }
+    ],
+    bandX: L, bandW: W - L - R, labelX: L - 8, bandLabelX: L + 6, tickX: L - 8,
+    yticks: [10, 7, 4, 0].map((v) => ({ y: y(v * 10), label: String(v) })),
+    ytransform: 'translate(12 ' + (T + (H - T - B) / 2) + ') rotate(-90)', xtx: L + (W - L - R) / 2, xty: H - 6,
+    ticks: (W > 500 ? [[0, '12 Oct'], [7, '19 Oct'], [14, '26 Oct'], [21, '2 Nov'], [28, '9 Nov'], [35, '16 Nov']] : [[0, '12 Oct'], [14, '26 Oct'], [28, '9 Nov']]).map(([d, l]) => ({ x: x(d), label: l }))
+  };
+};
+
+const mkRadar = (self) => {
+  const W = 320, H = 250, cx = 160, cy = 125, R = 108;
+  const cats = [
+    { short: 'Past flights', name: 'Past flights', me: 3.2, avg: 7.1, ba: 6.6 },
+    { short: 'Your plane', name: 'Your plane', me: 3.6, avg: 7.0, ba: 6.5 },
+    { short: 'Airline', name: 'Airline operations', me: 5.4, avg: 7.2, ba: 6.4 },
+    { short: 'Airports', name: 'Airport operations', me: 8.8, avg: 7.6, ba: 7.3 },
+    { short: 'Notices', name: 'Travel notices', me: 8.0, avg: 7.4, ba: 7.4 }
+  ];
+  const n = cats.length;
+  const ang = (i) => (-90 + i * 360 / n) * Math.PI / 180;
+  const pt = (i, v) => [cx + R * (v / 10) * Math.cos(ang(i)), cy + R * (v / 10) * Math.sin(ang(i))];
+  const poly = (vals) => vals.map((v, i) => pt(i, v).map((c) => c.toFixed(1)).join(',')).join(' ');
+  const hv = self && self.state ? self.state.radarHover : null;
+  const tip = hv === null || hv === undefined ? null : cats[hv];
+  const diff = tip ? tip.me - tip.avg : 0;
+  return {
+    W, H, cx, cy,
+    rings: [2.5, 5, 7.5, 10].map((v) => ({ points: poly(Array(n).fill(v)) })),
+    spokes: cats.map((c, i) => { const p = pt(i, 10); return { x2: p[0].toFixed(1), y2: p[1].toFixed(1) }; }),
+    me: poly(cats.map((c) => c.me)),
+    avg: poly(cats.map((c) => c.avg)),
+    ba: poly(cats.map((c) => c.ba)),
+    dots: cats.map((c, i) => { const p = pt(i, c.me); return { cx: p[0].toFixed(1), cy: p[1].toFixed(1), r: hv === i ? 6 : 4 }; }),
+    labels: cats.map((c, i) => {
+      const a = ang(i), co = Math.cos(a), si = Math.sin(a);
+      const yb = cy + (R + 14) * si + 4, top = si < -0.9;
+      return { text: c.short, score: c.me.toFixed(1), x: (cx + (R + 14) * co).toFixed(1),
+        ny: (top ? yb - 14 : yb).toFixed(1), sy: (top ? yb : yb + 14).toFixed(1),
+        anchor: co > 0.3 ? 'start' : co < -0.3 ? 'end' : 'middle',
+        weight: hv === i ? 700 : 500, fill: hv === i ? '#FFFFFF' : '#C9CCD3' };
+    }),
+    zones: cats.map((c, i) => { const p = pt(i, 6.5); return { cx: p[0].toFixed(1), cy: p[1].toFixed(1),
+      enter: () => self.setState({ radarHover: i }), leave: () => self.setState({ radarHover: null }) }; }),
+    hoverOn: !!tip,
+    tipName: tip ? tip.name : '', tipMe: tip ? tip.me.toFixed(1) : '', tipAvg: tip ? tip.avg.toFixed(1) : '', tipBa: tip ? tip.ba.toFixed(1) : '',
+    tipDiff: tip ? (Math.abs(diff).toFixed(1) + (diff < 0 ? ' below' : ' above') + ' industry average') : '',
+    tipColor: diff < 0 ? '#E06C75' : '#56B6C2',
+    tipStyle: tip ? 'position: absolute; top: 0; left: 50%; transform: translateX(-50%); background: #21252B; border: 1px solid rgba(255, 255, 255, 0.2); padding: 8px 10px; font-size: 13px; line-height: 1.4; white-space: nowrap; pointer-events: none; z-index: 3; color: #FFFFFF;' : ''
+  };
+};
+
+const mkDist = (W, H, L, R, T, B, self) => {
+  const g = (t, m, sd) => Math.exp(-0.5 * ((t - m) / sd) ** 2) / (sd * 2.5066);
+  const f = (t) => 0.55 * g(t, -14, 13) + 0.34 * g(t, 25, 18) + 0.11 * g(t, 80, 30);
+  const starts = Array.from({ length: 21 }, (_, k) => -60 + 10 * k);
+  const raw = starts.map((a) => f(a + 5));
+  const tot = raw.reduce((x, y) => x + y, 0);
+  const probs = raw.map((r) => 87.5 * r / tot);
+  const cancel = 12.5;
+  const ymax = Math.max(cancel, ...probs) * 1.12;
+  const gapU = 1.3, unit = (W - L - R) / (starts.length + gapU + 1);
+  const y = (p) => H - B - p / ymax * (H - T - B);
+  const hv = self && self.state ? self.state.distHover : null;
+  const fmt = (a) => { const b = a + 10; return b <= 0 ? (-b) + '–' + (-a) + ' min early' : a + '–' + b + ' min late'; };
+  const items = starts.map((a, i) => ({ x: L + i * unit, p: probs[i], fill: a < 10 ? '#56B6C2' : '#E5C07B', label: fmt(a) }))
+    .concat([{ x: L + (starts.length + gapU) * unit, p: cancel, fill: '#E06C75', label: 'Cancelled' }]);
+  const early = probs.filter((p, i) => starts[i] < 10).reduce((a, b) => a + b, 0);
+  const it = hv === null || hv === undefined ? null : items[hv];
+  return {
+    W, H, top: T, bottom: H - B, left: L, right: W - R, markX: L + 6 * unit,
+    bars: items.map((b, i) => ({ x: b.x + 1, y: y(b.p), w: unit - 2, h: H - B - y(b.p), fill: b.fill, op: hv === i ? 1 : 0.82, stroke: hv === i ? '#FFFFFF' : 'none' })),
+    zones: items.map((b, i) => ({ x: b.x, w: unit, enter: () => self.setState({ distHover: i }), leave: () => self.setState({ distHover: null }) })),
+    early: Math.round(early) + '%', late: Math.round(87.5 - early) + '%', cancel: cancel.toFixed(1) + '%',
+    hoverOn: !!it, tipLabel: it ? it.label : '', tipPct: it ? it.p.toFixed(1) + '% chance' : '',
+    tipStyle: it ? 'position: absolute; top: 0; left: ' + Math.max(14, Math.min(86, 100 * (it.x + unit / 2) / W)) + '%; transform: translateX(-50%); background: #21252B; border: 1px solid rgba(255, 255, 255, 0.2); padding: 8px 10px; font-size: 13px; line-height: 1.4; white-space: nowrap; pointer-events: none; z-index: 3; color: #FFFFFF;' : ''
+  };
+};
+class Component extends DCLogic {
+renderVals() {
+const t = this.props.typeface ?? 'Geist';
+const SC = { 'BA 305': 4.6, 'BA 304': 5.3, 'BA 309': 8.1, 'BA 315': 7.2, 'BA 317': 7.0, 'BA 319': 6.4, 'BA 321': 6.8, 'BA 323': 7.1, 'BA 301': 5.6,
+  'BA 465': 6.3, 'BA 485': 6.0, 'BA 464': 6.2, 'BA 484': 6.4, 'BA 136': 7.2, 'IB 3421': 7.6, 'AY 872': 7.9, 'AY 1331': 7.4,
+  'AF 1780': 6.2, 'AF 1280': 7.3, 'AF 1180': 7.5, 'AF 1380': 6.6, 'AF 1680': 5.8, 'MU 564': 5.0, 'CX 347': 7.4, 'AA 81': 3.2, 'UA 929': 8.1 };
+const POP = { Good: '#56B6C2', Fair: '#E5C07B', Poor: '#E06C75' };
+const bandOf = (v) => v >= 7 ? 'Good' : v >= 4 ? 'Fair' : 'Poor';
+const LIGHT = { Good: 'background: #E3F4F6; color: #1F5F67;', Fair: 'background: #FBF1DC; color: #7A5510;', Poor: 'background: #FBE7E9; color: #A8323E;' };
+const DARK = { Good: 'background: rgba(86, 182, 194, 0.18); color: #56B6C2;', Fair: 'background: rgba(229, 192, 123, 0.16); color: #E5C07B;', Poor: 'background: rgba(224, 108, 117, 0.18); color: #E06C75;' };
+const chipBase = 'display: inline-block; padding: 1px 7px; font-size: 13px; font-weight: 600; white-space: nowrap; line-height: 1.45;';
+const rate = (flight) => { const v = SC[flight], b = bandOf(v);
+  return { href: '#', popColor: POP[b], rating: b + ' ' + v.toFixed(1), chipStyle: chipBase + LIGHT[b], darkChipStyle: chipBase + DARK[b], ratingTitle: 'Flight outlook for ' + flight + ': ' + b + ', ' + v.toFixed(1) + ' out of 10' }; };
+const leg = (flight) => Object.assign({ flight }, rate(flight));
+const legs = (...fl) => fl.map(leg);
+
+const isLive = this.props.serviceLive ?? true;
+const live = isLive
+  ? { text: 'Updated 6 min ago', sr: 'Live data. ', title: 'Live: we refresh this about every 15 minutes', dotStyle: '' }
+  : { text: 'Updated 3 h ago', sr: 'Updates paused. ', title: 'Updates are paused. This may be out of date.', dotStyle: 'background: #6E7686; box-shadow: none; animation: none;' };
+const df = this.props.displayFont ?? 'Geist';
+const st = this.state || {};
+const open = st.open || {};
+
+const cell = 'height: 34px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600;';
+const looks = { ok: cell + ' background: #E3F4F6; color: #1F5F67;', late: cell + ' background: #F3D9A4; color: #5E420B;', cxl: cell + ' background: #282C34; color: #FFFFFF;' };
+const days = [
+  ['Mon', '12 Oct', -18], ['Thu', '15 Oct', 33], ['Fri', '16 Oct', -21], ['Sat', '17 Oct', -18],
+  ['Sun', '18 Oct', -20], ['Thu', '22 Oct', 1], ['Sat', '24 Oct', -21], ['Sun', '25 Oct', -6],
+  ['Mon', '26 Oct', 23], ['Fri', '30 Oct', 40], ['Sat', '31 Oct', null], ['Sun', '1 Nov', 17],
+  ['Thu', '5 Nov', -29], ['Fri', '6 Nov', -30], ['Sat', '7 Nov', null], ['Sun', '8 Nov', 124]
+].map(([dow, date, m]) => m === null
+  ? { dow, mark: 'Cxl', title: date + ': cancelled', cellStyle: looks.cxl }
+  : { dow, mark: m > 0 ? '+' + m : String(m), title: date + ': ' + (m > 0 ? m + ' min late' : -m + ' min early'), cellStyle: m >= 15 ? looks.late : looks.ok });
+const tag = 'display: inline-block; padding: 1px 8px; font-size: 13px; font-weight: 600;';
+const tagFor = (m) => m === null ? tag + ' background: #282C34; color: #FFFFFF;' : m >= 15 ? tag + ' background: #F3D9A4; color: #5E420B;' : tag + ' background: #E3F4F6; color: #1F5F67;';
+const label = (m) => m === null ? 'Cancelled' : m > 0 ? m + ' min late' : -m + ' min early';
+const rotations = [
+  ['Mon 12 Oct', -14, -18], ['Thu 15 Oct', -17, 33], ['Fri 16 Oct', -9, -21], ['Sat 17 Oct', -23, -18],
+  ['Sun 18 Oct', -29, -20], ['Thu 22 Oct', 9, 1], ['Sat 24 Oct', -10, -21], ['Sun 25 Oct', -17, -6],
+  ['Mon 26 Oct', 27, 23], ['Sat 31 Oct', null, null], ['Sat 7 Nov', null, null]
+].map(([date, i, o]) => ({ date, inbound: label(i), outbound: label(o), inStyle: tagFor(i), outStyle: tagFor(o) }));
+const checks = [
+  ['Runway or terminal closures', 'None planned', true], ['Strikes', 'None announced', true],
+  ['Air traffic restrictions', 'Live on the day', false], ['Cancellations piling up', 'Live on the day', false],
+  ['Other operational problems', 'Live on the day', false]
+].map(([what, state, done]) => ({ what, state, color: done ? '#1F5F67' : '#7A5510',
+  dot: done ? 'width: 8px; height: 8px; border-radius: 50%; background: #56B6C2' : 'width: 8px; height: 8px; border-radius: 50%; box-sizing: border-box; border: 1.5px solid #7A5510' }));
+
+const item = (id, name, finding, extra) => {
+  const tr = (extra && extra.trend) || null;
+  return Object.assign({ id, name, finding }, extra || {}, {
+    open: !!open[id], closed: !open[id], expanded: open[id] ? 'true' : 'false',
+    toggle: () => this.setState({ open: Object.assign({}, open, { [id]: !open[id] }) }),
+    chevStyle: 'flex: 0 0 auto; transition: transform 0.15s;' + (open[id] ? ' transform: rotate(180deg);' : ''),
+    isDown: tr === 'down', isUp: tr === 'up', isFlat: !tr, trendText: (extra && extra.trendText) || 'No change',
+    isCancel: id === 'past', isDelay: id === 'past', isInbound: id === 'plane', isSpare: id === 'plane', isHours: id === 'airports', isAirport: id === 'airports', isWeather: id === 'weather', isAirline: id === 'airline', isNotices: id === 'notices'
+  });
+};
+const chip = 'display: inline-block; padding: 2px 8px; border-radius: 2px; font-size: 13px; font-weight: 600;';
+const chips = { risk: chip + ' background: #FBE7E9; color: #A8323E;', watch: chip + ' background: #FBF1DC; color: #7A5510;', good: chip + ' background: #E3F4F6; color: #1F5F67;', later: chip + ' background: #F1F1F4; color: #4B5260;' };
+const tone = { risk: '#A8323E', watch: '#7A5510', good: '#1F5F67', later: '#646B78' };
+const v = (verdict, style, score) => ({ verdict, chipStyle: chips[style], score: score == null ? '\u2013' : score.toFixed(1), scoreColor: tone[style], scoreLabel: score == null ? 'Not scored yet' : 'Scores ' + score.toFixed(1) + ' out of 10' });
+const recent = [
+  ['BA 465', 'Madrid', 'Heathrow', '17:50'], ['BA 485', 'Barcelona', 'Heathrow', '17:00'], ['BA 464', 'Heathrow', 'Madrid', '13:20'],
+  ['BA 484', 'Heathrow', 'Barcelona', '12:45'], ['BA 301', 'Paris CDG', 'Heathrow', '09:40'], ['BA 136', 'Delhi', 'Heathrow', '07:30']
+].map(([flight, from, to, when]) => Object.assign({ flight, from, to, when }, rate(flight)));
+const okDot = 'width: 8px; height: 8px; border-radius: 50%; background: #56B6C2';
+const notices = [['Public holidays', 'None in France or the UK'], ['Peak travel period', 'No'], ['Major events', 'None found']]
+  .map(([what, state]) => ({ what, state, color: '#1F5F67', dot: okDot }));
+const factors0 = [
+  item('past', 'Past flights', 'Cancelled 2 of the last 16 times, both on Saturdays. Usually lands early, but 5 of 14 were late.', Object.assign(v('Risk', 'risk', 3.2), { days, trend: 'down', trendText: 'Worse since 7 Nov',
+    lates: [{ mins: '+33', date: '15 Oct' }, { mins: '+23', date: '26 Oct' }, { mins: '+40', date: '30 Oct' }, { mins: '+17', date: '1 Nov' }, { mins: '+124', date: '8 Nov' }] })),
+  item('plane', 'Your plane', 'When your plane\u2019s earlier flight is cancelled, so is yours, and BA has almost no spare planes in Paris.', Object.assign(v('Risk', 'risk', 3.6), { rotations, trend: 'down', trendText: 'Worse since 7 Nov' })),
+  item('weather', 'Weather', 'The forecast for Paris and London arrives on Fri 20 Nov.', v('Later', 'later', null)),
+  item('airports', 'Airport operations', 'Nothing planned at either airport, and it lands at noon, far from night limits.', Object.assign(v('Good', 'good', 8.8), { checks, trend: 'up', trendText: 'Better since 6 Nov' })),
+  item('airline', 'Airline operations', 'British Airways cancelled 6 Heathrow flights yesterday.', Object.assign(v('Watch', 'watch', 5.4), { recent, trend: 'down', trendText: 'Worse since yesterday' })),
+  item('notices', 'Travel notices', 'No holidays, peak days or major events on Sat 21 Nov.', Object.assign(v('Good', 'good', 8.0), { notices }))
+];
+const dayTag = (n) => n > 0 ? '+' + n : n < 0 ? '−' + (-n) : '';
+const dayWord = (n) => n === 1 ? 'Next day' : n > 1 ? n + ' days later' : n === -1 ? 'Previous day' : n < -1 ? (-n) + ' days earlier' : '';
+const mkRow = (lg, depart, arrive, later, extra) => {
+  const e = extra || {}, dOff = e.depOff || 0, aOff = e.arrOff || 0;
+  return Object.assign({ legs: lg, depart, arrive, later, href: '#', via: '', hasVia: false, isAuto: false, isOther: false,
+    depDay: dayTag(dOff), hasDepDay: dOff !== 0, depTitle: dayWord(dOff), arrDay: dayTag(aOff), hasArrDay: aOff !== 0, arrTitle: dayWord(aOff) }, e);
+};
+const pctRow = (lg, d, a, l, p, via, off) => mkRow(lg, d, a, l, { pct: p + '%', barStyle: 'display: block; height: 8px; background: #E5C07B; width: ' + p + '%;', via: via || '', hasVia: !!via, isAuto: true, depOff: off || 0, arrOff: off || 0 });
+const inc = rate('BA 304');
+const trip = { arrDay: dayTag(0), arrHas: false, arrTitle: dayWord(0), incDay: dayTag(0), incHas: false, incTitle: dayWord(0),
+  incRating: inc.rating, incChip: inc.darkChipStyle, incChipLight: inc.chipStyle, incColor: inc.popColor, incRatingTitle: inc.ratingTitle };
+const opts = {
+  auto: [
+    pctRow(legs('BA 309'), '15:10', '15:30', '3 h 30 min later', 50),
+    pctRow(legs('BA 315'), '18:30', '18:50', '6 h 50 min later', 20),
+    pctRow(legs('BA 317'), '20:25', '20:45', '8 h 45 min later', 9),
+    pctRow(legs('IB 3421', 'BA 465'), '13:30', '19:15', '7 h 15 min later', 6, 'Madrid'),
+    pctRow(legs('BA 319'), '21:40', '22:00', '10 h later', 5),
+    pctRow(legs('AY 872', 'AY 1331'), '14:15', '21:30', '9 h 30 min later', 4, 'Helsinki'),
+    pctRow(legs('BA 321'), '22:20', '22:40', '10 h 40 min later', 3),
+    pctRow(legs('BA 323'), '07:05', '07:25', '19 h 25 min later', 2, '', 1),
+    pctRow(legs('BA 301'), '09:45', '10:05', '22 h 5 min later', 1, '', 1)
+  ],
+  other: [['AF 1780', '13:15', '13:35', '1 h 35 min later', 0], ['AF 1280', '16:10', '16:30', '4 h 30 min later', 0], ['AF 1180', '18:00', '18:20', '6 h 20 min later', 0],
+    ['AF 1380', '21:00', '21:20', '9 h 20 min later', 0], ['AF 1680', '07:25', '07:45', '19 h 45 min later', 1]]
+    .map(([f, d, a, l, off]) => mkRow(legs(f), d, a, l, { isOther: true, depOff: off, arrOff: off }))
+};
+const sorted = factors0.slice().sort((x, y) => (x.score === '\u2013' ? 99 : parseFloat(x.score)) - (y.score === '\u2013' ? 99 : parseFloat(y.score)));
+const factors = sorted;
+const oOpen = !!st.outlookOpen;
+const outlook = { open: oOpen, expanded: oOpen ? 'true' : 'false', toggle: () => this.setState({ outlookOpen: !oOpen }),
+  chevStyle: 'flex: 0 0 auto; transition: transform 0.15s;' + (oOpen ? ' transform: rotate(180deg);' : '') };
+
+const step = st.alertStep || 'idle';
+const alerts = {
+  idle: step === 'idle', form: step === 'form', done: step === 'done',
+  phone: st.phone || '', shown: (st.phone || '').trim() || 'your phone',
+  open: () => this.setState({ alertStep: 'form' }),
+  cancel: () => this.setState({ alertStep: st.phone && st.saved ? 'done' : 'idle' }),
+  onPhone: (e) => this.setState({ phone: e.target.value }),
+  submit: (e) => { if (e && e.preventDefault) e.preventDefault(); if ((st.phone || '').trim()) this.setState({ alertStep: 'done', saved: true }); }
+};
+const optOpen = st.optOpen || {};
+const optGroups = [
+  { id: 'auto', title: 'Likely automatic rebooks', sub: 'BA and oneworld partners', count: opts.auto.length + ' options', rows: opts.auto },
+  { id: 'other', title: 'Other airlines, same direct route', sub: '', count: opts.other.length + ' options', rows: opts.other }
+].map((g) => Object.assign({}, g, { open: !!optOpen[g.id], expanded: optOpen[g.id] ? 'true' : 'false',
+  toggle: () => this.setState({ optOpen: Object.assign({}, optOpen, { [g.id]: !optOpen[g.id] }) }),
+  chevStyle: 'flex: 0 0 auto; transition: transform 0.15s;' + (optOpen[g.id] ? ' transform: rotate(180deg);' : '') }));
+return { display: "'" + df + "', system-ui, sans-serif", font: "'" + t + "', system-ui, sans-serif", factors, alerts, opts, optGroups, trip, outlook, live, radar: mkRadar(this), dist: mkDist(712, 170, 12, 10, 12, 10, this), chart: mkChart(712, 200, 12, 10, 22, 12, this) };
+}
+}
+</script>
+</body>
+</html>

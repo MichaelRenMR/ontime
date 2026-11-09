@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Check a flight</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&amp;family=Instrument+Sans:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;family=DM+Sans:wght@400;500;600;700;800&amp;family=B612+Mono:wght@400;700&amp;family=Space+Mono:wght@400;700&amp;family=IBM+Plex+Mono:wght@500;700&amp;family=Barlow+Condensed:wght@600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#282C34}
+a{color:#282C34}a:hover{color:#DD672C}
+input,button{font:inherit}
+input::placeholder{color:#9AA1AD}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #E5C07B;outline-offset:2px}
+.nav-link{transition:color .12s}
+.nav-link:hover{color:#E5C07B !important}
+.field-dark{transition:border-color .12s}
+.field-dark:hover{border-color:#9AA1AD !important}
+.cta-gold{transition:background-color .12s}
+.cta-gold:hover{background:#F0D08F !important}
+.row-dark,.row-light{transition:background-color .12s}
+.row-dark:hover{background:rgba(255,255,255,.07)}
+.row-light:hover{background:#E6E7EC}
+</style>
+</helmet>
+<div style="background: #FAFAFB; color: #282C34; font-family: {{font}}; font-size: 16px; line-height: 1.45; font-variant-numeric: tabular-nums">
+<section style="min-height: 760px; box-sizing: border-box; display: flex; flex-direction: column; background: #282C34; color: #FFFFFF">
+  <header style="padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px">
+    <a class="nav-link" href="Main.dc.html" style="text-decoration: none; font-weight: 700; font-size: 20px; letter-spacing: -0.01em; color: #FFFFFF">OnTime</a>
+    <a class="nav-link" href="#" style="text-decoration: none; font-size: 15px; color: #C9CCD3">Sign in</a>
+  </header>
+
+  <main style="flex: 1 1 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 24px; padding: 40px 24px 72px">
+    <h1 style="margin: 0; font-family: {{display}}; font-size: 46px; line-height: 1.1; letter-spacing: -0.03em; font-weight: 700">How’s your flight looking?</h1>
+
+    <form style="width: 100%; max-width: 640px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center">
+      <label style="flex: 3 1 220px; display: flex">
+        <span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Flight number</span>
+        <input class="field-dark" type="text" value="{{flight}}" onChange="{{onFlight}}" placeholder="Flight number, e.g. BA 305" autocomplete="off" style="width: 100%; height: 56px; box-sizing: border-box; padding: 0 18px; border: 1px solid #4B5260; font-size: 19px; color: #FFFFFF; background: #21252B">
+      </label>
+      <label style="flex: 2 1 160px; display: flex">
+        <span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Date</span>
+        <input class="field-dark" type="date" value="{{otherDate}}" onChange="{{onDate}}" style="width: 100%; height: 56px; box-sizing: border-box; padding: 0 16px; border: 1px solid #4B5260; font-size: 17px; color: #FFFFFF; background: #21252B; color-scheme: dark">
+      </label>
+      <a class="cta-gold" href="Result.dc.html" style="flex: 1 1 100%; height: 56px; background: #E5C07B; color: #282C34; font-weight: 700; font-size: 18px; text-decoration: none; display: flex; align-items: center; justify-content: center">Check flight</a>
+    </form>
+
+    <sc-if value="{{returning}}" hint-placeholder-val="{{true}}">
+      <section style="width: 100%; max-width: 640px; display: flex; flex-direction: column; gap: 6px; text-align: left">
+        <h2 style="margin: 0; font-size: 15px; font-weight: 600; color: #9AA1AD">Recent searches</h2>
+        <ul style="margin: 0; padding: 0; list-style: none; border-top: 1px solid rgba(255, 255, 255, 0.16)">
+          <sc-for list="{{trips}}" as="t" hint-placeholder-count="2">
+            <li style="border-bottom: 1px solid rgba(255, 255, 255, 0.16)">
+              <a class="row-dark" href="{{t.href}}" style="display: flex; align-items: center; gap: 16px; min-height: 44px; padding: 0 4px; text-decoration: none; color: #FFFFFF">
+                <span style="font-family: {{display}}; font-weight: 700; min-width: 72px">{{t.flight}}</span>
+                <span style="flex: 1 1 auto; min-width: 0">{{t.from}} <span aria-label="to" style="color: #E5C07B">&#8594;</span> {{t.to}}</span>
+                <span style="color: #C9CCD3; white-space: nowrap">{{t.date}}</span>
+                <sc-if value="{{t.down}}" hint-placeholder-val="{{true}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E06C75" stroke-width="4.5" stroke-linecap="square" stroke-linejoin="miter" aria-label="Rating trending down" role="img"><path d="M5 4l7 7 7-7"></path><path d="M5 13l7 7 7-7"></path></svg></sc-if>
+                <sc-if value="{{t.flat}}" hint-placeholder-val="{{false}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9AA1AD" stroke-width="4.5" stroke-linecap="square" stroke-linejoin="miter" aria-label="Rating steady" role="img"><path d="M4 5l7 7-7 7"></path><path d="M13 5l7 7-7 7"></path></svg></sc-if>
+                <sc-if value="{{t.up}}" hint-placeholder-val="{{false}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#56B6C2" stroke-width="4.5" stroke-linecap="square" stroke-linejoin="miter" aria-label="Rating trending up" role="img"><path d="M5 20l7-7 7 7"></path><path d="M5 11l7-7 7 7"></path></svg></sc-if>
+              </a>
+            </li>
+          </sc-for>
+        </ul>
+      </section>
+    </sc-if>
+  </main>
+</section>
+
+<section id="cancelled" style="background: #F1F1F4; border-top: 1px solid #E3E4E8">
+  <div style="max-width: 640px; margin: 0 auto; padding: 64px 24px 80px; display: flex; flex-direction: column; gap: 12px">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 24px">
+      <h2 style="margin: 0; font-size: 22px; line-height: 1.2; letter-spacing: -0.02em; font-weight: 700">Just cancelled</h2>
+      <p style="margin: 0; color: #4B5260; font-size: 14px">Yesterday</p>
+    </div>
+    <ul style="margin: 0; padding: 0; list-style: none; border-top: 1px solid #D5D9E0">
+      <sc-for list="{{cancelled}}" as="f" hint-placeholder-count="8">
+        <li style="border-bottom: 1px solid #D5D9E0">
+          <a class="row-light" href="{{f.href}}" style="display: flex; align-items: center; gap: 16px; min-height: 44px; padding: 0 4px; text-decoration: none; color: #282C34">
+            <span style="font-family: {{display}}; font-weight: 700; min-width: 72px">{{f.flight}}</span>
+            <span style="flex: 1 1 auto; min-width: 0">{{f.from}} <span aria-label="to" style="color: #C2414D">&#8594;</span> {{f.to}}</span>
+            <span style="color: #4B5260; white-space: nowrap">{{f.when}}</span>
+          </a>
+        </li>
+      </sc-for>
+    </ul>
+  </div>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;displayFont&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Geist&quot;,&quot;Space Mono&quot;,&quot;B612 Mono&quot;,&quot;IBM Plex Mono&quot;,&quot;Barlow Condensed&quot;],&quot;default&quot;:&quot;Geist&quot;},&quot;typeface&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Geist&quot;,&quot;Instrument Sans&quot;,&quot;Manrope&quot;,&quot;DM Sans&quot;,&quot;Space Mono&quot;],&quot;default&quot;:&quot;Geist&quot;},&quot;returningVisitor&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true},&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:1420}}">
+class Component extends DCLogic {
+renderVals() {
+const t = this.props.typeface ?? 'Geist';
+const SC = { 'BA 305': 4.6, 'BA 304': 5.3, 'BA 309': 8.1, 'BA 315': 7.2, 'BA 317': 7.0, 'BA 319': 6.4, 'BA 321': 6.8, 'BA 323': 7.1, 'BA 301': 5.6,
+  'BA 465': 6.3, 'BA 485': 6.0, 'BA 464': 6.2, 'BA 484': 6.4, 'BA 136': 7.2, 'IB 3421': 7.6, 'AY 872': 7.9, 'AY 1331': 7.4,
+  'AF 1780': 6.2, 'AF 1280': 7.3, 'AF 1180': 7.5, 'AF 1380': 6.6, 'AF 1680': 5.8, 'MU 564': 5.0, 'CX 347': 7.4, 'AA 81': 3.2, 'UA 929': 8.1 };
+const POP = { Good: '#56B6C2', Fair: '#E5C07B', Poor: '#E06C75' };
+const bandOf = (v) => v >= 7 ? 'Good' : v >= 4 ? 'Fair' : 'Poor';
+const LIGHT = { Good: 'background: #E3F4F6; color: #1F5F67;', Fair: 'background: #FBF1DC; color: #7A5510;', Poor: 'background: #FBE7E9; color: #A8323E;' };
+const DARK = { Good: 'background: rgba(86, 182, 194, 0.18); color: #56B6C2;', Fair: 'background: rgba(229, 192, 123, 0.16); color: #E5C07B;', Poor: 'background: rgba(224, 108, 117, 0.18); color: #E06C75;' };
+const chipBase = 'display: inline-block; padding: 1px 7px; font-size: 13px; font-weight: 600; white-space: nowrap; line-height: 1.45;';
+const rate = (flight) => { const v = SC[flight], b = bandOf(v);
+  return { href: '#', popColor: POP[b], rating: b + ' ' + v.toFixed(1), chipStyle: chipBase + LIGHT[b], darkChipStyle: chipBase + DARK[b], ratingTitle: 'Flight outlook for ' + flight + ': ' + b + ', ' + v.toFixed(1) + ' out of 10' }; };
+
+const df = this.props.displayFont ?? 'Geist';
+const returning = this.props.returningVisitor ?? true;
+const st = this.state || {};
+const flight = st.flight ?? '';
+const otherDate = st.otherDate ?? '2026-11-21';
+
+const trips = returning ? [
+  { flight: 'BA 305', from: 'Paris CDG', to: 'Heathrow', date: 'Sat 21 Nov', href: 'Result.dc.html', down: true, flat: false, up: false },
+  { flight: 'AA 81', from: 'Heathrow', to: 'Dallas', date: 'Sun 29 Nov', href: '#', down: false, flat: true, up: false },
+  { flight: 'UA 929', from: 'Chicago', to: 'Heathrow', date: 'Thu 3 Dec', href: '#', down: false, flat: false, up: true }
+].map((x) => Object.assign(x, rate(x.flight))) : [];
+
+return {
+  display: "'" + df + "', system-ui, sans-serif",
+  font: "'" + t + "', system-ui, sans-serif",
+  flight, onFlight: (e) => this.setState({ flight: e.target.value }),
+  otherDate, onDate: (e) => this.setState({ otherDate: e.target.value }),
+  returning, firstVisit: !returning, trips,
+  cancelled: [
+    ['MU 564', 'Delhi', 'Shanghai', '20:40'], ['BA 465', 'Madrid', 'Heathrow', '17:50'],
+    ['BA 485', 'Barcelona', 'Heathrow', '17:00'], ['BA 464', 'Heathrow', 'Madrid', '13:20'],
+    ['BA 484', 'Heathrow', 'Barcelona', '12:45'], ['CX 347', 'Beijing', 'Hong Kong', '10:00'],
+    ['BA 301', 'Paris CDG', 'Heathrow', '09:40'], ['BA 136', 'Delhi', 'Heathrow', '07:30']
+  ].map(([flight, from, to, when]) => Object.assign({ flight, from, to, when, href: '#' }, rate(flight)))
+};
+}
+}
+</script>
+</body>
+</html>

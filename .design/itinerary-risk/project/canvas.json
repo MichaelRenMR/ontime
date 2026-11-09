@@ -1,0 +1,68 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Main.dc.html": {
+      "expand": "fill",
+      "h": 1420,
+      "is_interactive": true,
+      "title": "1 · Enter a flight",
+      "w": 1280,
+      "x": 0,
+      "y": 0
+    },
+    "Result.dc.html": {
+      "expand": "fill",
+      "h": 1000,
+      "is_interactive": true,
+      "title": "2 · Result (desktop)",
+      "w": 1280,
+      "x": 1360,
+      "y": 0
+    },
+    "ResultMobile.dc.html": {
+      "h": 1070,
+      "is_interactive": true,
+      "title": "3 · Result (phone)",
+      "w": 390,
+      "x": 2720,
+      "y": 0
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-11-08T16:45:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "noteOrder": [
+    "flow",
+    "data"
+  ],
+  "notes": {
+    "data": {
+      "fill": "orange",
+      "text": "Flights, dates and outcomes are real (BA 305, 7 Oct – 9 Nov 2026). Illustrative until the backend exists: the Fair rating and every score, the trend lines, the airport-conditions checks, the industry and BA averages, rebooking chances, and the partner (Iberia, Finnair) connections.",
+      "w": 340,
+      "x": 3190,
+      "y": 0
+    },
+    "flow": {
+      "kind": "title1",
+      "maxW": 3110,
+      "text": "One flight in → reliability score out",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Result.dc.html",
+    "ResultMobile.dc.html"
+  ],
+  "pages": [],
+  "title": "Flight reliability score"
+}
