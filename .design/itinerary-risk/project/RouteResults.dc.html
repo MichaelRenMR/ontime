@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Paris CDG to Heathrow flights</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#282C34}a:hover{color:#C9561D}
+input,button{font:inherit}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #DD672C;outline-offset:2px}
+.nav-link{transition:color .12s}
+.nav-link:hover{color:#E5C07B !important}
+.back-btn{transition:background-color .12s;border-radius:50%}
+.back-btn:hover{background:rgba(255,255,255,.12)}
+.field-box{transition:border-color .12s}
+.field-box:hover{border-color:#9AA1AD !important}
+.field-box:focus-within{border-color:#E5C07B !important}
+.seg{display:inline-flex;background:#F1F1F4;padding:2px;gap:2px}
+.seg-btn{min-height:34px;padding:0 14px;border:0;background:transparent;color:#4B5260;font-size:14px;font-weight:600;cursor:pointer;transition:background-color .12s,color .12s}
+.seg-btn:hover{background:#E3E4E8;color:#282C34}
+.seg-btn[aria-pressed="true"]{background:#282C34;color:#FFFFFF}
+.factor-row{transition:background-color .12s}
+.factor-row:hover{background:#F5F5F7 !important}
+.factor-row[aria-expanded="true"]{background:#FAFAFB !important}
+.route-row{display:grid;grid-template-columns:150px 140px 170px minmax(0,1fr) 100px 20px;column-gap:16px;align-items:center;min-height:58px;padding:7px 8px;margin:0 -8px;text-decoration:none;color:#282C34;transition:background-color .12s}
+.route-row .c-air{text-align:right}
+.route-row:hover{background:#F5F5F7;color:#282C34}
+.route-row .go-chev{transition:stroke .12s,transform .12s}
+.route-row:hover .go-chev{stroke:#282C34;transform:translateX(2px)}
+@media (max-width:720px){
+  .route-row{grid-template-columns:118px minmax(0,1fr) 20px;row-gap:2px;padding:10px 8px}
+  .route-row .c-rate{grid-column:1;grid-row:1 / span 4;align-self:start}
+  .route-row .c-flight,.route-row .c-time,.route-row .c-spare,.route-row .c-air{grid-column:2}
+  .route-row .c-air{text-align:left}
+  .route-row .c-air::before{content:"Aircraft: ";color:#646B78}
+  .route-row .c-spare::before{content:"Time to spare: ";color:#646B78;font-weight:400}
+  .route-row .c-go{grid-column:3;grid-row:1 / span 4}
+}
+</style>
+</helmet>
+<div style="min-height: 1100px; background: #FFFFFF; color: #282C34; font-family: 'Geist', system-ui, sans-serif; font-size: 16px; line-height: 1.45; font-variant-numeric: tabular-nums">
+  <div style="background: #282C34; color: #FFFFFF">
+    <header style="padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px">
+      <div style="display: flex; align-items: center; gap: 4px; margin-left: -10px; min-width: 0">
+        <a href="Route.dc.html" class="back-btn" aria-label="Back to search" style="flex: 0 0 44px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #FFFFFF"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+        <h1 style="margin: 0; font-weight: 700; font-size: 20px; letter-spacing: -0.01em; color: #FFFFFF; white-space: nowrap">CDG <span aria-label="to" style="color: #E5C07B">&#8594;</span> LHR</h1>
+        <span style="margin-left: 8px; font-size: 15px; color: #C9CCD3; white-space: nowrap">{{headerWhen}}</span>
+      </div>
+      <a class="nav-link" href="#" style="text-decoration: none; font-size: 15px; color: #C9CCD3; min-height: 44px; display: flex; align-items: center">Sign in</a>
+    </header>
+    <div style="background: #343A46">
+      <form style="max-width: 1008px; margin: 0 auto; box-sizing: border-box; padding: 12px 48px; display: flex; flex-wrap: wrap; gap: 8px">
+        <label class="field-box" style="flex: 2 1 180px; height: 54px; box-sizing: border-box; padding: 6px 12px 0; border: 1px solid #4B5260; background: #282C34; display: flex; flex-direction: column; cursor: text">
+          <span style="font-size: 12px; color: #9AA1AD">From</span>
+          <input type="text" value="CDG" autocomplete="off" style="width: 100%; padding: 0; border: 0; outline: none; background: transparent; color: #FFFFFF; font-size: 16px">
+        </label>
+        <label class="field-box" style="flex: 2 1 180px; height: 54px; box-sizing: border-box; padding: 6px 12px 0; border: 1px solid #4B5260; background: #282C34; display: flex; flex-direction: column; cursor: text">
+          <span style="font-size: 12px; color: #9AA1AD">To</span>
+          <input type="text" value="LHR" autocomplete="off" style="width: 100%; padding: 0; border: 0; outline: none; background: transparent; color: #FFFFFF; font-size: 16px">
+        </label>
+        <label class="field-box" style="flex: 1 1 220px; height: 54px; box-sizing: border-box; padding: 6px 12px 0; border: 1px solid #4B5260; background: #282C34; display: flex; flex-direction: column; cursor: text">
+          <span style="font-size: 12px; color: #9AA1AD">Arrive by (date and time)</span>
+          <input type="datetime-local" value="{{arriveBy}}" onChange="{{onArrive}}" style="width: 100%; padding: 0; border: 0; outline: none; background: transparent; color: #FFFFFF; font-size: 16px; color-scheme: dark">
+        </label>
+      </form>
+    </div>
+  </div>
+
+  <main style="max-width: 1008px; margin: 0 auto; box-sizing: border-box; padding: 28px 48px 80px; display: flex; flex-direction: column; gap: 32px">
+    <section style="display: flex; flex-direction: column; gap: 12px">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px">
+        <span style="font-size: 14px; color: #646B78">Departing</span>
+        <div role="group" aria-label="Departure date" class="seg">
+          <sc-for list="{{days}}" as="d" hint-placeholder-count="3">
+            <button type="button" class="seg-btn" onClick="{{d.pick}}" aria-pressed="{{d.on}}">{{d.label}}</button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px">
+        <h2 style="margin: 0; font-size: 22px; letter-spacing: -0.02em; font-weight: 700">{{heading}}</h2>
+        <div role="group" aria-label="Sort flights" class="seg">
+          <button type="button" class="seg-btn" onClick="{{sortRel}}" aria-pressed="{{byRel}}">Most reliable</button>
+          <button type="button" class="seg-btn" onClick="{{sortTime}}" aria-pressed="{{byTime}}">Least time to spare</button>
+        </div>
+      </div>
+      <sc-if value="{{hasNone}}" hint-placeholder-val="{{false}}">
+        <p style="margin: 0; padding: 16px 0; border-top: 1px solid #E3E4E8; border-bottom: 1px solid #E3E4E8; color: #4B5260">No non-stop flight departing {{dayText}} lands by {{arriveTimeText}}. Try another departure day or a later arrival time.</p>
+      </sc-if>
+      <ul style="margin: 0; padding: 0; list-style: none; border-top: 1px solid #E3E4E8">
+        <sc-for list="{{onTime}}" as="r" hint-placeholder-count="5">
+          <li style="border-bottom: 1px solid #E3E4E8">
+            <a class="route-row" href="{{r.href}}" onClick="{{markRoute}}" aria-label="{{r.label}}">
+              <span class="c-rate" style="display: flex; align-items: center; gap: 8px">
+                <span style="{{r.chipStyle}}">{{r.band}}</span>
+                <span style="font-size: 18px; font-weight: 700">{{r.score}}</span>
+                <sc-if value="{{r.isDown}}" hint-placeholder-val="{{false}}"><span title="{{r.trendText}}" style="display: flex; color: #A8323E"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 4l7 7 7-7"></path><path d="M5 13l7 7 7-7"></path></svg></span></sc-if>
+                <sc-if value="{{r.isUp}}" hint-placeholder-val="{{false}}"><span title="{{r.trendText}}" style="display: flex; color: #1F5F67"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 20l7-7 7 7"></path><path d="M5 11l7-7 7 7"></path></svg></span></sc-if>
+                <sc-if value="{{r.isFlat}}" hint-placeholder-val="{{true}}"><span title="{{r.trendText}}" style="display: flex; color: #646B78"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M4 5l7 7-7 7"></path><path d="M13 5l7 7-7 7"></path></svg></span></sc-if>
+              </span>
+              <span class="c-flight" style="display: flex; flex-direction: column; line-height: 1.3"><span style="font-weight: 700">{{r.flight}}</span><span style="font-size: 14px; color: #646B78">{{r.airline}}</span></span>
+              <span class="c-time" style="display: flex; flex-direction: column; line-height: 1.3"><span style="font-weight: 600">{{r.dep}} <span style="color: #9AA1AD">&#8594;</span> {{r.arr}}</span><span style="font-size: 14px; color: #646B78">{{r.dur}}</span></span>
+              <span class="c-spare" style="{{r.spareStyle}}">{{r.spare}}</span>
+              <span class="c-air">{{r.aircraft}}</span>
+              <span class="c-go" style="display: flex; justify-content: flex-end"><svg class="go-chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9AA1AD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></span>
+            </a>
+          </li>
+        </sc-for>
+      </ul>
+    </section>
+
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1100}}'>
+class Component extends DCLogic {
+renderVals() {
+const st = this.state || {};
+const arriveBy = st.arriveBy || '2026-11-21T13:00';
+const sort = st.sort || 'rel';
+const off = st.dayOff || 0;
+const arrDate = arriveBy.slice(0, 10), arriveTime = arriveBy.slice(11, 16);
+const DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const dayAt = (iso, k) => { const d = new Date(iso + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() + k); return d; };
+const dayName = (d) => DOW[d.getUTCDay()] + ' ' + d.getUTCDate() + ' ' + MON[d.getUTCMonth()];
+const days = [-2, -1, 0].map((k) => ({ label: dayName(dayAt(arrDate, k)), on: false, k }));
+days.forEach((d) => { d.on = (d.k === -off); d.pick = () => this.setState({ dayOff: -d.k }); });
+// "off" counts days before the arrival date the flight departs
+const depOff = off;
+
+const mins = (t) => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
+const fmt = (n) => { const dd = Math.floor(n / 1440), h = Math.floor((n % 1440) / 60), m = n % 60; return [dd ? dd + (dd === 1 ? ' day' : ' days') : '', h ? h + ' h' : '', m || (!h && !dd) ? m + ' min' : ''].filter(Boolean).join(' '); };
+const bandOf = (v) => v >= 7 ? 'Good' : v >= 4 ? 'Fair' : 'Poor';
+const CHIP = { Good: 'background: #E3F4F6; color: #1F5F67;', Fair: 'background: #FBF1DC; color: #7A5510;', Poor: 'background: #FBE7E9; color: #A8323E;' };
+const chipBase = 'display: inline-block; min-width: 44px; text-align: center; padding: 1px 7px; font-size: 13px; font-weight: 600; white-space: nowrap; line-height: 1.45;';
+const TREND = { up: 'Better this week', down: 'Worse this week', flat: 'No change this week' };
+
+// Real CDG to LHR Saturday schedule (7 Nov 2026) and outcomes since 12 Oct; scores and trends are illustrative.
+const FLIGHTS = [
+  ['BA 323', 'British Airways', '07:05', '07:35', 7.1, 'flat', 0, 4, 11],
+  ['AF 1680', 'Air France', '07:25', '07:55', 5.8, 'flat', 0, 4, 19],
+  ['AF 1580', 'Air France', '10:00', '10:30', 7.4, 'up', 0, 4, 17],
+  ['BA 303', 'British Airways', '10:25', '10:50', 4.9, 'down', 2, 3, 13],
+  ['BA 305', 'British Airways', '11:15', '11:40', 4.6, 'down', 2, 6, 17],
+  ['AF 1780', 'Air France', '13:15', '13:45', 6.2, 'flat', 0, 5, 17],
+  ['BA 309', 'British Airways', '14:10', '14:35', 8.1, 'up', 1, 4, 15],
+  ['AF 1280', 'Air France', '16:10', '16:35', 7.3, 'flat', 0, 1, 17],
+  ['BA 311', 'British Airways', '16:30', '16:45', 6.9, 'flat', 0, 2, 5],
+  ['AF 1180', 'Air France', '18:00', '18:20', 7.5, 'up', 0, 3, 16],
+  ['BA 315', 'British Airways', '18:25', '18:40', 7.2, 'flat', 0, 6, 18],
+  ['BA 317', 'British Airways', '20:40', '20:50', 7.0, 'flat', 0, 2, 6],
+  ['AF 1380', 'Air France', '21:00', '21:25', 6.6, 'down', 0, 1, 16]
+];
+const by = mins(arriveTime);
+const AIR = {'BA 323': 'A320neo', 'AF 1680': 'A220-300', 'AF 1580': 'A220-300', 'BA 303': 'A319', 'BA 305': 'A320', 'AF 1780': 'A220-300', 'BA 309': 'A321neo', 'AF 1280': 'A220-300', 'BA 311': 'A320', 'AF 1180': 'A220-300', 'BA 315': 'A320', 'BA 317': 'A320', 'AF 1380': 'A220-300'};
+const rows = FLIGHTS.map(([flight, airline, dep, arr, score, trend]) => {
+  const band = bandOf(score);
+  const gap = (by - mins(arr)) + depOff * 1440;
+  const tight = gap >= 0 && gap < 30;
+  return {
+    flight, airline, dep, arr, aircraft: AIR[flight], scoreN: score, depN: mins(dep), arrN: mins(arr), fits: gap >= 0,
+    band, score: score.toFixed(1), chipStyle: chipBase + CHIP[band],
+    isUp: trend === 'up', isDown: trend === 'down', isFlat: trend === 'flat', trendText: TREND[trend],
+    dur: fmt(mins(arr) - (mins(dep) - 60)),
+    spare: fmt(gap) + ' to spare',
+    spareStyle: tight ? 'color: #A8323E; font-weight: 600' : gap < 0 ? 'color: #646B78' : 'color: #4B5260',
+    href: flight === 'BA 305' ? 'Result.dc.html' : '#',
+    label: flight + ', ' + band + ' ' + score.toFixed(1) + ' out of 10, departs ' + dep + ', lands ' + arr
+  };
+});
+const order = sort === 'rel'
+  ? (a, b) => b.scoreN - a.scoreN || b.arrN - a.arrN
+  : (a, b) => b.arrN - a.arrN;
+const onTime = rows.filter((r) => r.fits).sort(order);
+const n = onTime.length;
+const dayText = days.find((d) => d.on).label;
+const headerWhen = 'Arrive by ' + dayName(dayAt(arrDate, 0)) + ', ' + arriveTime;
+return {
+  arriveBy, arriveTimeText: arriveTime, headerWhen, dayText, days,
+  onArrive: (e) => this.setState({ arriveBy: e.target.value || arriveBy, dayOff: 0 }),
+  heading: n === 1 ? '1 flight' : n + ' flights',
+  hasNone: n === 0,
+  byRel: sort === 'rel', byTime: sort === 'time',
+  sortRel: () => this.setState({ sort: 'rel' }), sortTime: () => this.setState({ sort: 'time' }),
+  onTime,
+  markRoute: () => { try { window.sessionStorage.setItem('ontime.back', 'route'); } catch (e) {} }
+};
+}
+}
+</script>
+</body>
+</html>

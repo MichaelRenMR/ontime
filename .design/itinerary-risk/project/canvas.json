@@ -4,7 +4,7 @@
   "boards": {
     "Main.dc.html": {
       "expand": "fill",
-      "h": 1420,
+      "h": 760,
       "is_interactive": true,
       "title": "1 · Enter a flight",
       "w": 1280,
@@ -18,7 +18,7 @@
       "title": "2 · Result (desktop)",
       "w": 1280,
       "x": 1360,
-      "y": 0
+      "y": -44
     },
     "ResultMobile.dc.html": {
       "h": 1070,
@@ -27,6 +27,32 @@
       "w": 390,
       "x": 2720,
       "y": 0
+    },
+    "Route.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "is_interactive": true,
+      "title": "4 · Choose a flight on a route",
+      "w": 1280,
+      "x": 0,
+      "y": 1840
+    },
+    "RouteResults.dc.html": {
+      "expand": "fill",
+      "h": 1100,
+      "is_interactive": true,
+      "title": "5 · Flights on the route",
+      "w": 1280,
+      "x": 1360,
+      "y": 1840
+    },
+    "RouteResultsMobile.dc.html": {
+      "h": 900,
+      "is_interactive": true,
+      "title": "6 · Flights on the route (phone)",
+      "w": 390,
+      "x": 3140,
+      "y": 1840
     }
   },
   "createdOnFiles": {
@@ -39,7 +65,9 @@
   },
   "noteOrder": [
     "flow",
-    "data"
+    "data",
+    "routeflow",
+    "routedata"
   ],
   "notes": {
     "data": {
@@ -56,12 +84,30 @@
       "w": 240,
       "x": 0,
       "y": -300
+    },
+    "routeflow": {
+      "kind": "title1",
+      "maxW": 2640,
+      "text": "Route and arrive-by time in → most reliable non-stop flights out",
+      "w": 240,
+      "x": 0,
+      "y": 1540
+    },
+    "routedata": {
+      "fill": "orange",
+      "text": "Schedules and aircraft are real (Paris CDG → Heathrow, Saturday 7 Nov schedule, 12 Oct – 9 Nov 2026). Illustrative: every score and trend. Only BA 305 opens a result page.",
+      "w": 340,
+      "x": 2720,
+      "y": 1840
     }
   },
   "order": [
     "Main.dc.html",
     "Result.dc.html",
-    "ResultMobile.dc.html"
+    "ResultMobile.dc.html",
+    "Route.dc.html",
+    "RouteResults.dc.html",
+    "RouteResultsMobile.dc.html"
   ],
   "pages": [],
   "title": "Flight reliability score"

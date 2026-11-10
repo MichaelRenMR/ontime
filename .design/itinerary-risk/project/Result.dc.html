@@ -49,7 +49,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #DD672C;outline-offset:2p
   <div style="background: #282C34; color: #FFFFFF">
   <header style="padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px">
     <div style="display: flex; align-items: center; gap: 4px; margin-left: -10px">
-      <a href="Main.dc.html" class="back-btn" aria-label="Back to search" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #FFFFFF"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+      <a href="{{back.href}}" class="back-btn" aria-label="{{back.label}}" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #FFFFFF"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
       <h1 style="margin: 0; font-family: {{display}}; font-weight: 700; font-size: 20px; letter-spacing: -0.01em; color: #FFFFFF">BA 305</h1>
       <span style="margin-left: 8px; font-size: 15px; color: #C9CCD3">Sat 21 Nov</span>
     </div>
@@ -177,7 +177,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #DD672C;outline-offset:2p
             <div style="margin-top: 6px; color: #C9CCD3">London Heathrow <span style="color: #9AA1AD">T5</span></div>
           </div>
         </div>
-        <dl style="margin: 0; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, 0.14); display: grid; grid-auto-flow: dense; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 20px"><div><dt style="font-size: 13px; color: #9AA1AD">Aircraft</dt><dd style="margin: 0; font-weight: 600">Airbus A320-200</dd></div><div><dt style="font-size: 13px; color: #9AA1AD">Tail number</dt><dd style="margin: 0; font-weight: 600; color: #E5C07B; display: flex; align-items: center; gap: 6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Pending</dd></div><div><dt style="font-size: 13px; color: #9AA1AD">Aircraft age</dt><dd style="margin: 0; font-weight: 600; color: #E5C07B; display: flex; align-items: center; gap: 6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Pending</dd></div><div style="grid-column: span 2"><dt style="font-size: 13px; color: #9AA1AD">Incoming flight</dt><dd style="margin: 0; font-weight: 600"><a class="flight-link flight-link-dark" href="#">BA 304</a> LHR <span style="color: #E5C07B">&#8594;</span> CDG <span style="font-weight: 400; color: #C9CCD3">&middot; lands 10:35<sc-if value="{{trip.incHas}}" hint-placeholder-val="{{false}}"><sup class="day-chip-dark" title="{{trip.incTitle}}">{{trip.incDay}}</sup></sc-if></span></dd></div><div><dt style="font-size: 13px; color: #9AA1AD">Time on the ground</dt><dd style="margin: 0; font-weight: 600">65 min</dd></div></dl>
+        <dl style="margin: 0; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, 0.14); display: grid; grid-auto-flow: dense; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 20px"><div><dt style="font-size: 13px; color: #9AA1AD">Aircraft</dt><dd style="margin: 0; font-weight: 600">Airbus A320-200</dd></div><div><dt style="font-size: 13px; color: #9AA1AD">Tail number</dt><dd style="margin: 0; font-weight: 600; color: #E5C07B; display: flex; align-items: center; gap: 6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Pending</dd></div><div><dt style="font-size: 13px; color: #9AA1AD">Aircraft age</dt><dd style="margin: 0; font-weight: 600; color: #E5C07B; display: flex; align-items: center; gap: 6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Pending</dd></div><div style="grid-column: span 2"><dt style="font-size: 13px; color: #9AA1AD">Incoming flight</dt><dd style="margin: 0; font-weight: 600"><a class="flight-link flight-link-dark" href="#">BA 304</a> <span style="font-weight: 400; color: #C9CCD3">&middot; lands 10:35<sc-if value="{{trip.incHas}}" hint-placeholder-val="{{false}}"><sup class="day-chip-dark" title="{{trip.incTitle}}">{{trip.incDay}}</sup></sc-if></span></dd></div><div><dt style="font-size: 13px; color: #9AA1AD">Time on the ground</dt><dd style="margin: 0; font-weight: 600">65 min</dd></div></dl>
       </div>
     </article>
 
@@ -231,6 +231,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #DD672C;outline-offset:2p
                 </div>
                 <div style="min-width: 0">
                   <p style="margin: 0 0 12px; font-size: 16px; color: #282C34">{{f.finding}}</p>
+                  <p style="margin: -6px 0 14px; font-size: 13px; color: #646B78">{{f.basis}}</p>
                     <sc-if value="{{f.isCancel}}" hint-placeholder-val="{{false}}">
                       <h4 style="margin: 0 0 8px; font-size: 14px; font-weight: 600; color: #282C34">Cancellations</h4>
               <ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 3px">
@@ -300,14 +301,11 @@ a:focus-visible,button:focus-visible{outline:2px solid #DD672C;outline-offset:2p
                 <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 4px; font-size: 12px; color: #646B78"><span>00:00</span><span>06:00</span><span>12:00 lands</span><span>18:00</span></div>
               </div>
                     </sc-if>
-                    <sc-if value="{{f.isWeather}}" hint-placeholder-val="{{false}}">
-              <span>Fog, wind, storms and snow at both airports, from Fri 20 Nov.</span>
-                    </sc-if>
                     <sc-if value="{{f.isAirline}}" hint-placeholder-val="{{false}}">
                       <h4 style="margin: 0 0 8px; font-size: 14px; font-weight: 600; color: #282C34">British Airways cancellations yesterday</h4>
                       <ul style="margin: 0; padding: 0; list-style: none; max-width: 560px">
                         <sc-for list="{{f.recent}}" as="r" hint-placeholder-count="6">
-                          <li style="display: flex; gap: 14px; padding: 6px 0; border-top: 1px solid #E3E4E8; color: #282C34"><span style="font-weight: 600; min-width: 64px"><a class="flight-link" href="{{r.href}}">{{r.flight}}</a></span><span style="flex: 1 1 auto">{{r.from}} <span style="color: #C2414D">&#8594;</span> {{r.to}}</span><span style="color: #646B78">{{r.when}}</span></li>
+                          <li style="display: flex; gap: 14px; padding: 6px 0; border-top: 1px solid #E3E4E8; color: #282C34"><span style="font-weight: 600; min-width: 64px"><a class="flight-link" href="{{r.href}}">{{r.flight}}</a></span><span style="flex: 1 1 auto">{{r.from}} <span style="color: #C2414D">→</span> {{r.to}}</span><span style="color: #646B78">{{r.when}}</span></li>
                         </sc-for>
                       </ul>
                       <p style="margin: 12px 0 0">Over the last month, BA cancelled 1.8% of its flights at the airports we track.</p>
@@ -345,7 +343,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #DD672C;outline-offset:2p
                   <li style="border-bottom: 1px solid #E3E4E8">
             <div class="option-row" style="display: flex; align-items: center; flex-wrap: wrap; gap: 4px 16px; min-height: 46px; padding: 7px 8px; margin: 0 -8px; color: #282C34">
               <span style="flex: 0 0 150px; display: flex; flex-direction: column; gap: 4px"><sc-for list="{{r.legs}}" as="g" hint-placeholder-count="1"><span style="display: flex; align-items: center; gap: 8px"><a class="flight-link" style="font-weight: 700" href="{{g.href}}">{{g.flight}}</a></span></sc-for><sc-if value="{{r.hasVia}}" hint-placeholder-val="{{false}}"><span style="font-size: 13px; color: #646B78">via {{r.via}}</span></sc-if></span>
-              <span style="flex: 0 0 176px">{{r.depart}}<sc-if value="{{r.hasDepDay}}" hint-placeholder-val="{{false}}"><sup class="day-chip" title="{{r.depTitle}}">{{r.depDay}}</sup></sc-if> <span style="color: #9AA1AD">&#8594;</span> {{r.arrive}}<sc-if value="{{r.hasArrDay}}" hint-placeholder-val="{{false}}"><sup class="day-chip" title="{{r.arrTitle}}">{{r.arrDay}}</sup></sc-if></span>
+              <span style="flex: 0 0 176px">{{r.depart}}<sc-if value="{{r.hasDepDay}}" hint-placeholder-val="{{false}}"><sup class="day-chip" title="{{r.depTitle}}">{{r.depDay}}</sup></sc-if> <span style="color: #9AA1AD">→</span> {{r.arrive}}<sc-if value="{{r.hasArrDay}}" hint-placeholder-val="{{false}}"><sup class="day-chip" title="{{r.arrTitle}}">{{r.arrDay}}</sup></sc-if></span>
               <span style="flex: 1 1 90px; color: #4B5260">{{r.later}}<sc-if value="{{r.hasArrDay}}" hint-placeholder-val="{{false}}"><sup class="day-chip" title="{{r.arrTitle}}">{{r.arrDay}}</sup></sc-if></span>
               <sc-if value="{{r.isAuto}}" hint-placeholder-val="{{true}}"><span style="flex: 0 0 150px; display: flex; align-items: center; gap: 10px"><span style="flex: 1 1 auto; height: 8px; background: #F1F1F4"><span style="{{r.barStyle}}"></span></span><span style="flex: 0 0 38px; font-weight: 700; text-align: right">{{r.pct}}</span></span></sc-if><sc-if value="{{r.isOther}}" hint-placeholder-val="{{false}}"><span style="flex: 0 0 150px; display: flex; justify-content: flex-end"><span style="padding: 2px 8px; background: #F1F1F4; color: #4B5260; font-size: 13px; font-weight: 600">New ticket</span></span></sc-if>
             </div>
@@ -360,7 +358,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #DD672C;outline-offset:2p
   </main>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"serviceLive":{"editor":"boolean","default":true},"displayFont":{"editor":"enum","options":["Geist","Space Mono","B612 Mono","IBM Plex Mono","Barlow Condensed"],"default":"Geist"},"typeface":{"editor":"enum","options":["Geist","Instrument Sans","Manrope","DM Sans","Space Mono"],"default":"Geist"},"$preview":{"width":1280,"height":1000}}'>
+<script type="text/x-dc" data-dc-script data-props="{&quot;serviceLive&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true},&quot;displayFont&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Geist&quot;,&quot;Space Mono&quot;,&quot;B612 Mono&quot;,&quot;IBM Plex Mono&quot;,&quot;Barlow Condensed&quot;],&quot;default&quot;:&quot;Geist&quot;},&quot;typeface&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Geist&quot;,&quot;Instrument Sans&quot;,&quot;Manrope&quot;,&quot;DM Sans&quot;,&quot;Space Mono&quot;],&quot;default&quot;:&quot;Geist&quot;},&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:1000}}">
 
 const mkChart = (W, H, L, R, T, B, self) => {
   const days = 40, px = (W - L - R) / days;
@@ -528,9 +526,17 @@ const checks = [
 ].map(([what, state, done]) => ({ what, state, color: done ? '#1F5F67' : '#7A5510',
   dot: done ? 'width: 8px; height: 8px; border-radius: 50%; background: #56B6C2' : 'width: 8px; height: 8px; border-radius: 50%; box-sizing: border-box; border: 1.5px solid #7A5510' }));
 
+const BASIS = {
+  past: 'Based on BA 305\u2019s last 16 flights, recorded from the Paris and Heathrow airport boards.',
+  plane: 'Based on BA\u2019s planned plane schedule and the incoming flight\u2019s record. The exact plane is assigned the day before.',
+  weather: 'Based on November weather at both airports over the past 10 years. Switches to the live forecast 5 days before departure.',
+  airports: 'Based on published airport and air traffic notices, strike announcements and opening hours.',
+  airline: 'Based on every British Airways flight at Heathrow and Paris over the past 7 days.',
+  notices: 'Based on French and UK public holiday calendars and major event listings.'
+};
 const item = (id, name, finding, extra) => {
   const tr = (extra && extra.trend) || null;
-  return Object.assign({ id, name, finding }, extra || {}, {
+  return Object.assign({ id, name, finding, basis: BASIS[id] }, extra || {}, {
     open: !!open[id], closed: !open[id], expanded: open[id] ? 'true' : 'false',
     toggle: () => this.setState({ open: Object.assign({}, open, { [id]: !open[id] }) }),
     chevStyle: 'flex: 0 0 auto; transition: transform 0.15s;' + (open[id] ? ' transform: rotate(180deg);' : ''),
@@ -553,7 +559,7 @@ const factors0 = [
   item('past', 'Past flights', 'Cancelled 2 of the last 16 times, both on Saturdays. Usually lands early, but 5 of 14 were late.', Object.assign(v('Risk', 'risk', 3.2), { days, trend: 'down', trendText: 'Worse since 7 Nov',
     lates: [{ mins: '+33', date: '15 Oct' }, { mins: '+23', date: '26 Oct' }, { mins: '+40', date: '30 Oct' }, { mins: '+17', date: '1 Nov' }, { mins: '+124', date: '8 Nov' }] })),
   item('plane', 'Your plane', 'When your plane\u2019s earlier flight is cancelled, so is yours, and BA has almost no spare planes in Paris.', Object.assign(v('Risk', 'risk', 3.6), { rotations, trend: 'down', trendText: 'Worse since 7 Nov' })),
-  item('weather', 'Weather', 'The forecast for Paris and London arrives on Fri 20 Nov.', v('Later', 'later', null)),
+  item('weather', 'Weather', 'November mornings often bring fog at both airports, but it usually clears well before midday.', v('Good', 'good', 7.6)),
   item('airports', 'Airport operations', 'Nothing planned at either airport, and it lands at noon, far from night limits.', Object.assign(v('Good', 'good', 8.8), { checks, trend: 'up', trendText: 'Better since 6 Nov' })),
   item('airline', 'Airline operations', 'British Airways cancelled 6 Heathrow flights yesterday.', Object.assign(v('Watch', 'watch', 5.4), { recent, trend: 'down', trendText: 'Worse since yesterday' })),
   item('notices', 'Travel notices', 'No holidays, peak days or major events on Sat 21 Nov.', Object.assign(v('Good', 'good', 8.0), { notices }))
@@ -607,7 +613,9 @@ const optGroups = [
 ].map((g) => Object.assign({}, g, { open: !!optOpen[g.id], expanded: optOpen[g.id] ? 'true' : 'false',
   toggle: () => this.setState({ optOpen: Object.assign({}, optOpen, { [g.id]: !optOpen[g.id] }) }),
   chevStyle: 'flex: 0 0 auto; transition: transform 0.15s;' + (optOpen[g.id] ? ' transform: rotate(180deg);' : '') }));
-return { display: "'" + df + "', system-ui, sans-serif", font: "'" + t + "', system-ui, sans-serif", factors, alerts, opts, optGroups, trip, outlook, live, radar: mkRadar(this), dist: mkDist(712, 170, 12, 10, 12, 10, this), chart: mkChart(712, 200, 12, 10, 22, 12, this) };
+let back = { href: 'Main.dc.html', label: 'Back to flight search' };
+try { if (window.sessionStorage.getItem('ontime.back') === 'route') back = { href: 'RouteResults.dc.html', label: 'Back to flights on this route' }; } catch (e) {}
+return { back, display: "'" + df + "', system-ui, sans-serif", font: "'" + t + "', system-ui, sans-serif", factors, alerts, opts, optGroups, trip, outlook, live, radar: mkRadar(this), dist: mkDist(712, 170, 12, 10, 12, 10, this), chart: mkChart(712, 200, 12, 10, 22, 12, this) };
 }
 }
 </script>

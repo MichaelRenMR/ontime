@@ -31,7 +31,10 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #E5C0
 <section style="min-height: 760px; box-sizing: border-box; display: flex; flex-direction: column; background: #282C34; color: #FFFFFF">
   <header style="padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px">
     <a class="nav-link" href="Main.dc.html" style="text-decoration: none; font-weight: 700; font-size: 20px; letter-spacing: -0.01em; color: #FFFFFF">OnTime</a>
-    <a class="nav-link" href="#" style="text-decoration: none; font-size: 15px; color: #C9CCD3">Sign in</a>
+    <nav style="display: flex; align-items: center; gap: 24px">
+      <a class="nav-link" href="Route.dc.html" style="text-decoration: none; font-size: 15px; color: #C9CCD3">Plan trip</a>
+      <a class="nav-link" href="#" style="text-decoration: none; font-size: 15px; color: #C9CCD3">Sign in</a>
+    </nav>
   </header>
 
   <main style="flex: 1 1 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 24px; padding: 40px 24px 72px">
@@ -46,7 +49,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #E5C0
         <span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Date</span>
         <input class="field-dark" type="date" value="{{otherDate}}" onChange="{{onDate}}" style="width: 100%; height: 56px; box-sizing: border-box; padding: 0 16px; border: 1px solid #4B5260; font-size: 17px; color: #FFFFFF; background: #21252B; color-scheme: dark">
       </label>
-      <a class="cta-gold" href="Result.dc.html" style="flex: 1 1 100%; height: 56px; background: #E5C07B; color: #282C34; font-weight: 700; font-size: 18px; text-decoration: none; display: flex; align-items: center; justify-content: center">Check flight</a>
+      <a class="cta-gold" href="Result.dc.html" onClick="{{markFlight}}" style="flex: 1 1 100%; height: 56px; background: #E5C07B; color: #282C34; font-weight: 700; font-size: 18px; text-decoration: none; display: flex; align-items: center; justify-content: center">Track flight</a>
     </form>
 
     <sc-if value="{{returning}}" hint-placeholder-val="{{true}}">
@@ -55,7 +58,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #E5C0
         <ul style="margin: 0; padding: 0; list-style: none; border-top: 1px solid rgba(255, 255, 255, 0.16)">
           <sc-for list="{{trips}}" as="t" hint-placeholder-count="2">
             <li style="border-bottom: 1px solid rgba(255, 255, 255, 0.16)">
-              <a class="row-dark" href="{{t.href}}" style="display: flex; align-items: center; gap: 16px; min-height: 44px; padding: 0 4px; text-decoration: none; color: #FFFFFF">
+              <a class="row-dark" href="{{t.href}}" onClick="{{markFlight}}" style="display: flex; align-items: center; gap: 16px; min-height: 44px; padding: 0 4px; text-decoration: none; color: #FFFFFF">
                 <span style="font-family: {{display}}; font-weight: 700; min-width: 72px">{{t.flight}}</span>
                 <span style="flex: 1 1 auto; min-width: 0">{{t.from}} <span aria-label="to" style="color: #E5C07B">&#8594;</span> {{t.to}}</span>
                 <span style="color: #C9CCD3; white-space: nowrap">{{t.date}}</span>
@@ -71,28 +74,9 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #E5C0
   </main>
 </section>
 
-<section id="cancelled" style="background: #F1F1F4; border-top: 1px solid #E3E4E8">
-  <div style="max-width: 640px; margin: 0 auto; padding: 64px 24px 80px; display: flex; flex-direction: column; gap: 12px">
-    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 24px">
-      <h2 style="margin: 0; font-size: 22px; line-height: 1.2; letter-spacing: -0.02em; font-weight: 700">Just cancelled</h2>
-      <p style="margin: 0; color: #4B5260; font-size: 14px">Yesterday</p>
-    </div>
-    <ul style="margin: 0; padding: 0; list-style: none; border-top: 1px solid #D5D9E0">
-      <sc-for list="{{cancelled}}" as="f" hint-placeholder-count="8">
-        <li style="border-bottom: 1px solid #D5D9E0">
-          <a class="row-light" href="{{f.href}}" style="display: flex; align-items: center; gap: 16px; min-height: 44px; padding: 0 4px; text-decoration: none; color: #282C34">
-            <span style="font-family: {{display}}; font-weight: 700; min-width: 72px">{{f.flight}}</span>
-            <span style="flex: 1 1 auto; min-width: 0">{{f.from}} <span aria-label="to" style="color: #C2414D">&#8594;</span> {{f.to}}</span>
-            <span style="color: #4B5260; white-space: nowrap">{{f.when}}</span>
-          </a>
-        </li>
-      </sc-for>
-    </ul>
-  </div>
-</section>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;displayFont&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Geist&quot;,&quot;Space Mono&quot;,&quot;B612 Mono&quot;,&quot;IBM Plex Mono&quot;,&quot;Barlow Condensed&quot;],&quot;default&quot;:&quot;Geist&quot;},&quot;typeface&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Geist&quot;,&quot;Instrument Sans&quot;,&quot;Manrope&quot;,&quot;DM Sans&quot;,&quot;Space Mono&quot;],&quot;default&quot;:&quot;Geist&quot;},&quot;returningVisitor&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true},&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:1420}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;displayFont&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Geist&quot;,&quot;Space Mono&quot;,&quot;B612 Mono&quot;,&quot;IBM Plex Mono&quot;,&quot;Barlow Condensed&quot;],&quot;default&quot;:&quot;Geist&quot;},&quot;typeface&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Geist&quot;,&quot;Instrument Sans&quot;,&quot;Manrope&quot;,&quot;DM Sans&quot;,&quot;Space Mono&quot;],&quot;default&quot;:&quot;Geist&quot;},&quot;returningVisitor&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true},&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:760}}">
 class Component extends DCLogic {
 renderVals() {
 const t = this.props.typeface ?? 'Geist';
@@ -125,12 +109,7 @@ return {
   flight, onFlight: (e) => this.setState({ flight: e.target.value }),
   otherDate, onDate: (e) => this.setState({ otherDate: e.target.value }),
   returning, firstVisit: !returning, trips,
-  cancelled: [
-    ['MU 564', 'Delhi', 'Shanghai', '20:40'], ['BA 465', 'Madrid', 'Heathrow', '17:50'],
-    ['BA 485', 'Barcelona', 'Heathrow', '17:00'], ['BA 464', 'Heathrow', 'Madrid', '13:20'],
-    ['BA 484', 'Heathrow', 'Barcelona', '12:45'], ['CX 347', 'Beijing', 'Hong Kong', '10:00'],
-    ['BA 301', 'Paris CDG', 'Heathrow', '09:40'], ['BA 136', 'Delhi', 'Heathrow', '07:30']
-  ].map(([flight, from, to, when]) => Object.assign({ flight, from, to, when, href: '#' }, rate(flight)))
+  markFlight: () => { try { window.sessionStorage.setItem('ontime.back', 'flight'); } catch (e) {} }
 };
 }
 }

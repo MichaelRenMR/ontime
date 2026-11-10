@@ -9,6 +9,19 @@ flight's status is observed only a few times. We store schedule, estimated and a
 airline, aircraft type and (for ~50% of flights) the tail. Data collection started live; there is no history
 before that.
 
+## Primary user story
+
+The booking flow is the primary user story, not tracking an already booked flight. The traveller is choosing
+what to book: they enter an origin airport, a destination airport and an arrive-by date and time, see the
+non-stop flights ranked by reliability, and open one to see its breakdown. The value is a prediction made
+weeks or months before departure, from historical patterns, when it can still change what they buy. Tracking
+a flight leading up to departure (the live status, text alerts and the rating firming up as the date nears)
+is the follow-on for the flight they end up booking, and the same flight page serves both. There are no
+accounts for now: alerts go to a phone number.
+
+The mockups are in `.design/itinerary-risk/`: the booking search and route results (desktop and phone) are the
+main flow, and the single-flight lookup is the secondary one.
+
 ---
 
 ## 1. Single-flight risk assessment: "if this flight is cancelled, when do I get there?"
@@ -117,6 +130,18 @@ today.
 
 ---
 
+## Future UX ideas
+
+Small design ideas that were mocked up and set aside for now.
+
+- **"No backup" warning on route results.** On the booking-time flight list, flag a flight with a warning
+  icon next to its time to spare when, if it were cancelled, no other non-stop flight (any airline) leaving
+  after it would still land by the traveller's arrive-by deadline. A one-line legend above the list explains
+  the icon and only shows when something is flagged. In the mockup's example (arrive by Sat 21 Nov 13:00,
+  CDG to LHR) only BA 305 is flagged, because the next flight lands at 13:45. A flight with just one backup
+  could get a lighter caution. Needs the schedule for later flights on the route, which the booking search
+  already uses.
+
 ## Shared foundations
 
 Several ideas depend on the same backend pieces, which is worth weighing when picking an order:
@@ -134,7 +159,7 @@ Several ideas depend on the same backend pieces, which is worth weighing when pi
 
 ## Open questions
 
-- Who is the first user: travelers at booking time (4), travelers on the day of travel (1–3), or both?
+- Who is the first user? Decided: travelers at booking time (4), predicting months ahead. Day-of-travel use (1–3) follows for flights they book.
 - Do we need coverage beyond the airports we poll today for these ideas to be useful, and what would that cost
   in API units?
 - Which source, if any, gives seat availability or load factors?

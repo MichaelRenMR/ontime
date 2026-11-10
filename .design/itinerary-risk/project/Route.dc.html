@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Choose a flight</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#282C34}
+a{color:#FFFFFF}a:hover{color:#E5C07B}
+input,button{font:inherit}
+input::placeholder{color:#9AA1AD}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #E5C07B;outline-offset:2px}
+.nav-link{transition:color .12s}
+.nav-link:hover{color:#E5C07B !important}
+.field-box{transition:border-color .12s}
+.field-box:hover{border-color:#9AA1AD !important}
+.field-box:focus-within{border-color:#E5C07B !important}
+.swap-btn{transition:background-color .12s,color .12s;border-radius:50%}
+.swap-btn:hover{background:rgba(255,255,255,.12);color:#FFFFFF !important}
+.cta-gold{transition:background-color .12s}
+.cta-gold:hover{background:#F0D08F !important}
+.row-dark{transition:background-color .12s}
+.row-dark:hover{background:rgba(255,255,255,.07)}
+</style>
+</helmet>
+<div style="min-height: 900px; box-sizing: border-box; display: flex; flex-direction: column; background: #282C34; color: #FFFFFF; font-family: 'Geist', system-ui, sans-serif; font-size: 16px; line-height: 1.45; font-variant-numeric: tabular-nums">
+  <header style="padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px">
+    <a class="nav-link" href="Route.dc.html" style="text-decoration: none; font-weight: 700; font-size: 20px; letter-spacing: -0.01em; color: #FFFFFF">OnTime</a>
+    <nav style="display: flex; align-items: center; gap: 24px">
+      <a class="nav-link" href="Main.dc.html" style="text-decoration: none; font-size: 15px; color: #C9CCD3">Track flight</a>
+      <a class="nav-link" href="#" style="text-decoration: none; font-size: 15px; color: #C9CCD3">Sign in</a>
+    </nav>
+  </header>
+
+  <main style="flex: 1 1 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; padding: 40px 24px 96px">
+    <h1 style="margin: 0; text-align: center; font-size: 46px; line-height: 1.1; letter-spacing: -0.03em; font-weight: 700">Get there, on time.</h1>
+
+    <form style="width: 100%; max-width: 640px; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: center; gap: 6px">
+        <label class="field-box" style="flex: 1 1 0; min-width: 0; height: 64px; box-sizing: border-box; padding: 9px 16px 0; border: 1px solid #4B5260; background: #21252B; display: flex; flex-direction: column; cursor: text">
+          <span style="font-size: 12px; color: #9AA1AD">From</span>
+          <input type="text" value="{{from}}" onChange="{{onFrom}}" placeholder="Airport, e.g. CDG" autocomplete="off" style="width: 100%; padding: 0; border: 0; outline: none; background: transparent; color: #FFFFFF; font-size: 18px">
+        </label>
+        <button type="button" class="swap-btn" onClick="{{swap}}" aria-label="Swap departure and arrival" style="flex: 0 0 44px; width: 44px; height: 44px; padding: 0; border: 0; background: none; color: #C9CCD3; cursor: pointer; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h15l-4-4"></path><path d="M20 16H5l4 4"></path></svg></button>
+        <label class="field-box" style="flex: 1 1 0; min-width: 0; height: 64px; box-sizing: border-box; padding: 9px 16px 0; border: 1px solid #4B5260; background: #21252B; display: flex; flex-direction: column; cursor: text">
+          <span style="font-size: 12px; color: #9AA1AD">To</span>
+          <input type="text" value="{{to}}" onChange="{{onTo}}" placeholder="Airport, e.g. CDG" autocomplete="off" style="width: 100%; padding: 0; border: 0; outline: none; background: transparent; color: #FFFFFF; font-size: 18px">
+        </label>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 10px">
+        <label class="field-box" style="flex: 1 1 100%; height: 64px; box-sizing: border-box; padding: 9px 16px 0; border: 1px solid #4B5260; background: #21252B; display: flex; flex-direction: column; cursor: text">
+          <span style="font-size: 12px; color: #9AA1AD">Arrive by (date and time)</span>
+          <input type="datetime-local" value="{{arriveBy}}" onChange="{{onArrive}}" style="width: 100%; padding: 0; border: 0; outline: none; background: transparent; color: #FFFFFF; font-size: 17px; color-scheme: dark">
+        </label>
+      </div>
+      <a class="cta-gold" href="RouteResults.dc.html" style="height: 56px; background: #E5C07B; color: #282C34; font-weight: 700; font-size: 18px; text-decoration: none; display: flex; align-items: center; justify-content: center">Plan trip</a>
+      <p style="margin: 2px 0 0; font-size: 14px; color: #9AA1AD">Non-stop flights only, for now.</p>
+    </form>
+
+    <sc-if value="{{returning}}" hint-placeholder-val="{{true}}">
+      <section style="width: 100%; max-width: 640px; display: flex; flex-direction: column; gap: 6px">
+        <h2 style="margin: 0; font-size: 15px; font-weight: 600; color: #9AA1AD">Recent searches</h2>
+        <ul style="margin: 0; padding: 0; list-style: none; border-top: 1px solid rgba(255, 255, 255, 0.16)">
+          <sc-for list="{{recent}}" as="r" hint-placeholder-count="2">
+            <li style="border-bottom: 1px solid rgba(255, 255, 255, 0.16)">
+              <a class="row-dark" href="{{r.href}}" style="display: flex; align-items: center; gap: 16px; min-height: 44px; padding: 0 4px; text-decoration: none; color: #FFFFFF">
+                <span style="flex: 1 1 auto; min-width: 0">{{r.from}} <span aria-label="to" style="color: #E5C07B">&#8594;</span> {{r.to}}</span>
+                <span style="color: #C9CCD3; white-space: nowrap">by {{r.by}}</span>
+              </a>
+            </li>
+          </sc-for>
+        </ul>
+      </section>
+    </sc-if>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"returningVisitor":{"editor":"boolean","default":true},"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+renderVals() {
+const st = this.state || {};
+const returning = this.props.returningVisitor ?? true;
+const from = st.from ?? '';
+const to = st.to ?? '';
+return {
+  from, to,
+  arriveBy: st.arriveBy ?? '2026-11-21T13:00',
+  onFrom: (e) => this.setState({ from: e.target.value }),
+  onTo: (e) => this.setState({ to: e.target.value }),
+  onArrive: (e) => this.setState({ arriveBy: e.target.value }),
+  swap: () => this.setState({ from: to, to: from }),
+  returning,
+  recent: returning ? [
+    { from: 'CDG', to: 'LHR', by: 'Sat 21 Nov, 13:00', href: 'RouteResults.dc.html' },
+    { from: 'LHR', to: 'DFW', by: 'Sun 29 Nov, 18:00', href: '#' }
+  ] : []
+};
+}
+}
+</script>
+</body>
+</html>
