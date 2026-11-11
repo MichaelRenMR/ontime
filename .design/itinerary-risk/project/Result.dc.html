@@ -63,6 +63,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #DD672C;outline-offset:2p
         </div>
         <button type="button" class="outlook-row" onClick="{{outlook.toggle}}" aria-expanded="{{outlook.expanded}}" aria-label="Flight outlook: Fair, 4.6 out of 10, down from 7.6 since 31 October. Show history and industry comparison." style="width: 100%; padding: 4px 8px; margin: 0 -8px; box-sizing: content-box; border: 0; background: none; color: #FFFFFF; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 14px">
           <span style="flex: 0 0 auto; display: flex; align-items: center; gap: 12px"><span style="font-family: {{display}}; font-size: 28px; font-weight: 700; letter-spacing: -0.01em; line-height: 1; color: #E5C07B">Fair</span><span style="font-size: 28px; font-weight: 600">4.6<span style="font-size: 18px; color: #9AA1AD">/10</span></span></span>
+          <span aria-hidden="true" style="flex: 0 0 auto; display: flex; gap: 3px"><span style="width: 14px; height: 10px; background: #E5C07B"></span><span style="width: 14px; height: 10px; background: #E5C07B"></span><span style="width: 14px; height: 10px; background: #E5C07B"></span><span style="width: 14px; height: 10px; background: #E5C07B"></span><span style="width: 14px; height: 10px; background: linear-gradient(90deg, #E5C07B 0 59%, rgba(255, 255, 255, 0.14) 59% 100%)"></span><span style="width: 14px; height: 10px; background: rgba(255, 255, 255, 0.14)"></span><span style="width: 14px; height: 10px; background: rgba(255, 255, 255, 0.14)"></span><span style="width: 14px; height: 10px; background: rgba(255, 255, 255, 0.14)"></span><span style="width: 14px; height: 10px; background: rgba(255, 255, 255, 0.14)"></span><span style="width: 14px; height: 10px; background: rgba(255, 255, 255, 0.14)"></span></span>
           <span title="Down from 7.6 since 31 Oct" aria-label="Down from 7.6 since 31 Oct" role="img" style="flex: 0 0 auto; display: flex; color: #E06C75"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 4l7 7 7-7"></path><path d="M5 13l7 7 7-7"></path></svg></span>
           <span style="flex: 1 1 auto"></span>
           <span class="expand-btn"><svg class="history-chev" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C9CCD3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{{outlook.chevStyle}}"><path d="M6 9l6 6 6-6"></path></svg></span>
@@ -168,12 +169,12 @@ a:focus-visible,button:focus-visible{outline:2px solid #DD672C;outline-offset:2p
       <div style="flex: 1 1 100%; min-width: 0; padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 18px">
         <div style="display: grid; grid-template-columns: auto 1fr auto; align-items: end; gap: 18px">
           <div>
-            <div style="font-family: {{display}}; font-size: 32px; font-weight: 600; letter-spacing: -0.04em; line-height: 1">11:40</div>
+            <div style="font-family: {{display}}; font-size: 44px; font-weight: 700; letter-spacing: -0.045em; line-height: 1">11:40</div>
             <div style="margin-top: 6px; color: #C9CCD3">Paris CDG <span style="color: #9AA1AD">T2C</span></div>
           </div>
           <div style="margin-bottom: 8px; display: flex; flex-direction: column; align-items: center; gap: 4px"><svg viewBox="0 0 200 12" preserveAspectRatio="none" fill="none" stroke="#E5C07B" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="width: 100%; height: 12px; display: block"><path d="M2 6h194M190 1l6 5-6 5"></path></svg><span style="font-size: 14px; color: #C9CCD3; white-space: nowrap">1 h 20 min</span></div>
           <div style="text-align: right">
-            <div style="font-family: {{display}}; font-size: 32px; font-weight: 600; letter-spacing: -0.04em; line-height: 1">12:00<sc-if value="{{trip.arrHas}}" hint-placeholder-val="{{false}}"><sup class="day-chip-dark" title="{{trip.arrTitle}}">{{trip.arrDay}}</sup></sc-if></div>
+            <div style="font-family: {{display}}; font-size: 44px; font-weight: 700; letter-spacing: -0.045em; line-height: 1">12:00<sc-if value="{{trip.arrHas}}" hint-placeholder-val="{{false}}"><sup class="day-chip-dark" title="{{trip.arrTitle}}">{{trip.arrDay}}</sup></sc-if></div>
             <div style="margin-top: 6px; color: #C9CCD3">London Heathrow <span style="color: #9AA1AD">T5</span></div>
           </div>
         </div>

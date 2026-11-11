@@ -25,12 +25,18 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #E5C0
 .row-dark,.row-light{transition:background-color .12s}
 .row-dark:hover{background:rgba(255,255,255,.07)}
 .row-light:hover{background:#E6E7EC}
+.flap-tile{position:relative;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;background:linear-gradient(#30353F 0 50%,#2A2F38 50% 100%);border:1px solid #3B414D;color:#FFFFFF;transform-origin:50% 50%;animation:flap-in .5s cubic-bezier(.3,1.4,.5,1) both}
+.flap-tile::after{content:"";position:absolute;left:0;right:0;top:50%;height:2px;margin-top:-1px;background:#1E2228}
+.flap-tile.blank{background:#262A31;border-color:#30353F}
+@keyframes flap-in{0%{transform:rotateX(90deg);opacity:0}70%{transform:rotateX(-14deg);opacity:1}100%{transform:rotateX(0)}}
+@media (prefers-reduced-motion: reduce){.flap-tile{animation:none}}
+.brand-dot{display:inline-block;width:10px;height:10px;background:#E5C07B;box-shadow:0 0 8px rgba(229,192,123,.7)}
 </style>
 </helmet>
 <div style="background: #FAFAFB; color: #282C34; font-family: {{font}}; font-size: 16px; line-height: 1.45; font-variant-numeric: tabular-nums">
 <section style="min-height: 760px; box-sizing: border-box; display: flex; flex-direction: column; background: #282C34; color: #FFFFFF">
   <header style="padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px">
-    <a class="nav-link" href="Main.dc.html" style="text-decoration: none; font-weight: 700; font-size: 20px; letter-spacing: -0.01em; color: #FFFFFF">OnTime</a>
+    <a class="nav-link" href="Main.dc.html" style="text-decoration: none; font-weight: 700; font-size: 20px; letter-spacing: -0.01em; color: #FFFFFF; display: flex; align-items: center; gap: 9px"><span class="brand-dot" aria-hidden="true"></span>OnTime</a>
     <nav style="display: flex; align-items: center; gap: 24px">
       <a class="nav-link" href="Route.dc.html" style="text-decoration: none; font-size: 15px; color: #C9CCD3">Plan trip</a>
       <a class="nav-link" href="#" style="text-decoration: none; font-size: 15px; color: #C9CCD3">Sign in</a>
@@ -38,7 +44,13 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #E5C0
   </header>
 
   <main style="flex: 1 1 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 24px; padding: 40px 24px 72px">
-    <h1 style="margin: 0; font-family: {{display}}; font-size: 46px; line-height: 1.1; letter-spacing: -0.03em; font-weight: 700">How’s your flight looking?</h1>
+    <h1 aria-label="How’s your flight looking?" style="margin: 0 0 8px; display: flex; flex-direction: column; align-items: center; gap: 6px; perspective: 600px; font-size: 40px; line-height: 1; font-weight: 600; letter-spacing: 0">
+      <sc-for list="{{flap}}" as="ln" hint-placeholder-count="2">
+        <span aria-hidden="true" style="display: flex; gap: 5px">
+          <sc-for list="{{ln.tiles}}" as="t" hint-placeholder-count="8"><span class="{{t.cls}}" style="{{t.style}}">{{t.c}}</span></sc-for>
+        </span>
+      </sc-for>
+    </h1>
 
     <form style="width: 100%; max-width: 640px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center">
       <label style="flex: 3 1 220px; display: flex">
@@ -103,7 +115,12 @@ const trips = returning ? [
   { flight: 'UA 929', from: 'Chicago', to: 'Heathrow', date: 'Thu 3 Dec', href: '#', down: false, flat: false, up: true }
 ].map((x) => Object.assign(x, rate(x.flight))) : [];
 
+const flapLines = ['HOW’S YOUR FLIGHT', 'LOOKING?'];
+let k = 0;
+const flap = flapLines.map((l) => ({ tiles: [...l].map((c) => { const d = (k++) * 35;
+  return { c: c === ' ' ? '' : c, cls: c === ' ' ? 'flap-tile blank' : 'flap-tile', style: 'width: 46px; height: 62px; animation-delay: ' + d + 'ms' }; }) }));
 return {
+  flap,
   display: "'" + df + "', system-ui, sans-serif",
   font: "'" + t + "', system-ui, sans-serif",
   flight, onFlight: (e) => this.setState({ flight: e.target.value }),

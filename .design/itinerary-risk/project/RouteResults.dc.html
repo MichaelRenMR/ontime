@@ -26,6 +26,10 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #DD67
 .seg-btn{min-height:34px;padding:0 14px;border:0;background:transparent;color:#4B5260;font-size:14px;font-weight:600;cursor:pointer;transition:background-color .12s,color .12s}
 .seg-btn:hover{background:#E3E4E8;color:#282C34}
 .seg-btn[aria-pressed="true"]{background:#282C34;color:#FFFFFF}
+.seg-dark{display:inline-flex;background:rgba(255,255,255,.08);padding:2px;gap:2px}
+.seg-dark-btn{min-height:30px;padding:0 12px;border:0;background:transparent;color:#C9CCD3;font-size:13px;font-weight:600;cursor:pointer;transition:background-color .12s,color .12s}
+.seg-dark-btn:hover{background:rgba(255,255,255,.12);color:#FFFFFF}
+.seg-dark-btn[aria-pressed="true"]{background:#E5C07B;color:#282C34}
 .factor-row{transition:background-color .12s}
 .factor-row:hover{background:#F5F5F7 !important}
 .factor-row[aria-expanded="true"]{background:#FAFAFB !important}
@@ -43,6 +47,10 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #DD67
   .route-row .c-spare::before{content:"Time to spare: ";color:#646B78;font-weight:400}
   .route-row .c-go{grid-column:3;grid-row:1 / span 4}
 }
+.stats-row{transition:background-color .12s}
+.stats-row:hover{background:rgba(255,255,255,.05)}
+.stats-chev{transition:stroke .12s,transform .15s}
+.stats-row:hover .stats-chev{stroke:#FFFFFF}
 </style>
 </helmet>
 <div style="min-height: 1100px; background: #FFFFFF; color: #282C34; font-family: 'Geist', system-ui, sans-serif; font-size: 16px; line-height: 1.45; font-variant-numeric: tabular-nums">
@@ -71,6 +79,83 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #DD67
         </label>
       </form>
     </div>
+    <div style="max-width: 1008px; margin: 0 auto; box-sizing: border-box; padding: 16px 48px 20px">
+
+      <button type="button" class="stats-row" onClick="{{stats.toggle}}" aria-expanded="{{stats.expanded}}" aria-label="Last 4 weeks on this route: 2% cancelled, 25% landed 15 or more minutes late. {{stats.verb}} charts." style="width: 100%; padding: 6px 8px; margin: 0 -8px; box-sizing: content-box; border: 0; background: none; color: #C9CCD3; font: inherit; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 16px">
+        <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+          <span style="font-size: 14px; font-weight: 600; color: #9AA1AD">Last 4 weeks on this route</span>
+          <span style="display: flex; flex-wrap: wrap; gap: 2px 28px">
+            <span><span style="font-size: 22px; font-weight: 700; color: #FFFFFF">2%</span> cancelled</span>
+            <span><span style="font-size: 22px; font-weight: 700; color: #FFFFFF">25%</span> landed 15+ min late</span>
+          </span>
+        </span>
+        <svg class="stats-chev" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C9CCD3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{{stats.chevStyle}}"><path d="M6 9l6 6 6-6"></path></svg>
+      </button>
+      <sc-if value="{{stats.open}}" hint-placeholder-val="{{false}}">
+      <div style="margin-top: 16px; display: flex; flex-direction: column; gap: 18px">
+        <div style="min-width: 0">
+          <h3 style="margin: 0 0 8px; font-size: 14px; font-weight: 600; color: #C9CCD3">Arrivals by day</h3>
+          <ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 3px">
+            <sc-for list="{{record.days}}" as="d" hint-placeholder-count="16">
+              <li style="display: flex; flex-direction: column; gap: 3px; text-align: center">
+                <span style="{{d.cellStyle}}" title="{{d.title}}">{{d.mark}}</span>
+                <span style="font-size: 11px; color: #9AA1AD">{{d.dow}}</span>
+              </li>
+            </sc-for>
+          </ol>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 18px 40px; align-items: flex-start">
+        <div style="flex: 1 1 420px; min-width: 0">
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 16px; margin-bottom: 6px">
+            <h3 style="margin: 0; font-size: 14px; font-weight: 600; color: #C9CCD3">{{hist.title}} <span style="font-weight: 400; color: #9AA1AD">&middot; average flight {{routeStats.avgDur}}</span></h3>
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: 13px; color: #C9CCD3">
+              <sc-if value="{{hist.isArr}}" hint-placeholder-val="{{true}}"><span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 0; border-top: 2px dashed rgba(255, 255, 255, 0.7)"></span>Arrive by</span></sc-if>
+              <div role="group" aria-label="Show departure or arrival times" class="seg-dark">
+                <button type="button" class="seg-dark-btn" onClick="{{hist.showDep}}" aria-pressed="{{hist.isDep}}">Departures</button>
+                <button type="button" class="seg-dark-btn" onClick="{{hist.showArr}}" aria-pressed="{{hist.isArr}}">Arrivals</button>
+              </div>
+            </div>
+          </div>
+          <div style="position: relative">
+            <svg viewBox="0 0 {{hist.W}} {{hist.H}}" role="img" aria-label="{{hist.aria}}" style="width: 100%; height: auto; display: block; font-family: inherit">
+              <line x1="{{hist.left}}" x2="{{hist.right}}" y1="{{hist.bottom}}" y2="{{hist.bottom}}" stroke="#FFFFFF" stroke-opacity="0.25" stroke-width="1"></line>
+              <sc-for list="{{hist.bars}}" as="b" hint-placeholder-count="26">
+                <rect x="{{b.x}}" y="{{b.y}}" width="{{b.w}}" height="{{b.h}}" fill="{{b.fill}}" fill-opacity="{{b.op}}"></rect>
+              </sc-for>
+              <sc-if value="{{hist.hasMark}}" hint-placeholder-val="{{true}}">
+                <line x1="{{hist.markX}}" x2="{{hist.markX}}" y1="{{hist.top}}" y2="{{hist.bottom}}" stroke="#FFFFFF" stroke-opacity="0.7" stroke-width="1.5" stroke-dasharray="3 4"></line>
+              </sc-if>
+              <sc-for list="{{hist.zones}}" as="z" hint-placeholder-count="17">
+                <rect x="{{z.x}}" y="{{hist.top}}" width="{{z.w}}" height="{{hist.zoneH}}" fill="transparent" style="cursor: crosshair" onMouseEnter="{{z.enter}}" onMouseLeave="{{z.leave}}"></rect>
+              </sc-for>
+            </svg>
+            <div aria-hidden="true" style="position: relative; height: 16px; font-size: 11px; color: #9AA1AD">
+              <sc-for list="{{hist.ticks}}" as="t" hint-placeholder-count="6"><span style="{{t.style}}">{{t.label}}</span></sc-for>
+            </div>
+            <sc-if value="{{hist.hoverOn}}" hint-placeholder-val="{{false}}">
+              <div style="{{hist.tipStyle}}"><div style="font-weight: 600">{{hist.tipLabel}}</div><div>{{hist.tipCount}}</div></div>
+            </sc-if>
+          </div>
+        </div>
+        <div style="flex: 0 0 auto; min-width: 0">
+          <h3 style="margin: 0 0 8px; font-size: 14px; font-weight: 600; color: #C9CCD3">Share of seats <span style="font-weight: 400; color: #9AA1AD">&middot; {{routeStats.daily}} flights a day</span></h3>
+          <div style="display: flex; align-items: center; gap: 20px">
+            <svg width="{{pie.size}}" height="{{pie.size}}" viewBox="0 0 {{pie.size}} {{pie.size}}" role="img" aria-label="{{pie.aria}}" style="flex: 0 0 auto; display: block">
+              <sc-for list="{{pie.slices}}" as="s" hint-placeholder-count="2">
+                <path d="{{s.d}}" fill="{{s.fill}}" stroke="#282C34" stroke-width="2"><title>{{s.title}}</title></path>
+              </sc-for>
+            </svg>
+            <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 15px">
+              <sc-for list="{{pie.slices}}" as="s" hint-placeholder-count="2">
+                <li style="display: flex; align-items: flex-start; gap: 8px"><span style="{{s.swatch}}; margin-top: 6px"></span><span style="display: flex; flex-direction: column; line-height: 1.3"><span><span style="font-weight: 600">{{s.pct}}</span> {{s.name}}</span><span style="font-size: 13px; color: #9AA1AD">{{s.detail}}</span></span></li>
+              </sc-for>
+            </ul>
+          </div>
+        </div>
+        </div>
+      </div>
+      </sc-if>
+    </div>
   </div>
 
   <main style="max-width: 1008px; margin: 0 auto; box-sizing: border-box; padding: 28px 48px 80px; display: flex; flex-direction: column; gap: 32px">
@@ -97,12 +182,13 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #DD67
         <sc-for list="{{onTime}}" as="r" hint-placeholder-count="5">
           <li style="border-bottom: 1px solid #E3E4E8">
             <a class="route-row" href="{{r.href}}" onClick="{{markRoute}}" aria-label="{{r.label}}">
-              <span class="c-rate" style="display: flex; align-items: center; gap: 8px">
+              <span class="c-rate" style="display: flex; flex-wrap: wrap; align-items: center; gap: 0 8px">
                 <span style="{{r.chipStyle}}">{{r.band}}</span>
                 <span style="font-size: 18px; font-weight: 700">{{r.score}}</span>
                 <sc-if value="{{r.isDown}}" hint-placeholder-val="{{false}}"><span title="{{r.trendText}}" style="display: flex; color: #A8323E"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 4l7 7 7-7"></path><path d="M5 13l7 7 7-7"></path></svg></span></sc-if>
                 <sc-if value="{{r.isUp}}" hint-placeholder-val="{{false}}"><span title="{{r.trendText}}" style="display: flex; color: #1F5F67"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M5 20l7-7 7 7"></path><path d="M5 11l7-7 7 7"></path></svg></span></sc-if>
                 <sc-if value="{{r.isFlat}}" hint-placeholder-val="{{true}}"><span title="{{r.trendText}}" style="display: flex; color: #646B78"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M4 5l7 7-7 7"></path><path d="M13 5l7 7-7 7"></path></svg></span></sc-if>
+                <span class="meter" aria-hidden="true" style="flex: 1 0 100%; display: flex; gap: 2px; margin-top: 3px"><sc-for list="{{r.meter}}" as="m" hint-placeholder-count="10"><span style="{{m}}"></span></sc-for></span>
               </span>
               <span class="c-flight" style="display: flex; flex-direction: column; line-height: 1.3"><span style="font-weight: 700">{{r.flight}}</span><span style="font-size: 14px; color: #646B78">{{r.airline}}</span></span>
               <span class="c-time" style="display: flex; flex-direction: column; line-height: 1.3"><span style="font-weight: 600">{{r.dep}} <span style="color: #9AA1AD">&#8594;</span> {{r.arr}}</span><span style="font-size: 14px; color: #646B78">{{r.dur}}</span></span>
@@ -137,6 +223,9 @@ const depOff = off;
 const mins = (t) => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
 const fmt = (n) => { const dd = Math.floor(n / 1440), h = Math.floor((n % 1440) / 60), m = n % 60; return [dd ? dd + (dd === 1 ? ' day' : ' days') : '', h ? h + ' h' : '', m || (!h && !dd) ? m + ' min' : ''].filter(Boolean).join(' '); };
 const bandOf = (v) => v >= 7 ? 'Good' : v >= 4 ? 'Fair' : 'Poor';
+const METER = { Good: '#56B6C2', Fair: '#E5C07B', Poor: '#E06C75' };
+const meterOf = (v, b) => Array.from({ length: 10 }, (_, i) => { const f = Math.max(0, Math.min(1, v - i)), c = METER[b], pc = Math.round(f * 100);
+  return 'flex: 0 0 11px; height: 5px; background: ' + (f >= 1 ? c : f <= 0 ? '#E3E4E8' : 'linear-gradient(90deg, ' + c + ' 0 ' + pc + '%, #E3E4E8 ' + pc + '% 100%)') + ';'; });
 const CHIP = { Good: 'background: #E3F4F6; color: #1F5F67;', Fair: 'background: #FBF1DC; color: #7A5510;', Poor: 'background: #FBE7E9; color: #A8323E;' };
 const chipBase = 'display: inline-block; min-width: 44px; text-align: center; padding: 1px 7px; font-size: 13px; font-weight: 600; white-space: nowrap; line-height: 1.45;';
 const TREND = { up: 'Better this week', down: 'Worse this week', flat: 'No change this week' };
@@ -165,7 +254,7 @@ const rows = FLIGHTS.map(([flight, airline, dep, arr, score, trend]) => {
   const tight = gap >= 0 && gap < 30;
   return {
     flight, airline, dep, arr, aircraft: AIR[flight], scoreN: score, depN: mins(dep), arrN: mins(arr), fits: gap >= 0,
-    band, score: score.toFixed(1), chipStyle: chipBase + CHIP[band],
+    band, score: score.toFixed(1), chipStyle: chipBase + CHIP[band], meter: meterOf(score, band),
     isUp: trend === 'up', isDown: trend === 'down', isFlat: trend === 'flat', trendText: TREND[trend],
     dur: fmt(mins(arr) - (mins(dep) - 60)),
     spare: fmt(gap) + ' to spare',
@@ -174,15 +263,79 @@ const rows = FLIGHTS.map(([flight, airline, dep, arr, score, trend]) => {
     label: flight + ', ' + band + ' ' + score.toFixed(1) + ' out of 10, departs ' + dep + ', lands ' + arr
   };
 });
+// Route charts. Times are the real Saturday timetable; seat counts are typical cabin layouts per aircraft type (estimates).
+const SEATS = { 'A319': 143, 'A320': 168, 'A320neo': 180, 'A321neo': 194, 'A220-300': 148 };
+const mkHist = (W, H) => {
+  const L = 4, R = 4, T = 8, B = 4, h0 = 6, h1 = 23, n = h1 - h0;
+  const mode = st.histMode || 'arr', isArr = mode === 'arr';
+  const unit = (W - L - R) / n, bw = Math.max(4, Math.round(unit * 0.45));
+  const cnt = new Array(n).fill(0);
+  FLIGHTS.forEach(([f, a, d, ar]) => { cnt[Math.floor(mins(isArr ? ar : d) / 60) - h0]++; });
+  const max = Math.max(...cnt, 1) + 0.5, bottom = H - B;
+  const y = (v) => bottom - v * (bottom - T) / max;
+  const hv = st.routeHover, fill = isArr ? '#56B6C2' : '#E5C07B';
+  const bars = [];
+  cnt.forEach((c, i) => { if (c) bars.push({ x: L + i * unit + (unit - bw) / 2, y: y(c), w: bw, h: bottom - y(c), fill, op: hv != null && hv !== i ? 0.45 : 1 }); });
+  const hh = (i) => String(h0 + i).padStart(2, '0') + ':00';
+  const ticks = [6, 9, 12, 15, 18, 21].map((h) => ({ label: String(h).padStart(2, '0') + ':00', style: 'position: absolute; top: 0; transform: translateX(-' + (h === h0 ? 0 : 50) + '%); left: ' + (100 * (L + (h - h0) * unit) / W) + '%' }));
+  const markMin = mins(arriveTime) / 60 - h0;
+  const word = isArr ? 'arrival' : 'departure';
+  return { W, H, left: L, right: W - R, top: T, bottom, zoneH: bottom - T, bars, ticks,
+    title: isArr ? 'Arrival times, London' : 'Departure times, Paris', isArr, isDep: !isArr,
+    showArr: () => this.setState({ histMode: 'arr', routeHover: null }), showDep: () => this.setState({ histMode: 'dep', routeHover: null }),
+    hasMark: isArr && off === 0 && markMin >= 0 && markMin <= n, markX: L + markMin * unit,
+    zones: cnt.map((_, i) => ({ x: L + i * unit, w: unit, enter: () => this.setState({ routeHover: i }), leave: () => this.setState({ routeHover: null }) })),
+    hoverOn: hv != null, tipLabel: hv != null ? hh(hv) + '\u2013' + hh(hv + 1) : '',
+    tipCount: hv != null ? cnt[hv] + ' ' + word + (cnt[hv] === 1 ? '' : 's') : '',
+    tipStyle: hv != null ? 'position: absolute; top: 0; left: ' + Math.max(12, Math.min(88, 100 * (L + (hv + 0.5) * unit) / W)) + '%; transform: translateX(-50%); background: #21252B; border: 1px solid rgba(255, 255, 255, 0.2); padding: 8px 10px; font-size: 13px; line-height: 1.4; white-space: nowrap; pointer-events: none; z-index: 3; color: #FFFFFF;' : '',
+    aria: (isArr ? 'Arrivals' : 'Departures') + ' per hour from 06:00 to 23:00: ' + cnt.join(', ') + '.' };
+};
+// Route arrival record: real daily averages for BA and Air France, CDG to LHR (days with full coverage).
+const cellR = 'height: 34px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600;';
+const looksR = { ok: cellR + ' background: rgba(86, 182, 194, 0.18); color: #7FD0DA;', late: cellR + ' background: rgba(229, 192, 123, 0.28); color: #F0D08F;', cxl: cellR + ' background: #FFFFFF; color: #282C34;' };
+const record = { days: [
+  ['Mon', '12 Oct', 10, 0, 13], ['Thu', '15 Oct', 4, 0, 12], ['Fri', '16 Oct', -5, 0, 8], ['Sat', '17 Oct', -7, 0, 11],
+  ['Sun', '18 Oct', -13, 0, 12], ['Thu', '22 Oct', -10, 0, 12], ['Sat', '24 Oct', 5, 0, 11], ['Sun', '25 Oct', 16, 0, 14],
+  ['Mon', '26 Oct', 8, 0, 14], ['Fri', '30 Oct', 81, 0, 12], ['Sat', '31 Oct', -13, 1, 12], ['Sun', '1 Nov', 8, 0, 13],
+  ['Thu', '5 Nov', -21, 0, 12], ['Fri', '6 Nov', -21, 0, 14], ['Sat', '7 Nov', 46, 2, 13], ['Sun', '8 Nov', 31, 1, 13]
+].map(([dow, date, m, c, nf]) => {
+  const avg = m > 0 ? 'on average ' + m + ' min late' : 'on average ' + (-m) + ' min early';
+  return c > 0
+    ? { dow, mark: c + ' Cxl', title: date + ': ' + c + ' of ' + nf + ' flights cancelled; the rest landed ' + avg, cellStyle: looksR.cxl }
+    : { dow, mark: m > 0 ? '+' + m : String(m), title: date + ': ' + nf + ' flights landed ' + avg, cellStyle: m >= 15 ? looksR.late : looksR.ok };
+}) };
+const mkPie = (size) => {
+  const by = {};
+  FLIGHTS.forEach(([f, airline]) => { const s = SEATS[AIR[f]] || 0; by[airline] = by[airline] || { seats: 0, flights: 0 }; by[airline].seats += s; by[airline].flights++; });
+  const total = Object.values(by).reduce((x, v) => x + v.seats, 0);
+  const COL = { 'British Airways': '#DD672C', 'Air France': '#C9CCD3' };
+  const c = size / 2, r = size / 2 - 2;
+  let a0 = -Math.PI / 2;
+  const slices = Object.entries(by).sort((p, q) => q[1].seats - p[1].seats).map(([name, v]) => {
+    const frac = v.seats / total, a1 = a0 + frac * 2 * Math.PI;
+    const p = (a) => (c + r * Math.cos(a)).toFixed(1) + ' ' + (c + r * Math.sin(a)).toFixed(1);
+    const d = 'M ' + c + ' ' + c + ' L ' + p(a0) + ' A ' + r + ' ' + r + ' 0 ' + (frac > 0.5 ? 1 : 0) + ' 1 ' + p(a1) + ' Z';
+    a0 = a1;
+    const pct = Math.round(frac * 100) + '%';
+    return { name, d, fill: COL[name] || '#9AA1AD', pct, detail: v.seats.toLocaleString('en-GB') + ' seats, ' + v.flights + ' flights',
+      title: name + ': ' + pct + ' of seats', swatch: 'width: 10px; height: 10px; flex: 0 0 auto; background: ' + (COL[name] || '#9AA1AD') };
+  });
+  return { size, slices, aria: 'Share of seats on the route: ' + slices.map((s) => s.name + ' ' + s.pct).join(', ') + '.' };
+};
 const order = sort === 'rel'
   ? (a, b) => b.scoreN - a.scoreN || b.arrN - a.arrN
   : (a, b) => b.arrN - a.arrN;
 const onTime = rows.filter((r) => r.fits).sort(order);
+// Route stats: daily departures and average scheduled flight time from the timetable above (Paris is 1 h ahead).
+const durs = FLIGHTS.map(([f, a, dep, arr]) => mins(arr) - (mins(dep) - 60));
+const routeStats = { daily: String(FLIGHTS.length), avgDur: fmt(Math.round(durs.reduce((x, y) => x + y, 0) / durs.length)) };
 const n = onTime.length;
 const dayText = days.find((d) => d.on).label;
 const headerWhen = 'Arrive by ' + dayName(dayAt(arrDate, 0)) + ', ' + arriveTime;
+const sOpen = !!st.statsOpen;
+const stats = { open: sOpen, expanded: sOpen ? 'true' : 'false', verb: sOpen ? 'Hide' : 'Show', toggle: () => this.setState({ statsOpen: !sOpen }), chevStyle: 'flex: 0 0 auto;' + (sOpen ? ' transform: rotate(180deg);' : '') };
 return {
-  arriveBy, arriveTimeText: arriveTime, headerWhen, dayText, days,
+  stats, routeStats, record, hist: mkHist(580, 120), pie: mkPie(110), arriveBy, arriveTimeText: arriveTime, headerWhen, dayText, days,
   onArrive: (e) => this.setState({ arriveBy: e.target.value || arriveBy, dayOff: 0 }),
   heading: n === 1 ? '1 flight' : n + ' flights',
   hasNone: n === 0,

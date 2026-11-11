@@ -39,7 +39,7 @@
     },
     "RouteResults.dc.html": {
       "expand": "fill",
-      "h": 1100,
+      "h": 1200,
       "is_interactive": true,
       "title": "5 · Flights on the route",
       "w": 1280,
@@ -47,7 +47,7 @@
       "y": 1840
     },
     "RouteResultsMobile.dc.html": {
-      "h": 900,
+      "h": 1300,
       "is_interactive": true,
       "title": "6 · Flights on the route (phone)",
       "w": 390,
@@ -95,7 +95,7 @@
     },
     "routedata": {
       "fill": "orange",
-      "text": "Schedules and aircraft are real (Paris CDG → Heathrow, Saturday 7 Nov schedule, 12 Oct – 9 Nov 2026). Illustrative: every score and trend. Only BA 305 opens a result page.",
+      "text": "Schedules, aircraft and route stats are real (Paris CDG → Heathrow, Saturday 7 Nov schedule; cancelled and late rates from 12 Oct – 8 Nov 2026). Seat counts per aircraft are typical cabin layouts (estimates). Illustrative: every score and trend. Only BA 305 opens a result page.",
       "w": 340,
       "x": 2720,
       "y": 1840
